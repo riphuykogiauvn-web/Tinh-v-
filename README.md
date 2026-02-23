@@ -701,12 +701,41 @@ task.spawn(function()
                                             
                                             SetStatus("Dang tron Killer (6s)...")
                                             Notify("Dang tron... Doi 6 giay")
-                                            task.wait(6) -- [UPDATED] Doi 6 giay
+                                            
+                                            -- [NEW] Chia nho 6 giay de check mau lien tuc
+                                            local isDeadWhileHiding = false
+                                            for i = 1, 6 do
+                                                local curHum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid")
+                                                if curHum and curHum.Health <= 0 then
+                                                    isDeadWhileHiding = true
+                                                    break
+                                                end
+                                                task.wait(1)
+                                            end
+
+                                            if isDeadWhileHiding then
+                                                getgenv().AutoFarm = false
+                                                SetStatus("Bị giết khi đang trốn! Hop sv ngay⏳")
+                                                Notify("Chet khi dang tron! Hop Server...")
+                                                SmartServerHop()
+                                                return -- Thoát ra ngoài vòng lặp pcall
+                                            end
                                             
                                             -- Sau 6 giay, check lai vi tri Killer so voi may CU (targetPos)
                                             local oldGenPos = targetPos
                                             repeat
                                                 if not getgenv().AutoFarm then break end
+                                                
+                                                -- [NEW] Check chet trong luc doi Killer di
+                                                local curHum = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid")
+                                                if curHum and curHum.Health <= 0 then
+                                                    getgenv().AutoFarm = false
+                                                    SetStatus("Bị giết khi đang trốn! Hop sv ngay⏳")
+                                                    Notify("Chet khi dang tron! Hop Server...")
+                                                    SmartServerHop()
+                                                    return -- Thoát ra ngoài vòng lặp pcall
+                                                end
+
                                                 local kPosNew = killer.HumanoidRootPart.Position
                                                 local distKillerToOldGen = (kPosNew - oldGenPos).Magnitude
                                                 
