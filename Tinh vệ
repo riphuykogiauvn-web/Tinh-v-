@@ -1,798 +1,1633 @@
-bG9jYWwgUGxheWVycyA9IGdhbWU6R2V0U2VydmljZSgiUGxheWVycyIp
-bG9jYWwgTG9jYWxQbGF5ZXIgPSBQbGF5ZXJzLkxvY2FsUGxheWVy
-bG9jYWwgV29ya3NwYWNlID0gZ2FtZTpHZXRTZXJ2aWNlKCJXb3Jrc3BhY2UiKQ==
-bG9jYWwgVGVsZXBvcnRTZXJ2aWNlID0gZ2FtZTpHZXRTZXJ2aWNlKCJUZWxlcG9ydFNlcnZpY2UiKQ==
-bG9jYWwgSHR0cFNlcnZpY2UgPSBnYW1lOkdldFNlcnZpY2UoIkh0dHBTZXJ2aWNlIik=
-bG9jYWwgUnVuU2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiUnVuU2VydmljZSIp
-bG9jYWwgVmlydHVhbFVzZXIgPSBnYW1lOkdldFNlcnZpY2UoIlZpcnR1YWxVc2VyIik=
-bG9jYWwgVXNlcklucHV0U2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiVXNlcklucHV0U2VydmljZSIpIC0tIFtORVddIEThu4tjaCB24bulIMSR4buDIHjhu60gbMO9IGvDqW8gdGjhuqM=
+-- ==================================================
+-- PROJECT: AMETHYST HUB - PREMIUM ALL IN ONE (V69 MASTER)
+-- Tác giả: BỘ NÃO CỦA SẾP x HUYKOGIAUVN
+-- Cập nhật: Full Source Code, Không rút gọn, Trị dứt điểm EOF.
+-- ==================================================
 
-LS0gPT09PT09PT09PT09PT09PT0gW05FV10gSFVUQU8gVUkgU1lTVEVNIChNRU5VIOG6ok5IKSA9PT09PT09PT09PT09PT09PQ==
-bG9jYWwgU2NyZWVuR3VpID0gSW5zdGFuY2UubmV3KCJTY3JlZW5HdWkiKQ==
-bG9jYWwgTWFpbkZyYW1lID0gSW5zdGFuY2UubmV3KCJJbWFnZUxhYmVsIik=
-bG9jYWwgU3RhdHVzTGFiZWwgPSBJbnN0YW5jZS5uZXcoIlRleHRMYWJlbCIp
-bG9jYWwgR2VuZXJhbExhYmVsID0gSW5zdGFuY2UubmV3KCJUZXh0TGFiZWwiKSAtLSBbTkVXXSBMYWJlbCBoaeG7g24gdGjhu4sgVGjhu51pIGdpYW4gY2jGoWkgdGjhu7Fj
-bG9jYWwgTW9uZXlMYWJlbCA9IEluc3RhbmNlLm5ldygiVGV4dExhYmVsIik=
-bG9jYWwgVGltZUxhYmVsID0gSW5zdGFuY2UubmV3KCJUZXh0TGFiZWwiKQ==
-bG9jYWwgVGl0bGVMYWJlbCA9IEluc3RhbmNlLm5ldygiVGV4dExhYmVsIik=
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local ContentProvider = game:GetService("ContentProvider")
+local Workspace = game:GetService("Workspace")
+local VirtualUser = game:GetService("VirtualUser")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local GuiService = game:GetService("GuiService")
 
-LS0gW1VQREFURURdIE7DmlQgQuG6rFQgVOG6rlQgKElNQUdFIEJVVFRPTiArIERSQUdHQUJMRSk=
-bG9jYWwgVG9nZ2xlQnV0dG9uID0gSW5zdGFuY2UubmV3KCJJbWFnZUJ1dHRvbiIpIC0tIMSQ4buVaSB0aMOgbmggSW1hZ2VCdXR0b24=
-bG9jYWwgVG9nZ2xlQ29ybmVyID0gSW5zdGFuY2UubmV3KCJVSUNvcm5lciIp
+local LocalPlayer = Players.LocalPlayer
 
-LS0gQ+G6pXUgaMOsbmggVUk=
-U2NyZWVuR3VpLk5hbWUgPSAiQW1ldGh5c3RIdWJVSSI=
-U2NyZWVuR3VpLlBhcmVudCA9IGdhbWUuQ29yZUd1aQ==
+if not game:IsLoaded() then 
+    game.Loaded:Wait() 
+end
 
-LS0gQ+G6pXUgaMOsbmggTsO6dCBC4bqtdC9U4bqvdCAoSWNvbiDhuqJuaCArIERpIGNodXnhu4NuKQ==
-VG9nZ2xlQnV0dG9uLk5hbWUgPSAiVG9nZ2xlVUki
-VG9nZ2xlQnV0dG9uLlBhcmVudCA9IFNjcmVlbkd1aQ==
-VG9nZ2xlQnV0dG9uLkJhY2tncm91bmRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMjU1KQ==
-VG9nZ2xlQnV0dG9uLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAwLjAgLS0gxJDhu4MgbuG7gW4gbmjhurkgaG/hurdjIGNo4buJbmggdGjDoG5oIDEgbuG6v3UgbXXhu5FuIHRyb25nIHN14buRdA==
-VG9nZ2xlQnV0dG9uLlBvc2l0aW9uID0gVURpbTIubmV3KDAsIDIwLCAwLjQsIDApIC0tIFbhu4sgdHLDrSBt4bq3YyDEkeG7i25o
-VG9nZ2xlQnV0dG9uLlNpemUgPSBVRGltMi5uZXcoMCwgNjAsIDAsIDYwKSAtLSBLw61jaCB0aMaw4bubYyBuw7p0IChUbyBoxqFuIGNow7p0IGNobyBk4buFIGLhuqVtKQ==
-VG9nZ2xlQnV0dG9uLkltYWdlID0gInJieGFzc2V0aWQ6Ly85NDUwNjI1NDE4NzQ4MyIgLS0gW1VQREFURURdIElEIEljb24gQ+G7p2EgQuG6oW4=
-LS0gTMOgbSB0csOybiBuw7p0
-VG9nZ2xlQ29ybmVyLkNvcm5lclJhZGl1cyA9IFVEaW0ubmV3KDEsIDApIC0tIEJvIHRyw7JuIDEwMCU=
-VG9nZ2xlQ29ybmVyLlBhcmVudCA9IFRvZ2dsZUJ1dHRvbg==
+-- ==================================================
+-- PHẦN 1: MÀN HÌNH LOADING (NATURE THEME)
+-- ==================================================
+if CoreGui:FindFirstChild("GardenImageLoading") then
+    CoreGui.GardenImageLoading:Destroy()
+end
 
-LS0gW05FV10gQ09ERSBY4busIEzDnSBLw4lPIFRI4bqiIE7DmlQgKERSQUdHQUJMRSk=
-bG9jYWwgZHJhZ2dpbmcsIGRyYWdJbnB1dCwgZHJhZ1N0YXJ0LCBzdGFydFBvcw==
-bG9jYWwgZnVuY3Rpb24gdXBkYXRlKGlucHV0KQ==
-ICAgIGxvY2FsIGRlbHRhID0gaW5wdXQuUG9zaXRpb24gLSBkcmFnU3RhcnQ=
-ICAgIFRvZ2dsZUJ1dHRvbi5Qb3NpdGlvbiA9IFVEaW0yLm5ldyhzdGFydFBvcy5YLlNjYWxlLCBzdGFydFBvcy5YLk9mZnNldCArIGRlbHRhLlgsIHN0YXJ0UG9zLlkuU2NhbGUsIHN0YXJ0UG9zLlkuT2Zmc2V0ICsgZGVsdGEuWSk=
-ZW5k
+local LoadGui = Instance.new("ScreenGui")
+LoadGui.Name = "GardenImageLoading"
+LoadGui.DisplayOrder = 10000 
+LoadGui.IgnoreGuiInset = true
+LoadGui.Parent = CoreGui
 
-VG9nZ2xlQnV0dG9uLklucHV0QmVnYW46Q29ubmVjdChmdW5jdGlvbihpbnB1dCk=
-ICAgIGlmIGlucHV0LlVzZXJJbnB1dFR5cGUgPT0gRW51bS5Vc2VySW5wdXRUeXBlLk1vdXNlQnV0dG9uMSBvciBpbnB1dC5Vc2VySW5wdXRUeXBlID09IEVudW0uVXNlcklucHV0VHlwZS5Ub3VjaCB0aGVu
-ICAgICAgICBkcmFnZ2luZyA9IHRydWU=
-ICAgICAgICBkcmFnU3RhcnQgPSBpbnB1dC5Qb3NpdGlvbg==
-ICAgICAgICBzdGFydFBvcyA9IFRvZ2dsZUJ1dHRvbi5Qb3NpdGlvbg==
-ICAgICAgICA=
-ICAgICAgICBpbnB1dC5DaGFuZ2VkOkNvbm5lY3QoZnVuY3Rpb24oKQ==
-ICAgICAgICAgICAgaWYgaW5wdXQuVXNlcklucHV0U3RhdGUgPT0gRW51bS5Vc2VySW5wdXRTdGF0ZS5FbmQgdGhlbg==
-ICAgICAgICAgICAgICAgIGRyYWdnaW5nID0gZmFsc2U=
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQp
-ICAgIGVuZA==
-ZW5kKQ==
+local Background = Instance.new("Frame")
+Background.Size = UDim2.new(1, 0, 1, 0)
+Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Background.BackgroundTransparency = 1 
+Background.Parent = LoadGui
 
-VG9nZ2xlQnV0dG9uLklucHV0Q2hhbmdlZDpDb25uZWN0KGZ1bmN0aW9uKGlucHV0KQ==
-ICAgIGlmIGlucHV0LlVzZXJJbnB1dFR5cGUgPT0gRW51bS5Vc2VySW5wdXRUeXBlLk1vdXNlTW92ZW1lbnQgb3IgaW5wdXQuVXNlcklucHV0VHlwZSA9PSBFbnVtLlVzZXJJbnB1dFR5cGUuVG91Y2ggdGhlbg==
-ICAgICAgICBkcmFnSW5wdXQgPSBpbnB1dA==
-ICAgIGVuZA==
-ZW5kKQ==
+local MainInterface = Instance.new("ImageLabel")
+MainInterface.Size = UDim2.new(0, 500, 0, 320) 
+MainInterface.AnchorPoint = Vector2.new(0.5, 0.5) 
+MainInterface.Position = UDim2.new(0.5, 0, 0.5, 0) 
+MainInterface.Rotation = -5 
+MainInterface.Image = "rbxassetid://88306187668899" 
+MainInterface.ScaleType = Enum.ScaleType.Crop 
+MainInterface.BackgroundTransparency = 1
+MainInterface.ClipsDescendants = false 
+MainInterface.Parent = Background
 
-VXNlcklucHV0U2VydmljZS5JbnB1dENoYW5nZWQ6Q29ubmVjdChmdW5jdGlvbihpbnB1dCk=
-ICAgIGlmIGlucHV0ID09IGRyYWdJbnB1dCBhbmQgZHJhZ2dpbmcgdGhlbg==
-ICAgICAgICB1cGRhdGUoaW5wdXQp
-ICAgIGVuZA==
-ZW5kKQ==
+local UIScale = Instance.new("UIScale")
+UIScale.Scale = 0 
+UIScale.Parent = MainInterface
 
-TWFpbkZyYW1lLk5hbWUgPSAiTWFpbkZyYW1lIg==
-TWFpbkZyYW1lLlBhcmVudCA9IFNjcmVlbkd1aQ==
-TWFpbkZyYW1lLkJhY2tncm91bmRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMjU1KQ==
-TWFpbkZyYW1lLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAxLjAwMCAtLSBUcm9uZyBzdeG7kXQgxJHhu4MgY2jhu4kgaGnhu4duIOG6o25o
-LS0gW1VQREFURURdIFbhu4ogVFLDjSBWw4AgS8ONQ0ggVEjGr+G7mkM=
-TWFpbkZyYW1lLkFuY2hvclBvaW50ID0gVmVjdG9yMi5uZXcoMC41LCAwLjUpIC0tIE5lbyB0w6JtIHbDoG8gZ2nhu69h
-TWFpbkZyYW1lLlBvc2l0aW9uID0gVURpbTIubmV3KDAuNSwgMCwgMC41LCAwKSAtLSBW4buLIHRyw60gY2jDrW5oIGdp4buvYSBtw6BuIGjDrG5o
-TWFpbkZyYW1lLlNpemUgPSBVRGltMi5uZXcoMCwgNTAwLCAwLCAzNTApIC0tIEvDrWNoIHRoxrDhu5tjIHRv
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 25)
+UICorner.Parent = MainInterface
 
-LS0gW1VQREFURURdIElEIOG6ok5IIE3hu5pJIEPhu6ZBIELhuqBO
-TWFpbkZyYW1lLkltYWdlID0gInJieGFzc2V0aWQ6Ly8xMDUwMDYzOTgyNDgwODEiIA==
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(80, 220, 80) 
+UIStroke.Thickness = 1.5
+UIStroke.Transparency = 0.3
+UIStroke.Parent = MainInterface
 
-LS0gVOG6oW8ga2h1bmcgbuG7gW4gbeG7nSAocGjDsm5nIGtoaSDhuqNuaCBs4buXaSB0aMOsIHbhuqtuIG5ow6xuIHRo4bqleSBtZW51KQ==
-TWFpbkZyYW1lLkJhY2tncm91bmRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQig0MCwgNDAsIDQwKQ==
-TWFpbkZyYW1lLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAwLjI=
+local TitleImage = Instance.new("ImageLabel")
+TitleImage.Size = UDim2.new(0, 800, 0, 200) 
+TitleImage.Position = UDim2.new(0.5, -400, 0, -45) 
+TitleImage.BackgroundTransparency = 1 
+TitleImage.BorderSizePixel = 0
+TitleImage.Image = "rbxassetid://109009953172019" 
+TitleImage.ScaleType = Enum.ScaleType.Fit 
+TitleImage.Parent = MainInterface
 
-LS0gVGnDqnUgxJHhu4EgKEFNRVRIWVNUIEhVQik=
-VGl0bGVMYWJlbC5OYW1lID0gIlRpdGxlIg==
-VGl0bGVMYWJlbC5QYXJlbnQgPSBNYWluRnJhbWU=
-VGl0bGVMYWJlbC5CYWNrZ3JvdW5kQ29sb3IzID0gQ29sb3IzLmZyb21SR0IoMjU1LCAyNTUsIDI1NSk=
-VGl0bGVMYWJlbC5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5ID0gMS4wMDA=
-VGl0bGVMYWJlbC5Qb3NpdGlvbiA9IFVEaW0yLm5ldygwLCAwLCAwLjA1LCAwKQ==
-VGl0bGVMYWJlbC5TaXplID0gVURpbTIubmV3KDEsIDAsIDAsIDQwKQ==
-VGl0bGVMYWJlbC5Gb250ID0gRW51bS5Gb250LkZyZWRva2FPbmU=
-VGl0bGVMYWJlbC5UZXh0ID0gIkFNRVRIWVNUIEhVQiI=
-VGl0bGVMYWJlbC5UZXh0Q29sb3IzID0gQ29sb3IzLmZyb21SR0IoMjU1LCA4NSwgMjU1KSAtLSBNw6B1IGjhu5NuZyB0w61t
-VGl0bGVMYWJlbC5UZXh0U2l6ZSA9IDM2LjAwMCA=
-VGl0bGVMYWJlbC5UZXh0U3Ryb2tlVHJhbnNwYXJlbmN5ID0gMC4wMDAgLS0gVmnhu4FuIMSRZW4=
+local Icon1 = Instance.new("ImageLabel")
+Icon1.Size = UDim2.new(0, 130, 0, 130) 
+Icon1.Position = UDim2.new(0.5, -65, 0.5, -70) 
+Icon1.BackgroundTransparency = 1 
+Icon1.Image = "rbxassetid://134512733030329" 
+Icon1.Parent = MainInterface
 
-LS0gU3RhdHVzIChUcuG6oW5nIHRow6FpKQ==
-U3RhdHVzTGFiZWwuTmFtZSA9ICJTdGF0dXMi
-U3RhdHVzTGFiZWwuUGFyZW50ID0gTWFpbkZyYW1l
-U3RhdHVzTGFiZWwuQmFja2dyb3VuZENvbG9yMyA9IENvbG9yMy5mcm9tUkdCKDI1NSwgMjU1LCAyNTUp
-U3RhdHVzTGFiZWwuQmFja2dyb3VuZFRyYW5zcGFyZW5jeSA9IDEuMDAw
-U3RhdHVzTGFiZWwuUG9zaXRpb24gPSBVRGltMi5uZXcoMCwgMCwgMC4zNSwgMCk=
-U3RhdHVzTGFiZWwuU2l6ZSA9IFVEaW0yLm5ldygxLCAwLCAwLCAzMCk=
-U3RhdHVzTGFiZWwuRm9udCA9IEVudW0uRm9udC5Tb3VyY2VTYW5zQm9sZA==
-U3RhdHVzTGFiZWwuVGV4dCA9ICJTdGF0dXM6IERhbmcga2hvaSBkb25nLi4uIg==
-U3RhdHVzTGFiZWwuVGV4dENvbG9yMyA9IENvbG9yMy5mcm9tUkdCKDI1NSwgMjU1LCAyNTUp
-U3RhdHVzTGFiZWwuVGV4dFNpemUgPSAyNC4wMDA=
-U3RhdHVzTGFiZWwuVGV4dFN0cm9rZVRyYW5zcGFyZW5jeSA9IDAuNTAw
+local pulseInfo = TweenInfo.new(1, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true)
+TweenService:Create(Icon1, pulseInfo, {Size = UDim2.new(0, 140, 0, 140), Position = UDim2.new(0.5, -70, 0.5, -75)}):Play()
 
-LS0gW05FV10gR2VuZXJhbCAoVOG7lW5nIHRo4budaSBnaWFuIGNoxqFpIHRo4buxYyB04bq/KSAtIE7hurFtIGTGsOG7m2kgU3RhdHVz
-R2VuZXJhbExhYmVsLk5hbWUgPSAiR2VuZXJhbCI=
-R2VuZXJhbExhYmVsLlBhcmVudCA9IE1haW5GcmFtZQ==
-R2VuZXJhbExhYmVsLkJhY2tncm91bmRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMjU1KQ==
-R2VuZXJhbExhYmVsLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAxLjAwMA==
-R2VuZXJhbExhYmVsLlBvc2l0aW9uID0gVURpbTIubmV3KDAsIDAsIDAuNDUsIDApIC0tIE7hurFtIGdp4buvYSBTdGF0dXMgdsOgIE1vbmV5
-R2VuZXJhbExhYmVsLlNpemUgPSBVRGltMi5uZXcoMSwgMCwgMCwgMzAp
-R2VuZXJhbExhYmVsLkZvbnQgPSBFbnVtLkZvbnQuU291cmNlU2Fuc0JvbGQ=
-R2VuZXJhbExhYmVsLlRleHQgPSAiR2VuZXJhbDogTG9hZGluZy4uLiI=
-R2VuZXJhbExhYmVsLlRleHRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMTI3KSAtLSBNw6B1IHbDoG5nIG5o4bqhdA==
-R2VuZXJhbExhYmVsLlRleHRTaXplID0gMjQuMDAw
-R2VuZXJhbExhYmVsLlRleHRTdHJva2VUcmFuc3BhcmVuY3kgPSAwLjUwMA==
+local SpinnerFrame = Instance.new("Frame")
+SpinnerFrame.Size = UDim2.new(0, 20, 0, 20)
+SpinnerFrame.Position = UDim2.new(0, 15, 1, -25) 
+SpinnerFrame.BackgroundTransparency = 1
+SpinnerFrame.Parent = MainInterface
 
-LS0gTW9uZXkgKFRp4buBbik=
-TW9uZXlMYWJlbC5OYW1lID0gIk1vbmV5Ig==
-TW9uZXlMYWJlbC5QYXJlbnQgPSBNYWluRnJhbWU=
-TW9uZXlMYWJlbC5CYWNrZ3JvdW5kQ29sb3IzID0gQ29sb3IzLmZyb21SR0IoMjU1LCAyNTUsIDI1NSk=
-TW9uZXlMYWJlbC5CYWNrZ3JvdW5kVHJhbnNwYXJlbmN5ID0gMS4wMDA=
-TW9uZXlMYWJlbC5Qb3NpdGlvbiA9IFVEaW0yLm5ldygwLCAwLCAwLjU1LCAwKQ==
-TW9uZXlMYWJlbC5TaXplID0gVURpbTIubmV3KDEsIDAsIDAsIDMwKQ==
-TW9uZXlMYWJlbC5Gb250ID0gRW51bS5Gb250LlNvdXJjZVNhbnNCb2xk
-TW9uZXlMYWJlbC5UZXh0ID0gIk1vbmV5OiBMb2FkaW5nLi4uIg==
-TW9uZXlMYWJlbC5UZXh0Q29sb3IzID0gQ29sb3IzLmZyb21SR0IoODUsIDI1NSwgMTI3KSAtLSBNw6B1IHhhbmggbMOh
-TW9uZXlMYWJlbC5UZXh0U2l6ZSA9IDI0LjAwMA==
-TW9uZXlMYWJlbC5UZXh0U3Ryb2tlVHJhbnNwYXJlbmN5ID0gMC41MDA=
+local numDots = 8
+local radius = 9
+for i = 1, numDots do
+    local angle = (i / numDots) * math.pi * 2
+    local dot = Instance.new("Frame")
+    dot.Size = UDim2.new(0, 4, 0, 4)
+    dot.Position = UDim2.new(0.5, math.cos(angle) * radius - 2, 0.5, math.sin(angle) * radius - 2)
+    dot.BackgroundColor3 = Color3.fromRGB(80, 220, 80) 
+    dot.BorderSizePixel = 0
+    dot.BackgroundTransparency = 1 - (i / numDots) 
+    dot.Parent = SpinnerFrame
+    Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
+end
 
-LS0gVGltZSAoVGjhu51pIGdpYW4gY2jhuqF5IFNlc3Npb24p
-VGltZUxhYmVsLk5hbWUgPSAiVGltZSI=
-VGltZUxhYmVsLlBhcmVudCA9IE1haW5GcmFtZQ==
-VGltZUxhYmVsLkJhY2tncm91bmRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDI1NSwgMjU1KQ==
-VGltZUxhYmVsLkJhY2tncm91bmRUcmFuc3BhcmVuY3kgPSAxLjAwMA==
-VGltZUxhYmVsLlBvc2l0aW9uID0gVURpbTIubmV3KDAsIDAsIDAuNzUsIDAp
-VGltZUxhYmVsLlNpemUgPSBVRGltMi5uZXcoMSwgMCwgMCwgMzAp
-VGltZUxhYmVsLkZvbnQgPSBFbnVtLkZvbnQuU291cmNlU2Fuc0JvbGQ=
-VGltZUxhYmVsLlRleHQgPSAiVGltZTogMDA6MDA6MDAi
-VGltZUxhYmVsLlRleHRDb2xvcjMgPSBDb2xvcjMuZnJvbVJHQigyNTUsIDE3MCwgMjU1KQ==
-VGltZUxhYmVsLlRleHRTaXplID0gMjQuMDAw
-VGltZUxhYmVsLlRleHRTdHJva2VUcmFuc3BhcmVuY3kgPSAwLjUwMA==
+local StatusText = Instance.new("TextLabel")
+StatusText.Size = UDim2.new(0, 300, 0, 20)
+StatusText.Position = UDim2.new(0, 42, 1, -25) 
+StatusText.BackgroundTransparency = 1
+StatusText.Font = Enum.Font.GothamBold
+StatusText.TextXAlignment = Enum.TextXAlignment.Left 
+StatusText.Text = "Đang kết nối dữ liệu"
+StatusText.TextColor3 = Color3.fromRGB(80, 220, 80) 
+StatusText.TextSize = 13
+StatusText.TextStrokeTransparency = 0.2
+StatusText.Parent = MainInterface
 
-LS0gW05FV10gQ0jhu6hDIE7Egk5HIELhuqxUIFThuq5UIE1FTlUgKFPhu7Ega2nhu4duIENsaWNrKQ==
-bG9jYWwgaXNNZW51VmlzaWJsZSA9IHRydWU=
-VG9nZ2xlQnV0dG9uLk1vdXNlQnV0dG9uMUNsaWNrOkNvbm5lY3QoZnVuY3Rpb24oKQ==
-ICAgIGlzTWVudVZpc2libGUgPSBub3QgaXNNZW51VmlzaWJsZQ==
-ICAgIE1haW5GcmFtZS5WaXNpYmxlID0gaXNNZW51VmlzaWJsZQ==
-ZW5kKQ==
+local PercentText = Instance.new("TextLabel")
+PercentText.Size = UDim2.new(0, 100, 0, 20)
+PercentText.Position = UDim2.new(1, -140, 1, -25) 
+PercentText.BackgroundTransparency = 1
+PercentText.Font = Enum.Font.GothamBlack
+PercentText.TextXAlignment = Enum.TextXAlignment.Right
+PercentText.Text = "0%"
+PercentText.TextColor3 = Color3.fromRGB(80, 220, 80) 
+PercentText.TextSize = 14
+PercentText.TextStrokeTransparency = 0.2
+PercentText.Parent = MainInterface
 
-LS0gSMOgbSBj4bqtcCBuaOG6rXQgVUk=
-bG9jYWwgU3RhcnRUaW1lID0gb3MudGltZSgp
-bG9jYWwgQ3VycmVudFN0YXR1cyA9ICJEYW5nIGtob2kgZG9uZy4uLiI=
+local BarBack = Instance.new("Frame")
+BarBack.Size = UDim2.new(0, 420, 0, 8) 
+BarBack.Position = UDim2.new(0.5, -210, 1, -40) 
+BarBack.BackgroundColor3 = Color3.fromRGB(101, 67, 33) 
+BarBack.BorderSizePixel = 0
+BarBack.Parent = MainInterface
+Instance.new("UICorner", BarBack).CornerRadius = UDim.new(1, 0)
 
-bG9jYWwgZnVuY3Rpb24gVXBkYXRlVUkoKQ==
-ICAgIC0tIEPhuq1wIG5o4bqtdCB0aOG7nWkgZ2lhbg==
-ICAgIGxvY2FsIERpZmYgPSBvcy50aW1lKCkgLSBTdGFydFRpbWU=
-ICAgIGxvY2FsIEhvdXJzID0gbWF0aC5mbG9vcihEaWZmIC8gMzYwMCk=
-ICAgIGxvY2FsIE1pbnV0ZXMgPSBtYXRoLmZsb29yKChEaWZmICUgMzYwMCkgLyA2MCk=
-ICAgIGxvY2FsIFNlY29uZHMgPSBEaWZmICUgNjA=
-ICAgIFRpbWVMYWJlbC5UZXh0ID0gc3RyaW5nLmZvcm1hdCgiVGltZTogJTAyZCBIb3VycyAlMDJkIE1pbnV0ZXMgJTAyZCBTZWNvbmQiLCBIb3VycywgTWludXRlcywgU2Vjb25kcyk=
-ICAgIA==
-ICAgIC0tIEPhuq1wIG5o4bqtdCB0cuG6oW5nIHRow6Fp
-ICAgIFN0YXR1c0xhYmVsLlRleHQgPSAiU3RhdHVzOiAiIC4uIEN1cnJlbnRTdGF0dXM=
-ICAgIA==
-ICAgIC0tIFtVUERBVEVEXSBD4bqtcCBuaOG6rXQgR2VuZXJhbCAoVOG7qyDEkcaw4budbmcgZOG6q24gY2jDrW5oIHjDoWM6IFBsYXllckRhdGEuU3RhdHMuR2VuZXJhbC5UaW1lUGxheWVkKQ==
-ICAgIHBjYWxsKGZ1bmN0aW9uKCk=
-ICAgICAgICBsb2NhbCB0aW1lRGF0YSA9IExvY2FsUGxheWVyOkZpbmRGaXJzdENoaWxkKCJQbGF5ZXJEYXRhIikg
-ICAgICAgICAgICAgYW5kIExvY2FsUGxheWVyLlBsYXllckRhdGE6RmluZEZpcnN0Q2hpbGQoIlN0YXRzIik=
-ICAgICAgICAgICAgYW5kIExvY2FsUGxheWVyLlBsYXllckRhdGEuU3RhdHM6RmluZEZpcnN0Q2hpbGQoIkdlbmVyYWwiKQ==
-ICAgICAgICAgICAgYW5kIExvY2FsUGxheWVyLlBsYXllckRhdGEuU3RhdHMuR2VuZXJhbDpGaW5kRmlyc3RDaGlsZCgiVGltZVBsYXllZCIp
-ICAgICAgICAgICAg
-ICAgICAgICBpZiB0aW1lRGF0YSB0aGVu
-ICAgICAgICAgICAgbG9jYWwgdG90YWxTZWMgPSB0aW1lRGF0YS5WYWx1ZQ==
-ICAgICAgICAgICAgbG9jYWwgZ0RheXMgPSBtYXRoLmZsb29yKHRvdGFsU2VjIC8gODY0MDAp
-ICAgICAgICAgICAgbG9jYWwgZ0hvdXJzID0gbWF0aC5mbG9vcigodG90YWxTZWMgJSA4NjQwMCkgLyAzNjAwKQ==
-ICAgICAgICAgICAgbG9jYWwgZ01pbnV0ZXMgPSBtYXRoLmZsb29yKCh0b3RhbFNlYyAlIDM2MDApIC8gNjAp
-ICAgICAgICAgICAgbG9jYWwgZ1NlY29uZHMgPSBtYXRoLmZsb29yKHRvdGFsU2VjICUgNjAp
-ICAgICAgICAgICAgR2VuZXJhbExhYmVsLlRleHQgPSBzdHJpbmcuZm9ybWF0KCJHZW5lcmFsOiAlMDJkZGF5cyAlMDJkIGhvdXJzICUwMmQgbWludXRlcyAlMDJkIFNlY29uZHMiLCBnRGF5cywgZ0hvdXJzLCBnTWludXRlcywgZ1NlY29uZHMp
-ICAgICAgICBlbHNl
-ICAgICAgICAgICAgR2VuZXJhbExhYmVsLlRleHQgPSAiR2VuZXJhbDogTm90IEZvdW5kIg==
-ICAgICAgICBlbmQ=
-ICAgIGVuZCk=
-ICAgIA==
-ICAgIC0tIEPhuq1wIG5o4bqtdCB0aeG7gW4gKEdp4bqjIHPhu60gdGnhu4FuIGzGsHUgdHJvbmcgTGVhZGVyc3RhdHMsIHR14buzIGdhbWUp
-ICAgIHBjYWxsKGZ1bmN0aW9uKCk=
-ICAgICAgICBsb2NhbCBsZWFkZXJzdGF0cyA9IExvY2FsUGxheWVyOkZpbmRGaXJzdENoaWxkKCJsZWFkZXJzdGF0cyIp
-ICAgICAgICBpZiBsZWFkZXJzdGF0cyB0aGVu
-ICAgICAgICAgICAgbG9jYWwgbW9uZXkgPSBsZWFkZXJzdGF0czpGaW5kRmlyc3RDaGlsZCgiQ3JlZGl0cyIpIG9yIGxlYWRlcnN0YXRzOkZpbmRGaXJzdENoaWxkKCJNb25leSIpIG9yIGxlYWRlcnN0YXRzOkZpbmRGaXJzdENoaWxkKCJDYXNoIik=
-ICAgICAgICAgICAgaWYgbW9uZXkgdGhlbg==
-ICAgICAgICAgICAgICAgIE1vbmV5TGFiZWwuVGV4dCA9ICJNb25leTogIiAuLiB0b3N0cmluZyhtb25leS5WYWx1ZSk=
-ICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgIE1vbmV5TGFiZWwuVGV4dCA9ICJNb25leTogTm90IEZvdW5kIg==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbHNl
-ICAgICAgICAgICAgIC0tIE3hu5l0IHPhu5EgZ2FtZSDEkeG7gyB0aeG7gW4gdHJvbmcgUGxheWVyR3VpIGhv4bq3YyBBdHRyaWJ1dGVz
-ICAgICAgICAgICAgbG9jYWwgZ3VpTW9uZXkgPSBMb2NhbFBsYXllci5QbGF5ZXJHdWk6RmluZEZpcnN0Q2hpbGQoIk1haW5HdWkiKSBhbmQgTG9jYWxQbGF5ZXIuUGxheWVyR3VpLk1haW5HdWk6RmluZEZpcnN0Q2hpbGQoIk1vbmV5Iik=
-ICAgICAgICAgICAgIGlmIGd1aU1vbmV5IGFuZCBndWlNb25leTpJc0EoIlRleHRMYWJlbCIpIHRoZW4=
-ICAgICAgICAgICAgICAgICBNb25leUxhYmVsLlRleHQgPSAiTW9uZXk6ICIgLi4gZ3VpTW9uZXkuVGV4dA==
-ICAgICAgICAgICAgIGVsc2U=
-ICAgICAgICAgICAgICAgICBNb25leUxhYmVsLlRleHQgPSAiTW9uZXk6ID8/PyI=
-ICAgICAgICAgICAgIGVuZA==
-ICAgICAgICBlbmQ=
-ICAgIGVuZCk=
-ZW5k
+local BarStroke = Instance.new("UIStroke")
+BarStroke.Color = Color3.fromRGB(70, 45, 20) 
+BarStroke.Thickness = 1
+BarStroke.Transparency = 0.5
+BarStroke.Parent = BarBack
 
-LS0gQ2jhuqF5IHbDsm5nIGzhurdwIHVwZGF0ZSBVSSBt4buXaSBnacOieQ==
-dGFzay5zcGF3bihmdW5jdGlvbigp
-ICAgIHdoaWxlIHRydWUgZG8=
-ICAgICAgICBVcGRhdGVVSSgp
-ICAgICAgICB0YXNrLndhaXQoMSk=
-ICAgIGVuZA==
-ZW5kKQ==
+local BarFill = Instance.new("Frame")
+BarFill.Size = UDim2.new(0, 0, 1, 0) 
+BarFill.BackgroundColor3 = Color3.fromRGB(80, 220, 80) 
+BarFill.BorderSizePixel = 0
+BarFill.Parent = BarBack
+Instance.new("UICorner", BarFill).CornerRadius = UDim.new(1, 0)
 
-LS0gSMOgbSBzZXQgc3RhdHVzIHThu6sgYsOqbiBuZ2/DoGk=
-bG9jYWwgZnVuY3Rpb24gU2V0U3RhdHVzKG1zZyk=
-ICAgIEN1cnJlbnRTdGF0dXMgPSBtc2c=
-ICAgIFVwZGF0ZVVJKCk=
-ZW5k
+local Icon2 = Instance.new("ImageLabel")
+Icon2.Size = UDim2.new(0, 45, 0, 45) 
+Icon2.AnchorPoint = Vector2.new(0.5, 1) 
+Icon2.Position = UDim2.new(1, 0, 0, 3) 
+Icon2.BackgroundTransparency = 1 
+Icon2.Image = "rbxassetid://102349328395816" 
+Icon2.Rotation = 0 
+Icon2.ImageRectOffset = Vector2.new(512, 0)
+Icon2.ImageRectSize = Vector2.new(-512, 512)
+Icon2.Visible = false 
+Icon2.Parent = BarFill 
 
-LS0gPT09PT09PT09PT09PT09PT0gW05FV10gSFVUQU8gQU5USS1CQU4gU1lTVEVNID09PT09PT09PT09PT09PT09
-LS0gMS4gQW50aS1BRksgKENo4buRbmcga2ljayBkbyB0cmVvIG3DoXkp
-TG9jYWxQbGF5ZXIuSWRsZWQ6Q29ubmVjdChmdW5jdGlvbigp
-ICAgIFZpcnR1YWxVc2VyOkNhcHR1cmVDb250cm9sbGVyKCk=
-ICAgIFZpcnR1YWxVc2VyOkNsaWNrQnV0dG9uMihWZWN0b3IyLm5ldygpKQ==
-ZW5kKQ==
+local Icon3 = Instance.new("ImageLabel")
+Icon3.Size = UDim2.new(0, 45, 0, 45) 
+Icon3.AnchorPoint = Vector2.new(0.5, 1) 
+Icon3.Position = UDim2.new(1, 0, 0, 3) 
+Icon3.BackgroundTransparency = 1 
+Icon3.Image = "rbxassetid://132516324498285" 
+Icon3.Rotation = 0 
+Icon3.ImageRectOffset = Vector2.new(512, 0)
+Icon3.ImageRectSize = Vector2.new(-512, 512)
+Icon3.Visible = true 
+Icon3.Parent = BarFill 
 
-LS0gMi4gQW50aS1FcnJvciBMb2dnaW5nIChDaOG7kW5nIGfhu61pIGzhu5dpIHbhu4EgU2VydmVyKQ==
-cGNhbGwoZnVuY3Rpb24oKQ==
-ICAgIGxvY2FsIFNjcmlwdENvbnRleHQgPSBnYW1lOkdldFNlcnZpY2UoIlNjcmlwdENvbnRleHQiKQ==
-ICAgIFNjcmlwdENvbnRleHQuRXJyb3I6Q29ubmVjdChmdW5jdGlvbihtc2csIHN0YWNrLCBzY3JpcHQp
-ICAgICAgICAtLSBDaOG6t24ga2jDtG5nIGzDoG0gZ8OsIGPhuqM=
-ICAgIGVuZCk=
-ZW5kKQ==
+local function SetCharacterState(isRunning)
+    Icon2.Visible = isRunning
+    Icon3.Visible = not isRunning
+end
 
-bG9jYWwgZnVuY3Rpb24gTm90aWZ5KG1zZyk=
-ICAgIHBjYWxsKGZ1bmN0aW9uKCk=
-ICAgICAgICBnYW1lLlN0YXJ0ZXJHdWk6U2V0Q29yZSgiU2VuZE5vdGlmaWNhdGlvbiIsIHs=
-ICAgICAgICAgICAgVGl0bGUgPSAiQW1ldGh5c3QgRml4IEdsaXRjaCIs
-ICAgICAgICAgICAgVGV4dCA9IG1zZyw=
-ICAgICAgICAgICAgRHVyYXRpb24gPSAz
-ICAgICAgICB9KQ==
-ICAgIGVuZCk=
-ZW5k
+local function SpawnLeaves()
+    local numLeaves = math.random(4, 5) 
+    for i = 1, numLeaves do
+        local leaf = Instance.new("TextLabel")
+        leaf.Text = "🍃"
+        leaf.BackgroundTransparency = 1
+        leaf.TextSize = math.random(20, 28) 
+        
+        local startX = math.random(5, 95) / 100
+        leaf.Position = UDim2.new(startX, 0, -0.1, 0) 
+        leaf.Size = UDim2.new(0, 30, 0, 30)
+        leaf.Rotation = math.random(-45, 45) 
+        leaf.ZIndex = 15 
+        leaf.Parent = MainInterface
 
-Tm90aWZ5KCJBbnRpLUJhbiBTeXN0ZW0gKEh1dGFvKSBBY3RpdmUhIik=
+        local fallDuration = math.random(15, 25) / 10 
+        local endX = startX + (math.random(-15, 15) / 100) 
+        
+        local fallTween = TweenService:Create(leaf, TweenInfo.new(fallDuration, Enum.EasingStyle.Linear), {
+            Position = UDim2.new(endX, 0, 1.2, 0),
+            Rotation = leaf.Rotation + math.random(90, 270),
+            TextTransparency = 0.5 
+        })
 
-LS0gPT09PT09PT09PT09PT09PT0gQ+G6pFUgSMOMTkggKEFVVE8gUlVOKSA9PT09PT09PT09PT09PT09PQ==
-Z2V0Z2VudigpLkF1dG9GYXJtID0gdHJ1ZSAgICAgICAg
-Z2V0Z2VudigpLkludmlzaWJsZSA9IHRydWUgICAgICAg
-bG9jYWwgTWF4U2VhcmNoRGlzdGFuY2UgPSAzMDAw
-bG9jYWwgSWdub3JlTGlzdCA9IHt9
-bG9jYWwgSXNJbk1hdGNoID0gZmFsc2U=
-bG9jYWwgSXNIb3BwaW5nID0gZmFsc2U=
-bG9jYWwgU2FmZURpc3RhbmNlID0gMjAgLS0gW1VQREFURURdIEhhIHh1b25nIGNvbiAyMCBzdHVkcw==
+        fallTween:Play()
+        fallTween.Completed:Connect(function()
+            leaf:Destroy()
+        end)
+    end
+end
 
-LS0gVuG7iyB0csOtIHPhu61hOiBUcsaw4bubYyAtPiBQaOG6o2kgLT4gVHLDoWk=
-bG9jYWwgUmVwYWlyT2Zmc2V0cyA9IHs=
-ICAgIENGcmFtZS5uZXcoMCwgMCwgLTYpLA==
-ICAgIENGcmFtZS5uZXcoNiwgMCwgMCks
-ICAgIENGcmFtZS5uZXcoLTYsIDAsIDAp
-fQ==
+task.spawn(function()
+    pcall(function()
+        ContentProvider:PreloadAsync({MainInterface, TitleImage, Icon1, Icon2, Icon3})
+    end)
 
-LS0gREVMQVkgU1RBUlQgNSBHScOCWQ==
-U2V0U3RhdHVzKCLEkGFuZyBraOG7n2kgxJHhu5luZyB2dWkgbMOybmcgY2jhu53ijJoiKQ==
-Tm90aWZ5KCJEYW5nIGtob2kgZG9uZy4uLiAoRG9pIDVzKSIp
-dGFzay53YWl0KDUpIA==
-U2V0U3RhdHVzKCLEkGFuZyBjaOG7nSB2w6BvIHRy4bqtbuKPsyIp
-Tm90aWZ5KCJTY3JpcHQgRGEgQmF0ISBEYW5nIGNobyBTdXJ2aXZvci4uLiIp
+    local openTween = TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
+    TweenService:Create(UIScale, openTween, {Scale = 1}):Play()
+    TweenService:Create(MainInterface, openTween, {Rotation = 0}):Play()
+    TweenService:Create(Background, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {BackgroundTransparency = 0.4}):Play()
 
-LS0gPT09PT09PT09PT09PT09PT0gW0NPUkVdIEtJ4buCTSBUUkEgU1VSVklWT1IgJiBLSUxMRVIgPT09PT09PT09PT09PT09PT0=
-bG9jYWwgZnVuY3Rpb24gaXNTdXJ2aXZvck1vZGVsKGNoYXIp
-ICAgIGlmIG5vdCBjaGFyIHRoZW4gcmV0dXJuIGZhbHNlIGVuZA==
-ICAgIGxvY2FsIHN1cnZpdm9yc0ZvbGRlciA9IFdvcmtzcGFjZTpGaW5kRmlyc3RDaGlsZCgiUGxheWVycyIpIGFuZCBXb3Jrc3BhY2UuUGxheWVyczpGaW5kRmlyc3RDaGlsZCgiU3Vydml2b3JzIik=
-ICAgIGlmIHN1cnZpdm9yc0ZvbGRlciBhbmQgc3Vydml2b3JzRm9sZGVyOkZpbmRGaXJzdENoaWxkKGNoYXIuTmFtZSkgdGhlbg==
-ICAgICAgICByZXR1cm4gdHJ1ZSA=
-ICAgIGVuZA==
-ICAgIHJldHVybiBmYWxzZSA=
-ZW5k
+    local isLoading = true
+    local currentBaseText = "Đang tạo gui"
 
-LS0gW01PSV0gSGFtIGtpZW0gdHJhIEtpbGxlciBjaGluaCB4YWM=
-bG9jYWwgZnVuY3Rpb24gaXNMb2NhbFBsYXllcktpbGxlcihjaGFyKQ==
-ICAgIGlmIG5vdCBjaGFyIHRoZW4gcmV0dXJuIGZhbHNlIGVuZA==
-ICAgIGxvY2FsIGtpbGxlcnNGb2xkZXIgPSBXb3Jrc3BhY2U6RmluZEZpcnN0Q2hpbGQoIlBsYXllcnMiKSBhbmQgV29ya3NwYWNlLlBsYXllcnM6RmluZEZpcnN0Q2hpbGQoIktpbGxlcnMiKQ==
-ICAgIGlmIGtpbGxlcnNGb2xkZXIgYW5kIGtpbGxlcnNGb2xkZXI6RmluZEZpcnN0Q2hpbGQoY2hhci5OYW1lKSB0aGVu
-ICAgICAgICByZXR1cm4gdHJ1ZQ==
-ICAgIGVuZA==
-ICAgIHJldHVybiBmYWxzZQ==
-ZW5k
+    task.spawn(function()
+        local dotCount = 0
+        while isLoading do
+            dotCount = dotCount + 1
+            if dotCount > 3 then dotCount = 0 end
+            local dots = string.rep(".", dotCount)
+            StatusText.Text = currentBaseText .. dots
+            task.wait(0.4)
+        end
+    end)
 
-bG9jYWwgZnVuY3Rpb24gR2V0S2lsbGVyKCk=
-ICAgIGxvY2FsIGtpbGxlcnNGb2xkZXIgPSBXb3Jrc3BhY2U6RmluZEZpcnN0Q2hpbGQoIlBsYXllcnMiKSBhbmQgV29ya3NwYWNlLlBsYXllcnM6RmluZEZpcnN0Q2hpbGQoIktpbGxlcnMiKQ==
-ICAgIGlmIGtpbGxlcnNGb2xkZXIgdGhlbg==
-ICAgICAgICBmb3IgXywgayBpbiBwYWlycyhraWxsZXJzRm9sZGVyOkdldENoaWxkcmVuKCkpIGRv
-ICAgICAgICAgICAgaWYgazpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWRSb290UGFydCIpIHRoZW4=
-ICAgICAgICAgICAgICAgIHJldHVybiBr
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
-ICAgIHJldHVybiBuaWw=
-ZW5k
+    task.spawn(function()
+        while isLoading do
+            local pct = math.floor(BarFill.Size.X.Scale * 100)
+            PercentText.Text = tostring(pct) .. "%"
+            task.wait(0.05)
+        end
+    end)
 
-LS0gW0ZJWEVEXSBUaMOqbSBjaGVjayDEkeG7gyBraMO0bmcgdHLhu5FuIHbDoG8gY8OhYyBtw6F5IGLhu4sgbOG7l2kgdG/huqEgxJHhu5kgKFNwYXduKQ==
-bG9jYWwgZnVuY3Rpb24gR2V0U2FmZUdlbmVyYXRvcihraWxsZXJQb3Mp
-ICAgIGlmIG5vdCBXb3Jrc3BhY2U6RmluZEZpcnN0Q2hpbGQoIk1hcCIpIHRoZW4gcmV0dXJuIG5pbCBlbmQ=
-ICAgIGxvY2FsIGluZ2FtZSA9IFdvcmtzcGFjZS5NYXA6RmluZEZpcnN0Q2hpbGQoIkluZ2FtZSIp
-ICAgIGlmIG5vdCBpbmdhbWUgdGhlbiByZXR1cm4gbmlsIGVuZA==
-ICAgIGxvY2FsIEdhbWVNYXAgPSBpbmdhbWU6RmluZEZpcnN0Q2hpbGQoIk1hcCIp
-ICAgIGlmIG5vdCBHYW1lTWFwIHRoZW4gcmV0dXJuIG5pbCBlbmQ=
+    task.spawn(function()
+        while isLoading do
+            SpinnerFrame.Rotation = SpinnerFrame.Rotation + 6 
+            RunService.RenderStepped:Wait() 
+        end
+    end)
 
-ICAgIGxvY2FsIGJlc3RHZW4gPSBuaWw=
-ICAgIGxvY2FsIG1heERpc3QgPSAw
+    task.wait(0.5) 
+    
+    SetCharacterState(true)
+    currentBaseText = "Đang tạo gui"
+    local t1 = TweenService:Create(BarFill, TweenInfo.new(2.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0.3, 0, 1, 0)})
+    t1:Play(); t1.Completed:Wait()
+    
+    SetCharacterState(false)
+    currentBaseText = "Đang tạo chức năng script vui lòng chờ ⌚"
+    SpawnLeaves() 
+    task.wait(1.0) 
 
-ICAgIGZvciBfLCBvYmogaW4gaXBhaXJzKEdhbWVNYXA6R2V0Q2hpbGRyZW4oKSkgZG8=
-ICAgICAgICBpZiBvYmouTmFtZSA9PSAiR2VuZXJhdG9yIiBhbmQgb2JqOklzQSgiTW9kZWwiKSB0aGVu
-ICAgICAgICAgICAgbG9jYWwgbWFpbiA9IG9iai5QcmltYXJ5UGFydCBvciBvYmo6RmluZEZpcnN0Q2hpbGQoIk1haW4iKQ==
-ICAgICAgICAgICAgaWYgbWFpbiB0aGVu
-ICAgICAgICAgICAgICAgIC0tIFtGSVggR0xJVENIXSBC4buPIHF1YSBu4bq/dSBtw6F5IG7hurFtIOG7nyB0b+G6oSDEkeG7mSAwLDAsMCAoTOG7l2kgbWFwIGNoxrBhIGxvYWQp
-ICAgICAgICAgICAgICAgIGlmIG1haW4uUG9zaXRpb24uTWFnbml0dWRlIDwgMjAgdGhlbiBjb250aW51ZSBlbmQg
+    SetCharacterState(true)
+    currentBaseText = "Script by HUYKOGIAUVN"
+    local t2 = TweenService:Create(BarFill, TweenInfo.new(3.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0.65, 0, 1, 0)})
+    t2:Play(); t2.Completed:Wait()
+    
+    SetCharacterState(false)
+    currentBaseText = "Development is HUYKOGIAUVN"
+    SpawnLeaves()
+    task.wait(1.5)
 
-ICAgICAgICAgICAgICAgIGxvY2FsIGRpc3QgPSAobWFpbi5Qb3NpdGlvbiAtIGtpbGxlclBvcykuTWFnbml0dWRl
-ICAgICAgICAgICAgICAgIGlmIGRpc3QgPiBtYXhEaXN0IHRoZW4=
-ICAgICAgICAgICAgICAgICAgICBtYXhEaXN0ID0gZGlzdA==
-ICAgICAgICAgICAgICAgICAgICBiZXN0R2VuID0gb2Jq
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
-ICAgIHJldHVybiBiZXN0R2Vu
-ZW5k
+    SetCharacterState(true)
+    currentBaseText = "Tik Tok is HUYKOGIAUVN"
+    local t3 = TweenService:Create(BarFill, TweenInfo.new(2.0, Enum.EasingStyle.Linear), {Size = UDim2.new(0.85, 0, 1, 0)})
+    t3:Play(); t3.Completed:Wait()
+    
+    SetCharacterState(false)
+    currentBaseText = "Discord: AMETHYST HUB "
+    pcall(function()
+        setclipboard("https://discord.gg/Buk7UWu32")
+    end)
+    SpawnLeaves()
+    task.wait(1.0)
 
-LS0gPT09PT09PT09PT09PT09PT0gMS4gTE9HSUMgVMOATkcgSMOMTkggJiBDQU0gKEhVVEFPIFNUWUxFKSA9PT09PT09PT09PT09PT09PQ==
-bG9jYWwgSW52aXNBbmltSUQgPSAicmJ4YXNzZXRpZDovLzc1ODA0NDYyNzYwNTk2Ig==
-bG9jYWwgSW52aXNUcmFjayA9IG5pbA==
-bG9jYWwgSW52aXNMb29wID0gbmls
+    SetCharacterState(true)
+    currentBaseText = "Thanks for using Script!!!"
+    local t4 = TweenService:Create(BarFill, TweenInfo.new(2.0, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)})
+    t4:Play(); t4.Completed:Wait()
 
-bG9jYWwgZnVuY3Rpb24gU3RhcnRJbnZpc2libGVMb29wKCk=
-ICAgIGlmIEludmlzTG9vcCB0aGVuIHJldHVybiBlbmQ=
-ICAgIEludmlzTG9vcCA9IHRhc2suc3Bhd24oZnVuY3Rpb24oKQ==
-ICAgICAgICB3aGlsZSB0cnVlIGRv
-ICAgICAgICAgICAgaWYgbm90IGdldGdlbnYoKS5JbnZpc2libGUgdGhlbiA=
-ICAgICAgICAgICAgICAgIGlmIEludmlzVHJhY2sgdGhlbiBJbnZpc1RyYWNrOlN0b3AoKTsgSW52aXNUcmFjayA9IG5pbCBlbmQ=
-ICAgICAgICAgICAgICAgIGlmIExvY2FsUGxheWVyLkNoYXJhY3RlciBhbmQgTG9jYWxQbGF5ZXIuQ2hhcmFjdGVyOkZpbmRGaXJzdENoaWxkKCJIdW1hbm9pZCIpIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICBXb3Jrc3BhY2UuQ3VycmVudENhbWVyYS5DYW1lcmFTdWJqZWN0ID0gTG9jYWxQbGF5ZXIuQ2hhcmFjdGVyLkh1bWFub2lk
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgIGJyZWFrIA==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgbG9jYWwgY2hhciA9IExvY2FsUGxheWVyLkNoYXJhY3Rlcg==
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgaWYgSXNJbk1hdGNoIGFuZCBpc1N1cnZpdm9yTW9kZWwoY2hhcikgdGhlbg==
-ICAgICAgICAgICAgICAgIHBjYWxsKGZ1bmN0aW9uKCk=
-ICAgICAgICAgICAgICAgICAgICBsb2NhbCBodW0gPSBjaGFyIGFuZCBjaGFyOkZpbmRGaXJzdENoaWxkKCJIdW1hbm9pZCIp
-ICAgICAgICAgICAgICAgICAgICBsb2NhbCByb290ID0gY2hhciBhbmQgY2hhcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWRSb290UGFydCIp
-ICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICBpZiBodW0gYW5kIHJvb3QgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgYW5pbWF0b3IgPSBodW06RmluZEZpcnN0Q2hpbGRPZkNsYXNzKCJBbmltYXRvciIpIG9yIEluc3RhbmNlLm5ldygiQW5pbWF0b3IiLCBodW0p
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgbm90IEludmlzVHJhY2sgb3Igbm90IEludmlzVHJhY2suSXNQbGF5aW5nIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsIGFuaW0gPSBJbnN0YW5jZS5uZXcoIkFuaW1hdGlvbiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFuaW0uQW5pbWF0aW9uSWQgPSBJbnZpc0FuaW1JRA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEludmlzVHJhY2sgPSBhbmltYXRvcjpMb2FkQW5pbWF0aW9uKGFuaW0p
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEludmlzVHJhY2suTG9vcGVkID0gdHJ1ZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEludmlzVHJhY2s6UGxheSgp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEludmlzVHJhY2s6QWRqdXN0U3BlZWQoMCk=
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgV29ya3NwYWNlLkN1cnJlbnRDYW1lcmEuQ2FtZXJhU3ViamVjdCB+PSBodW0gdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFdvcmtzcGFjZS5DdXJyZW50Q2FtZXJhLkNhbWVyYVN1YmplY3QgPSBodW0=
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVuZCk=
-ICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgIGlmIEludmlzVHJhY2sgdGhlbiA=
-ICAgICAgICAgICAgICAgICAgICBJbnZpc1RyYWNrOlN0b3AoKSA=
-ICAgICAgICAgICAgICAgICAgICBJbnZpc1RyYWNrID0gbmlsIA==
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgIGlmIGNoYXIgYW5kIGNoYXI6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkIikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICBXb3Jrc3BhY2UuQ3VycmVudENhbWVyYS5DYW1lcmFTdWJqZWN0ID0gY2hhci5IdW1hbm9pZA==
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgdGFzay53YWl0KDAuNSk=
-ICAgICAgICBlbmQ=
-ICAgIGVuZCk=
-ZW5k
+    SetCharacterState(true) 
+    isLoading = false 
+    StatusText.Text = "HOÀN TẤT!"
+    PercentText.Text = "100%"
+    StatusText.TextColor3 = Color3.fromRGB(50, 255, 50)
+    PercentText.TextColor3 = Color3.fromRGB(50, 255, 50)
+    SpawnLeaves()
+    
+    for _, dot in pairs(SpinnerFrame:GetChildren()) do
+        if dot:IsA("Frame") then dot.BackgroundColor3 = Color3.fromRGB(50, 255, 50) end
+    end
+    
+    task.wait(1.0)
 
-U3RhcnRJbnZpc2libGVMb29wKCk=
+    local closeTween = TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+    local fadeOutInfo = TweenInfo.new(0.4, Enum.EasingStyle.Linear)
+    
+    TweenService:Create(UIScale, closeTween, {Scale = 0}):Play()
+    TweenService:Create(MainInterface, closeTween, {Rotation = 5}):Play()
+    TweenService:Create(Background, fadeOutInfo, {BackgroundTransparency = 1}):Play()
+    
+    TweenService:Create(TitleImage, fadeOutInfo, {ImageTransparency = 1}):Play()
+    for _, dot in pairs(SpinnerFrame:GetChildren()) do
+        if dot:IsA("Frame") then TweenService:Create(dot, fadeOutInfo, {BackgroundTransparency = 1}):Play() end
+    end
+    TweenService:Create(Icon2, fadeOutInfo, {ImageTransparency = 1}):Play()
+    TweenService:Create(Icon3, fadeOutInfo, {ImageTransparency = 1}):Play()
+    
+    task.wait(0.6) 
+    LoadGui:Destroy() 
+end)
 
-LS0gPT09PT09PT09PT09PT09PT0gMi4gTE9HSUMgVMOMTSBNw4FZIChIVVRBTyBQQVRIKSA9PT09PT09PT09PT09PT09PQ==
-bG9jYWwgZnVuY3Rpb24gR2V0UHJvZ3Jlc3MoZ2VuKQ==
-ICAgIGxvY2FsIHAgPSBnZW46RmluZEZpcnN0Q2hpbGQoIlByb2dyZXNzIik=
-ICAgIGlmIHAgYW5kIHA6SXNBKCJOdW1iZXJWYWx1ZSIpIHRoZW4gcmV0dXJuIHAuVmFsdWUgZW5k
-ICAgIHJldHVybiBuaWw=
-ZW5k
+-- THỜI GIAN CHỜ ĐỂ BẬT WIND UI SAU KHI LOADING HOÀN TẤT
+task.wait(16.5)
 
-bG9jYWwgZnVuY3Rpb24gSXNTcG90QmxvY2tlZChwb3NpdGlvbik=
-ICAgIGZvciBfLCBwbHIgaW4gcGFpcnMoUGxheWVyczpHZXRQbGF5ZXJzKCkpIGRv
-ICAgICAgICBpZiBwbHIgfj0gTG9jYWxQbGF5ZXIgYW5kIHBsci5DaGFyYWN0ZXIgYW5kIHBsci5DaGFyYWN0ZXI6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkUm9vdFBhcnQiKSB0aGVu
-ICAgICAgICAgICAgaWYgKHBsci5DaGFyYWN0ZXIuSHVtYW5vaWRSb290UGFydC5Qb3NpdGlvbiAtIHBvc2l0aW9uKS5NYWduaXR1ZGUgPCAzLjUgdGhlbiByZXR1cm4gdHJ1ZSBlbmQ=
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
-ICAgIHJldHVybiBmYWxzZQ==
-ZW5k
+-- ==================================================
+-- PHẦN 2: WIND UI & HỆ THỐNG AUTO (FARM / SHOP / PLANT)
+-- ==================================================
 
-bG9jYWwgZnVuY3Rpb24gR2V0QmVzdFJlcGFpclNwb3QoZ2VuKQ==
-ICAgIGxvY2FsIHBpdm90ID0gZ2VuOkdldFBpdm90KCk=
-ICAgIGZvciBfLCBvZmZzZXQgaW4gaXBhaXJzKFJlcGFpck9mZnNldHMpIGRv
-ICAgICAgICBsb2NhbCBzcG90UG9zID0gKHBpdm90ICogb2Zmc2V0KS5Qb3NpdGlvbg==
-ICAgICAgICBpZiBub3QgSXNTcG90QmxvY2tlZChzcG90UG9zKSB0aGVuIHJldHVybiBzcG90UG9zIGVuZA==
-ICAgIGVuZA==
-ICAgIHJldHVybiBuaWw=
-ZW5k
+LocalPlayer.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
 
-LS0gW0ZJWEVEXSBUaMOqbSBjaGVjayBs4buXaSB0b+G6oSDEkeG7mSAwLDAsMA==
-bG9jYWwgZnVuY3Rpb24gR2V0TmV4dEdlbmVyYXRvcigp
-ICAgIGlmIG5vdCBXb3Jrc3BhY2U6RmluZEZpcnN0Q2hpbGQoIk1hcCIpIHRoZW4gcmV0dXJuIG5pbCwgZmFsc2UsIGZhbHNlIGVuZA==
-ICAgIA==
-ICAgIGxvY2FsIGluZ2FtZSA9IFdvcmtzcGFjZS5NYXA6RmluZEZpcnN0Q2hpbGQoIkluZ2FtZSIp
-ICAgIGlmIG5vdCBpbmdhbWUgdGhlbiByZXR1cm4gbmlsLCBmYWxzZSwgZmFsc2UgZW5k
-ICAgIA==
-ICAgIGxvY2FsIEdhbWVNYXAgPSBpbmdhbWU6RmluZEZpcnN0Q2hpbGQoIk1hcCIp
-ICAgIGlmIG5vdCBHYW1lTWFwIHRoZW4gcmV0dXJuIG5pbCwgZmFsc2UsIGZhbHNlIGVuZA==
+local Success, WindUI = pcall(function()
+    return loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
+end)
 
-ICAgIGxvY2FsIGNsb3Nlc3QsIHRhcmdldCA9IDk5OTk5LCBuaWw=
-ICAgIGxvY2FsIHJvb3QgPSBMb2NhbFBsYXllci5DaGFyYWN0ZXIgYW5kIExvY2FsUGxheWVyLkNoYXJhY3RlcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWRSb290UGFydCIp
-ICAgIGlmIG5vdCByb290IHRoZW4gcmV0dXJuIG5pbCwgdHJ1ZSwgZmFsc2UgZW5k
+if not Success or not WindUI then
+    game.StarterGui:SetCore("SendNotification", { Title = "Lỗi Mạng", Text = "Không tải được WindUI!", Duration = 10 })
+    return
+end
 
-ICAgIGxvY2FsIFRvdGFsR2VucywgVW5maW5pc2hlZCA9IDAsIDA=
-ICAgIGxvY2FsIENob3NlblNwb3QgPSBuaWw=
+WindUI:SetNotificationLower(true) 
 
-ICAgIGZvciBfLCBvYmogaW4gaXBhaXJzKEdhbWVNYXA6R2V0Q2hpbGRyZW4oKSkgZG8=
-ICAgICAgICBpZiBvYmouTmFtZSA9PSAiR2VuZXJhdG9yIiBhbmQgb2JqOklzQSgiTW9kZWwiKSB0aGVu
-ICAgICAgICAgICAgbG9jYWwgcHJvZ3Jlc3MgPSBHZXRQcm9ncmVzcyhvYmop
-ICAgICAgICAgICAgaWYgcHJvZ3Jlc3Mgfj0gbmlsIHRoZW4=
-ICAgICAgICAgICAgICAgIFRvdGFsR2VucyA9IFRvdGFsR2VucyArIDE=
-ICAgICAgICAgICAgICAgIGlmIHByb2dyZXNzIDwgMTAwIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICBVbmZpbmlzaGVkID0gVW5maW5pc2hlZCArIDE=
-ICAgICAgICAgICAgICAgICAgICBsb2NhbCBtYWluID0gb2JqLlByaW1hcnlQYXJ0IG9yIG9iajpGaW5kRmlyc3RDaGlsZCgiTWFpbiIp
-ICAgICAgICAgICAgICAgICAgICBpZiBtYWluIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgbWFpbi5Qb3NpdGlvbi5NYWduaXR1ZGUgPCAyMCB0aGVuIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsIGRpc3QgPSAocm9vdC5Qb3NpdGlvbiAtIG1haW4uUG9zaXRpb24pLk1hZ25pdHVkZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIGRpc3QgPD0gTWF4U2VhcmNoRGlzdGFuY2UgYW5kIG5vdCBJZ25vcmVMaXN0W29ial0gdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbCBzcG90ID0gR2V0QmVzdFJlcGFpclNwb3Qob2JqKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBzcG90IGFuZCBkaXN0IDwgY2xvc2VzdCB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY2xvc2VzdCA9IGRpc3Q=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0ID0gb2Jq
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2hvc2VuU3BvdCA9IHNwb3Q=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
-ICAgIHJldHVybiB0YXJnZXQsIHRydWUsIChUb3RhbEdlbnMgPiAwIGFuZCBVbmZpbmlzaGVkID09IDApLCBDaG9zZW5TcG90
-ZW5k
+local Window = WindUI:CreateWindow({
+    Title = "GARDEN HORIZONS HUB",
+    Icon = "rbxassetid://100817188992562",
+    Author = "HUYKOGIAUVN",
+    Folder = "GardenHorizons",
+    Transparent = true,
+    Theme = "Dark",
+    SideBarWidth = 170,
+    HasOutline = true,
+})
 
-LS0gPT09PT09PT09PT09PT09PT0gW1VQREFURURdIFNNQVJUIFNFUlZFUiBIT1AgKFRVUkJPICsgQU5USS1GUkVFWkUpID09PT09PT09PT09PT09PT09
-bG9jYWwgZnVuY3Rpb24gU21hcnRTZXJ2ZXJIb3AoKQ==
-ICAgIGlmIElzSG9wcGluZyB0aGVuIHJldHVybiBlbmQ=
-ICAgIElzSG9wcGluZyA9IHRydWU=
-ICAgIA==
-ICAgIFNldFN0YXR1cygiSG9wIHN24o+zIik=
-ICAgIE5vdGlmeSgiVGltIFNWIDItMyAoVHVyYm8pLi4uIik=
-ICAgIA==
-ICAgIGxvY2FsIFBsYWNlSWQgPSBnYW1lLlBsYWNlSWQ=
-ICAgIA==
-ICAgIGxvY2FsIGZ1bmN0aW9uIEhhbmRsZVRlbGVwb3J0RmFpbCgp
-ICAgICAgICBOb3RpZnkoIlRlbGVwb3J0IEZhaWwhIFRodSBsYWkgbmhhbmguLi4iKQ==
-ICAgICAgICBJc0hvcHBpbmcgPSBmYWxzZQ==
-ICAgICAgICB0YXNrLndhaXQoMC41KSA=
-ICAgICAgICBTbWFydFNlcnZlckhvcCgpIA==
-ICAgIGVuZA==
+local Tabs = {
+    Farm = Window:Tab({ Title = "Auto Farm", Icon = "sword" }),
+    Shop = Window:Tab({ Title = "Shop Tự Động", Icon = "shopping-cart" }),
+    Plant = Window:Tab({ Title = "Khu Vực Cày", Icon = "flask" }),
+    Settings = Window:Tab({ Title = "Settings", Icon = "settings" })
+}
 
-ICAgIGxvY2FsIGNvbm5lY3Rpb24=
-ICAgIGNvbm5lY3Rpb24gPSBUZWxlcG9ydFNlcnZpY2UuVGVsZXBvcnRJbml0RmFpbGVkOkNvbm5lY3QoZnVuY3Rpb24oKQ==
-ICAgICAgICBpZiBjb25uZWN0aW9uIHRoZW4gY29ubmVjdGlvbjpEaXNjb25uZWN0KCkgZW5k
-ICAgICAgICBIYW5kbGVUZWxlcG9ydEZhaWwoKQ==
-ICAgIGVuZCk=
-ICAgIA==
-ICAgIGxvY2FsIGZ1bmN0aW9uIEV4ZWN1dGVIb3AoKQ==
-ICAgICAgICBsb2NhbCBDdXJzb3IgPSAiIg==
-ICAgICAgICBsb2NhbCBGb3VuZCA9IGZhbHNl
-ICAgICAgICA=
-ICAgICAgICBmb3IgaSA9IDEsIDUgZG8=
-ICAgICAgICAgICAgbG9jYWwgdXJsID0gc3RyaW5nLmZvcm1hdCgiaHR0cHM6Ly9nYW1lcy5yb2Jsb3guY29tL3YxL2dhbWVzLyVkL3NlcnZlcnMvUHVibGljP3NvcnRPcmRlcj1Bc2MmbGltaXQ9MTAwIiwgUGxhY2VJZCk=
-ICAgICAgICAgICAgaWYgQ3Vyc29yIH49ICIiIHRoZW4gdXJsID0gdXJsIC4uICImY3Vyc29yPSIgLi4gQ3Vyc29yIGVuZA==
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgbG9jYWwgc3VjY2VzcywgcmVzcG9uc2UgPSBwY2FsbChmdW5jdGlvbigp
-ICAgICAgICAgICAgICAgIHJldHVybiBIdHRwU2VydmljZTpKU09ORGVjb2RlKHJlcXVlc3Qoe1VybCA9IHVybH0pLkJvZHkp
-ICAgICAgICAgICAgZW5kKQ==
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgaWYgc3VjY2VzcyBhbmQgcmVzcG9uc2UgYW5kIHJlc3BvbnNlLmRhdGEgdGhlbg==
-ICAgICAgICAgICAgICAgIGZvciBfLCB2IGluIGlwYWlycyhyZXNwb25zZS5kYXRhKSBkbw==
-ICAgICAgICAgICAgICAgICAgICBpZiB0eXBlKHYpID09ICJ0YWJsZSIgYW5kIHYucGxheWluZyBhbmQgdi5tYXhQbGF5ZXJzIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgZnJlZVNsb3RzID0gdi5tYXhQbGF5ZXJzIC0gdi5wbGF5aW5n
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgdi5wbGF5aW5nID49IDIgYW5kIHYucGxheWluZyA8PSAzIGFuZCB2LmlkIH49IGdhbWUuSm9iSWQgYW5kIGZyZWVTbG90cyA+PSAyIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vdGlmeSgiVmFvIFNWICIgLi4gdi5wbGF5aW5nIC4uICIgbmd1b2kuLi4iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRlbGVwb3J0U2VydmljZTpUZWxlcG9ydFRvUGxhY2VJbnN0YW5jZShQbGFjZUlkLCB2LmlkLCBMb2NhbFBsYXllcik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIEZvdW5kID0gdHJ1ZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiA=
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgIGlmIHJlc3BvbnNlLm5leHRQYWdlQ3Vyc29yIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICBDdXJzb3IgPSByZXNwb25zZS5uZXh0UGFnZUN1cnNvcg==
-ICAgICAgICAgICAgICAgIGVsc2U=
-ICAgICAgICAgICAgICAgICAgICBicmVhayA=
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgICAgICA=
-ICAgICAgICBpZiBub3QgRm91bmQgdGhlbg==
-ICAgICAgICAgICAgTm90aWZ5KCJLaG9uZyB0aGF5LiBSYW5kb20gU1YgKE5oYW5oKS4uLiIp
-ICAgICAgICAgICAgbG9jYWwgdXJsID0gc3RyaW5nLmZvcm1hdCgiaHR0cHM6Ly9nYW1lcy5yb2Jsb3guY29tL3YxL2dhbWVzLyVkL3NlcnZlcnMvUHVibGljP3NvcnRPcmRlcj1EZXNjJmxpbWl0PTEwMCIsIFBsYWNlSWQp
-ICAgICAgICAgICAgbG9jYWwgc3VjY2VzcywgcmVzcG9uc2UgPSBwY2FsbChmdW5jdGlvbigp
-ICAgICAgICAgICAgICAgIHJldHVybiBIdHRwU2VydmljZTpKU09ORGVjb2RlKHJlcXVlc3Qoe1VybCA9IHVybH0pLkJvZHkp
-ICAgICAgICAgICAgZW5kKQ==
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgaWYgc3VjY2VzcyBhbmQgcmVzcG9uc2UgYW5kIHJlc3BvbnNlLmRhdGEgdGhlbg==
-ICAgICAgICAgICAgICAgIGxvY2FsIGNhbmRpZGF0ZXMgPSB7fQ==
-ICAgICAgICAgICAgICAgIGZvciBfLCB2IGluIGlwYWlycyhyZXNwb25zZS5kYXRhKSBkbw==
-ICAgICAgICAgICAgICAgICAgICBpZiAodi5tYXhQbGF5ZXJzIC0gdi5wbGF5aW5nKSA+PSAyIGFuZCB2LmlkIH49IGdhbWUuSm9iSWQgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgdGFibGUuaW5zZXJ0KGNhbmRpZGF0ZXMsIHYp
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgIGlmICNjYW5kaWRhdGVzID4gMCB0aGVu
-ICAgICAgICAgICAgICAgICAgICBsb2NhbCB0YXJnZXQgPSBjYW5kaWRhdGVzW21hdGgucmFuZG9tKDEsICNjYW5kaWRhdGVzKV0=
-ICAgICAgICAgICAgICAgICAgICBUZWxlcG9ydFNlcnZpY2U6VGVsZXBvcnRUb1BsYWNlSW5zdGFuY2UoUGxhY2VJZCwgdGFyZ2V0LmlkLCBMb2NhbFBsYXllcik=
-ICAgICAgICAgICAgICAgIGVsc2U=
-ICAgICAgICAgICAgICAgICAgICBIYW5kbGVUZWxlcG9ydEZhaWwoKQ==
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgIEhhbmRsZVRlbGVwb3J0RmFpbCgp
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
-ICAgIA==
-ICAgIHBjYWxsKEV4ZWN1dGVIb3Ap
-ZW5k
+local function Notify(title, content, duration)
+    WindUI:Notify({ Title = title, Content = content, Duration = duration or 3, Icon = "alert-circle" })
+end
 
-LS0gPT09PT09PT09PT09PT09PT0gMy4gVsOSTkcgTOG6tlAgQ0jDjU5IIChBVVRPIEZBUk0gKyBSRVNFVCBMT0JCWSkgPT09PT09PT09PT09PT09PT0=
-dGFzay5zcGF3bihmdW5jdGlvbigp
-ICAgIHdoaWxlIHRydWUgZG8=
-ICAgICAgICBpZiBnZXRnZW52KCkuQXV0b0Zhcm0gdGhlbg==
-ICAgICAgICAgICAgcGNhbGwoZnVuY3Rpb24oKQ==
-ICAgICAgICAgICAgICAgIGxvY2FsIGdlbiwgbWFwTG9hZGVkLCBhbGxGaW5pc2hlZCwgdGFyZ2V0UG9zID0gR2V0TmV4dEdlbmVyYXRvcigp
-ICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgIGlmIG5vdCBtYXBMb2FkZWQgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICBpZiBJc0luTWF0Y2ggdGhlbiA=
-ICAgICAgICAgICAgICAgICAgICAgICAgSXNJbk1hdGNoID0gZmFsc2Ug
-ICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCLEkMOjIHbhu4EgbG9iYnkgdnVpIGzDsm5nIGNo4bud4o+zIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJWZSBTYW5oIC0+IFRhdCBBdXRvIik=
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVsc2U=
-ICAgICAgICAgICAgICAgICAgICAtLSBbTU9JXSBMT0dJQyBDSEVDSyBLSUxMRVIgKFJFU0VUIE5HQVkgTEFQIFRVQyk=
-ICAgICAgICAgICAgICAgICAgICBpZiBpc0xvY2FsUGxheWVyS2lsbGVyKExvY2FsUGxheWVyLkNoYXJhY3RlcikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCJC4bqhbiBsw6Aga2lsbGVyISBU4buxIMSR4buZbmcgcmVzZXQg8J+SrCIp
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJCQU4gTEEgS0lMTEVSISBSZXNldCBkZSBGYXJtIHRpZXAuLi4iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgTG9jYWxQbGF5ZXIuQ2hhcmFjdGVyIGFuZCBMb2NhbFBsYXllci5DaGFyYWN0ZXI6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkIikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIExvY2FsUGxheWVyLkNoYXJhY3Rlci5IdW1hbm9pZC5IZWFsdGggPSAw
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgdGFzay53YWl0KDMpIC0tIERvaSByZXNwYXdu
-ICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIC0tIEJvIHF1YSB2b25nIGxhcCBuYXk=
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
+-- ================= [ CÁC HÀM HỖ TRỢ FARM ] =================
+local function FirePrompt(prompt)
+    if prompt and prompt:IsA("ProximityPrompt") then
+        local oldLOS = prompt.RequiresLineOfSight
+        local oldDist = prompt.MaxActivationDistance
+        pcall(function() 
+            prompt.RequiresLineOfSight = false
+            prompt.MaxActivationDistance = 99999 
+        end)
+        pcall(function()
+            if fireproximityprompt then 
+                fireproximityprompt(prompt, 1, true)
+            else 
+                prompt:InputHoldBegin()
+                task.wait(prompt.HoldDuration + 0.1)
+                prompt:InputHoldEnd() 
+            end
+        end)
+        pcall(function() 
+            prompt.RequiresLineOfSight = oldLOS
+            prompt.MaxActivationDistance = oldDist 
+        end)
+    end
+end
 
-ICAgICAgICAgICAgICAgICAgICAtLSBbTkVXIEZFQVRVUkVdIERFQVRIIENIRUNLIChUYXQgQXV0byBGYXJtIC0+IEhvcCBTZXJ2ZXIp
-ICAgICAgICAgICAgICAgICAgICBpZiBJc0luTWF0Y2ggYW5kIG5vdCBhbGxGaW5pc2hlZCB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgY2hhciA9IExvY2FsUGxheWVyLkNoYXJhY3Rlcg==
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgaHVtID0gY2hhciBhbmQgY2hhcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWQiKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgLS0gTuG6v3UgbcOhdSB24buBIDAgKENo4bq/dCk=
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgaHVtIGFuZCBodW0uSGVhbHRoIDw9IDAgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdldGdlbnYoKS5BdXRvRmFybSA9IGZhbHNlIC0tIFThuq90IEF1dG9GYXJtIMSR4buDIGtow7RuZyBs4buXaQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiQuG7iyBnaeG6v3QhIEhvcCBzdiBuZ2F54o+zIikgLS0gU3RhdHVzIG3hu5tp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vdGlmeSgiQmFuIGRhIGNoZXQhIERhbmcgdGltIHNlcnZlciBraGFjLi4uIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNtYXJ0U2VydmVySG9wKCkgLS0gS8OtY2ggaG/huqF0IEhvcCBTZXJ2ZXIgbmdheSBs4bqtcCB04bupYw==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtLSBE4burbmcgeOG7rSBsw70gdsOybmcgbOG6t3AgbsOgeQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
+local function GetCropUuid(obj)
+    local uuid = obj:GetAttribute("Uuid") or obj:GetAttribute("UUID") or obj:GetAttribute("uuid")
+    if uuid then return uuid end
+    local val = obj:FindFirstChild("Uuid") or obj:FindFirstChild("UUID") or obj:FindFirstChild("uuid")
+    if val and val:IsA("StringValue") then return val.Value end
+    return nil
+end
 
-ICAgICAgICAgICAgICAgICAgICBpZiBub3QgaXNTdXJ2aXZvck1vZGVsKExvY2FsUGxheWVyLkNoYXJhY3RlcikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIA==
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICBpZiBub3QgSXNJbk1hdGNoIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCLEkMOjIHbDoG8gdHLhuq1uLCB2dWkgbMOybmcgxJHhu6NpIDMuNXPij7MiKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJTdXJ2aXZvciBEZXRlY3RlZCAtPiBEb2kgMy41cy4uLiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgdGFzay53YWl0KDMuNSkg
-ICAgICAgICAgICAgICAgICAgICAgICAgSXNJbk1hdGNoID0gdHJ1ZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCJTdGFydGluZ+KAvO+4jyIp
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJLaWNoIGhvYXQgVGFuZyBIaW5oICsgRmFybSEiKQ==
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICBpZiBhbGxGaW5pc2hlZCB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCJDb21wbGV0ZeKcheKcheKchSIp
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJYb25nIE1hcCAtPiBSZXNldCB2ZSBMb2JieS4uLiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgTG9jYWxQbGF5ZXIuQ2hhcmFjdGVyIGFuZCBMb2NhbFBsYXllci5DaGFyYWN0ZXI6RmluZEZpcnN0Q2hpbGQoIkh1bWFub2lkIikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIExvY2FsUGxheWVyLkNoYXJhY3Rlci5IdW1hbm9pZC5IZWFsdGggPSAwIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgdGFzay53YWl0KDMpIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJEYW5nIEhvcCBTZXJ2ZXIuLi4iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgU21hcnRTZXJ2ZXJIb3AoKQ==
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICBpZiBnZW4gYW5kIHRhcmdldFBvcyB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgcm9vdCA9IExvY2FsUGxheWVyLkNoYXJhY3Rlci5IdW1hbm9pZFJvb3RQYXJ0
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgcGl2b3QgPSBnZW46R2V0UGl2b3QoKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgLS0gRFJPUCAyLjAgU1RVRFM=
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgZHJvcEhlaWdodCA9IDIuMCA=
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgZHJvcFBvcyA9IHRhcmdldFBvcyArIFZlY3RvcjMubmV3KDAsIGRyb3BIZWlnaHQsIDAp
-ICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgbG9va0F0ID0gVmVjdG9yMy5uZXcocGl2b3QuUG9zaXRpb24uWCwgZHJvcFBvcy5ZLCBwaXZvdC5Qb3NpdGlvbi5aKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgd2hpbGUgZ2V0Z2VudigpLkF1dG9GYXJtIGFuZCAocm9vdC5Qb3NpdGlvbiAtIGRyb3BQb3MpLk1hZ25pdHVkZSA+IDMgZG8=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiTcOheSBr4bq/IHRp4bq/cPCfjq8iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIENIRUNLIEtJTExFUg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsIGtpbGxlciA9IEdldEtpbGxlcigp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIGtpbGxlciBhbmQga2lsbGVyOkZpbmRGaXJzdENoaWxkKCJIdW1hbm9pZFJvb3RQYXJ0IikgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAocm9vdC5Qb3NpdGlvbiAtIGtpbGxlci5IdW1hbm9pZFJvb3RQYXJ0LlBvc2l0aW9uKS5NYWduaXR1ZGUgPCBTYWZlRGlzdGFuY2UgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCJraWxsZXIgduG6q24gxJFhbmcg4bufIGfhuqdu8J+YqCIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTm90aWZ5KCJLaWxsZXIgY2hhbiBkdW9uZyEgRG9pIG11YyB0aWV1Li4uIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIElzU3BvdEJsb2NrZWQodGFyZ2V0UG9zKSB0aGVuIGJyZWFrIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuQ0ZyYW1lID0gQ0ZyYW1lLmxvb2tBdChkcm9wUG9zLCBsb29rQXQp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuVmVsb2NpdHkgPSBWZWN0b3IzLnplcm8=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhc2sud2FpdCgp
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgaWYgZ2V0Z2VudigpLkF1dG9GYXJtIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIEZSRUVaRSAxIEdJw4JZ
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuQW5jaG9yZWQgPSBmYWxzZSA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhc2sud2FpdCgxKSA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuQW5jaG9yZWQgPSB0cnVlIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsIHByb21wdCA9IGdlbjpGaW5kRmlyc3RDaGlsZCgiTWFpbiIpIGFuZCBnZW4uTWFpbjpGaW5kRmlyc3RDaGlsZCgiUHJvbXB0Iik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIHByb21wdCB0aGVuIGZpcmVwcm94aW1pdHlwcm9tcHQocHJvbXB0KSBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHdoaWxlIGdldGdlbnYoKS5BdXRvRmFybSBhbmQgR2V0UHJvZ3Jlc3MoZ2VuKSA8IDEwMCBkbw==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBbRklYIEdMSVRDSF0gQU5USS1TVFVDSyBLSEkgQuG7iiBISVQgKENoZWNrIEtob+G6o25nIEPDoWNoKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBO4bq/dSBi4buLIMSRw6FuaCB2xINuZyB4YSBxdcOhIDQgc3R1ZHMgc28gduG7m2kgbcOheSAtPiBH4buhIE5lbyDEkeG7gyBiYXkgbOG6oWk=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAocm9vdC5Qb3NpdGlvbiAtIGRyb3BQb3MpLk1hZ25pdHVkZSA+IDQgdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiQuG7iyDEkcOhbmggYmF5ISBRdWF5IGzhuqFpLi4u8J+PgyIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuQW5jaG9yZWQgPSBmYWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrIC0tIEJyZWFrIHbDsm5nIGzhurdwIHPhu61hIMSR4buDIHNjcmlwdCB04buxIGJheSBs4bqhaSBtw6F5
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
+local function NinjaClickHarvestButton(targetPart)
+    local clicked = false
+    
+    local function FireSignals(gui)
+        if clicked then return end
+        pcall(function()
+            if getconnections then
+                for _, c in pairs(getconnections(gui.MouseButton1Down)) do c:Fire() end
+                for _, c in pairs(getconnections(gui.MouseButton1Up)) do c:Fire() end
+                for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end
+                for _, c in pairs(getconnections(gui.Activated)) do c:Fire() end
+                for _, c in pairs(getconnections(gui.TouchTap)) do c:Fire() end
+            end
+        end)
+        clicked = true
+    end
 
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBbRklYIEdMSVRDSF0gQU5USS1SQUdET0xM
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbCBodW0gPSBMb2NhbFBsYXllci5DaGFyYWN0ZXIgYW5kIExvY2FsUGxheWVyLkNoYXJhY3RlcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWQiKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBodW0gYW5kIChodW0uUGxhdGZvcm1TdGFuZCBvciBodW0uU2l0KSB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU2V0U3RhdHVzKCJC4buLIFTDqSEgxJBhbmcgdOG7sSDEkeG7qW5nIGThuq158J+njSIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcm9vdC5BbmNob3JlZCA9IGZhbHNlIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaHVtLlBsYXRmb3JtU3RhbmQgPSBmYWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaHVtLlNpdCA9IGZhbHNl
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaHVtOkNoYW5nZVN0YXRlKEVudW0uSHVtYW5vaWRTdGF0ZVR5cGUuR2V0dGluZ1VwKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGFzay53YWl0KDEuNSkg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWsg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
+    pcall(function()
+        local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+        if pGui then
+            for _, gui in pairs(pGui:GetDescendants()) do
+                if clicked then break end
+                if (gui:IsA("ImageButton") or gui:IsA("TextButton")) and gui.Visible then
+                    if string.find(string.lower(gui.Name), "harvest") then 
+                        FireSignals(gui) 
+                    end
+                end
+            end
+        end
+    end)
+    
+    if targetPart and not clicked then
+        pcall(function()
+            for _, gui in pairs(targetPart:GetDescendants()) do
+                if clicked then break end
+                if gui:IsA("ImageButton") or gui:IsA("TextButton") then
+                    if string.find(string.lower(gui.Name), "harvest") then 
+                        FireSignals(gui) 
+                    end
+                end
+            end
+        end)
+    end
+    
+    return clicked
+end
 
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZXRTdGF0dXMoIsSQw6Mgc+G7rWEgxJHGsOG7o2MgIiAuLiBtYXRoLmZsb29yKEdldFByb2dyZXNzKGdlbikpIC4uICIlIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBMb2NhbFBsYXllci5DaGFyYWN0ZXIuSHVtYW5vaWQuSnVtcCB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcm9vdC5BbmNob3JlZCA9IGZhbHNlOyB0YXNrLndhaXQoMSk7IGJyZWFr
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBub3Qgcm9vdC5BbmNob3JlZCB0aGVuIHJvb3QuQW5jaG9yZWQgPSB0cnVlIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBbVVBEQVRFRF0gTsOJIEtJTExFUiBMT0dJQyAoVEVMRSBUTyBTQUZFIEdFTiArIFdBSVQgNlMp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbCBraWxsZXIgPSBHZXRLaWxsZXIoKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBraWxsZXIgYW5kIGtpbGxlcjpGaW5kRmlyc3RDaGlsZCgiSHVtYW5vaWRSb290UGFydCIpIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgZGlzdFRvS2lsbGVyID0gKHJvb3QuUG9zaXRpb24gLSBraWxsZXIuSHVtYW5vaWRSb290UGFydC5Qb3NpdGlvbikuTWFnbml0dWRl
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgZGlzdFRvS2lsbGVyIDwgU2FmZURpc3RhbmNlIHRoZW4=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIHByb21wdCB0aGVuIHBjYWxsKGZ1bmN0aW9uKCkgcHJvbXB0OklucHV0SG9sZEVuZCgpIGVuZCkgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiS2lsbGVyIMSRYW5nIOG7nyBn4bqnbvCfmLEiKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vdGlmeSgiS0lMTEVSIERFTiAoPDIwbSkhIENoYXkgbmdheS4uLiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIFRpbSBtYXkgcGhhdCBkaWVuIHhhIG5oYXQgKFNhZmUgR2VuKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGxvY2FsIHNhZmVHZW4gPSBHZXRTYWZlR2VuZXJhdG9yKGtpbGxlci5IdW1hbm9pZFJvb3RQYXJ0LlBvc2l0aW9uKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIHNhZmVHZW4gdGhlbg==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbCBzYWZlUG9zID0gc2FmZUdlbjpHZXRQaXZvdCgpLlBvc2l0aW9u
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBUZWxlcG9ydCBsZW4gbm9jIG1heSBTYWZlIEdlbiAoaG9hYyB2aSB0cmkgYW4gdG9hbik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByb290LkNGcmFtZSA9IENGcmFtZS5uZXcoc2FmZVBvcyArIFZlY3RvcjMubmV3KDAsIDUsIDApKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByb290LkFuY2hvcmVkID0gdHJ1ZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZXRTdGF0dXMoIkRhbmcgdHJvbiBLaWxsZXIgKDZzKS4uLiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOb3RpZnkoIkRhbmcgdHJvbi4uLiBEb2kgNiBnaWF5Iik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YXNrLndhaXQoNikgLS0gW1VQREFURURdIERvaSA2IGdpYXk=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBTYXUgNiBnaWF5LCBjaGVjayBsYWkgdmkgdHJpIEtpbGxlciBzbyB2b2kgbWF5IENVICh0YXJnZXRQb3Mp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsb2NhbCBvbGRHZW5Qb3MgPSB0YXJnZXRQb3M=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXBlYXQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgbm90IGdldGdlbnYoKS5BdXRvRmFybSB0aGVuIGJyZWFrIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwga1Bvc05ldyA9IGtpbGxlci5IdW1hbm9pZFJvb3RQYXJ0LlBvc2l0aW9u
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbG9jYWwgZGlzdEtpbGxlclRvT2xkR2VuID0gKGtQb3NOZXcgLSBvbGRHZW5Qb3MpLk1hZ25pdHVkZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaWYgZGlzdEtpbGxlclRvT2xkR2VuID4gKFNhZmVEaXN0YW5jZSArIDEwKSB0aGVu
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiS2lsbGVyIGRpIHJvaSAtPiBWZSBzdWEiKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vdGlmeSgiS2lsbGVyIGRhIGRpIHhhISBRdWF5IGxhaSBzdWEuLi4iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrIC0tIFRob2F0IHZvbmcgbGFwIGRlIHF1YXkgbGFpIHN1YQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNldFN0YXR1cygiS2lsbGVyIHZhbiBvIGRvISBEb2kuLi4iKQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vdGlmeSgiS2lsbGVyIHZhbiBvIGRvISBEb2kgdGllcC4uLiIp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhc2sud2FpdCgxKSAtLSBEb2kgdGllcCBuZXUgS2lsbGVyIGNodWEgZGk=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnRpbCBmYWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByb290LkFuY2hvcmVkID0gZmFsc2U=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVhayAtLSBCcmVhayB2b25nIGxhcCBzdWEgbWF5IGRlIHRodWMgaGllbiBsYWkgdHUgZGF1IChRdWF5IHZlIG1heSk=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBIT0xEIEUgTE9HSUM=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBwcm9tcHQgdGhlbiA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGNhbGwoZnVuY3Rpb24oKSA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHByb21wdDpJbnB1dEhvbGRCZWdpbigp
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW5kKSA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBnZW46RmluZEZpcnN0Q2hpbGQoIlJlbW90ZXMiKSBhbmQgZ2VuLlJlbW90ZXM6RmluZEZpcnN0Q2hpbGQoIlJFIikgdGhlbiA=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZ2VuLlJlbW90ZXMuUkU6RmlyZVNlcnZlcigpIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0YXNrLndhaXQoMS41KQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIHByb21wdCB0aGVuIHBjYWxsKGZ1bmN0aW9uKCkgcHJvbXB0OklucHV0SG9sZEVuZCgpIGVuZCkgZW5k
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJvb3QuQW5jaG9yZWQgPSBmYWxzZQ==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGlmIEdldFByb2dyZXNzKGdlbikgPj0gMTAwIHRoZW4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBJZ25vcmVMaXN0W2dlbl0gPSB0cnVlIA==
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZXRTdGF0dXMoIlhvbmcgMSBNYXkhIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOb3RpZnkoIlhvbmcgMSBtYXkhIik=
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgICAgICAgICAgICAgZW5k
-ICAgICAgICAgICAgICAgICAgICBlbmQ=
-ICAgICAgICAgICAgICAgIGVuZA==
-ICAgICAgICAgICAgZW5kKQ==
-ICAgICAgICBlbmQ=
-ICAgICAgICB0YXNrLndhaXQoMC4yKQ==
-ICAgIGVuZA==
-ZW5kKQ==
+local function SafeUnfreeze()
+    pcall(function()
+        for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+            if gui:IsA("TextButton") or gui:IsA("ImageButton") then
+                local text = string.lower(gui:IsA("TextButton") and gui.Text or "")
+                local name = string.lower(gui.Name)
+                if text == "x" or text == "close" or string.find(name, "close") or string.find(name, "exit") then
+                    if getconnections then 
+                        for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end 
+                    end
+                end
+            end
+        end
+    end)
+    
+    pcall(function()
+        local char = LocalPlayer.Character
+        if char then
+            local root = char:FindFirstChild("HumanoidRootPart")
+            if root then 
+                root.Anchored = false 
+            end
+            local hum = char:FindFirstChild("Humanoid")
+            if hum then 
+                hum.Sit = false
+                hum.Jump = true 
+                hum.WalkSpeed = 16
+                hum:ChangeState(Enum.HumanoidStateType.Running) 
+                Workspace.CurrentCamera.CameraSubject = hum 
+            end
+        end
+        local pm = require(LocalPlayer.PlayerScripts:WaitForChild("PlayerModule"))
+        pm:GetControls():Enable()
+        Workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+    end)
+end
 
-LS0gPT09PT09PT09PT09PT09PT0gW0hVVEFPIE1VU0lDIFNZU1RFTSBWMyAtIERFTEFZIDEwU10gPT09PT09PT09PT09PT09PT0=
-dGFzay5zcGF3bihmdW5jdGlvbigp
-ICAgIC0tIFtVUERBVEVEXSBJRCBOSOG6oEMgTeG7mkk=
-ICAgIGxvY2FsIE11c2ljSUQgPSAicmJ4YXNzZXRpZDovLzEyNDM4NDU1ODEwMTM2MCIg
-ICAgIGxvY2FsIFNvdW5kU2VydmljZSA9IGdhbWU6R2V0U2VydmljZSgiU291bmRTZXJ2aWNlIik=
-ICAgIGxvY2FsIFNvdW5kTmFtZSA9ICJBbWV0aHlzdEh1Yk11c2ljX1YzIg==
+local function GetPlayerMoney()
+    local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+    local cam = Workspace.CurrentCamera
+    if not pGui or not cam then return 0 end
+    
+    local screenW = cam.ViewportSize.X
+    local screenH = cam.ViewportSize.Y
+    
+    for _, obj in pairs(pGui:GetDescendants()) do
+        if obj:IsA("TextLabel") and obj.Visible and obj.TextTransparency < 1 then
+            if obj.AbsolutePosition.X < (screenW * 0.4) and obj.AbsolutePosition.Y > (screenH * 0.6) then
+                if string.match(obj.Text, "^%$[%d%,%.]+") then
+                    local rawText = string.gsub(obj.Text, "^%$", "")
+                    rawText = string.gsub(rawText, ",", "")
+                    
+                    local multi = 1
+                    if string.match(rawText, "K$") then 
+                        multi = 1000
+                        rawText = string.gsub(rawText, "K$", "")
+                    elseif string.match(rawText, "M$") then 
+                        multi = 1000000
+                        rawText = string.gsub(rawText, "M$", "")
+                    elseif string.match(rawText, "B$") then 
+                        multi = 1000000000
+                        rawText = string.gsub(rawText, "B$", "") 
+                    end
+                    
+                    local number = tonumber(rawText)
+                    if number then 
+                        return number * multi 
+                    end
+                end
+            end
+        end
+    end
+    return 0
+end
 
-ICAgIGxvY2FsIGZ1bmN0aW9uIENyZWF0ZUFuZFBsYXlNdXNpYygp
-ICAgICAgICBsb2NhbCBNdXNpYyA9IFNvdW5kU2VydmljZTpGaW5kRmlyc3RDaGlsZChTb3VuZE5hbWUp
-ICAgICAgICBpZiBub3QgTXVzaWMgdGhlbg==
-ICAgICAgICAgICAgTXVzaWMgPSBJbnN0YW5jZS5uZXcoIlNvdW5kIik=
-ICAgICAgICAgICAgTXVzaWMuTmFtZSA9IFNvdW5kTmFtZQ==
-ICAgICAgICAgICAgTXVzaWMuUGFyZW50ID0gU291bmRTZXJ2aWNlIA==
-ICAgICAgICAgICAgTXVzaWMuU291bmRJZCA9IE11c2ljSUQ=
-ICAgICAgICAgICAgTXVzaWMuVm9sdW1lID0gMw==
-ICAgICAgICAgICAgTXVzaWMuTG9vcGVkID0gZmFsc2UgLS0gW1VQREFURURdIFThuq90IExvb3BlZCDEkeG7gyB04buxIHjhu60gbMO9IERlbGF5
-ICAgICAgICAgICAgTXVzaWM6UGxheSgp
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgLS0gU+G7sSBraeG7h24ga2hpIG5o4bqhYyBr4bq/dCB0aMO6Yw==
-ICAgICAgICAgICAgTXVzaWMuRW5kZWQ6Q29ubmVjdChmdW5jdGlvbigp
-ICAgICAgICAgICAgICAgIHRhc2sud2FpdCgxMCkgLS0gW1VQREFURURdIERlbGF5IDEwIGdpw6J5
-ICAgICAgICAgICAgICAgIE11c2ljOlBsYXkoKSAtLSBQaMOhdCBs4bqhaQ==
-ICAgICAgICAgICAgZW5kKQ==
-ICAgICAgICAgICAg
-ICAgICAgICAgICAgZ2FtZS5TdGFydGVyR3VpOlNldENvcmUoIlNlbmROb3RpZmljYXRpb24iLCB7
-ICAgICAgICAgICAgICAgIFRpdGxlID0gIk5o4bqhYyBu4buBbiIs
-ICAgICAgICAgICAgICAgIFRleHQgPSAixJBhbmcgcGjDoXQgbmjhuqFjLi4uIiw=
-ICAgICAgICAgICAgICAgIER1cmF0aW9uID0gNQ==
-ICAgICAgICAgICAgfSk=
-ICAgICAgICBlbHNl
-ICAgICAgICAgICAgaWYgbm90IE11c2ljLklzUGxheWluZyB0aGVu
-ICAgICAgICAgICAgICAgIE11c2ljOlBsYXkoKQ==
-ICAgICAgICAgICAgZW5k
-ICAgICAgICBlbmQ=
-ICAgIGVuZA==
+local ItemPrices = {
+    ["Carrot"] = 20, ["Corn"] = 100, ["Onion"] = 200, ["Strawberry"] = 800,
+    ["Mushroom"] = 1500, ["Beetroot"] = 2500, ["Tomato"] = 4000, ["Apple"] = 7000,
+    ["Rose"] = 10000, ["Wheat"] = 12000, ["Banana"] = 30000, ["Plum"] = 60000,
+    ["Potato"] = 100000, ["Cabbage"] = 150000, ["Cherry"] = 1000000,
+    ["Watering Can"] = 5000, ["Basic Sprinkler"] = 15000, ["Harvest Bell"] = 35000,
+    ["Turbo Sprinkler"] = 60000, ["Favorite Tool"] = 80000, ["Super Sprinkler"] = 100000
+}
 
-ICAgIC0tIENo4bqheSBs4bqnbiDEkeG6p3U=
-ICAgIHBjYWxsKENyZWF0ZUFuZFBsYXlNdXNpYyk=
-ZW5kKQ==
+-- ================= [ MỤC 1: SHOP HẠT GIỐNG ] =================
+local ShortSeedsList = {
+    "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
+    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry"
+}
+
+local SelectedSeeds = {["Carrot"] = true} 
+local IsBuying = false
+getgenv().AutoBuyToggle = false
+
+Tabs.Shop:Dropdown({
+    Title = "🛒 Chọn Loại Hạt Giống (Chọn Nhiều)",
+    Multi = true,
+    Values = ShortSeedsList,
+    Default = {"Carrot"},
+    Callback = function(Options)
+        SelectedSeeds = {}
+        if type(Options) == "table" then
+            for k, v in pairs(Options) do
+                if type(k) == "number" and type(v) == "string" then 
+                    SelectedSeeds[v] = true 
+                elseif type(k) == "string" and v == true then 
+                    SelectedSeeds[k] = true 
+                end
+            end
+        elseif type(Options) == "string" then 
+            SelectedSeeds[Options] = true 
+        end
+    end,
+})
+
+Tabs.Shop:Toggle({
+    Title = "⚡ AUTO RÌNH MỒI (Sniper Hạt Giống)",
+    Desc = "Chỉ bay đi mua khi TIỀN TRONG VÍ ĐỦ TRẢ.",
+    Value = false,
+    Callback = function(state)
+        getgenv().AutoBuyToggle = state
+        
+        if state then
+            Notify("Bật Sniper", "Hệ thống đang soi Shop từ xa!", 3)
+            local wasEmpty = false 
+            
+            task.spawn(function()
+                while getgenv().AutoBuyToggle do
+                    if IsBuying then 
+                        task.wait(1)
+                        continue 
+                    end
+                    
+                    local targetCount = 0
+                    for _ in pairs(SelectedSeeds) do targetCount = targetCount + 1 end
+                    if targetCount == 0 then 
+                        task.wait(2)
+                        continue 
+                    end
+
+                    local shopData = nil
+                    pcall(function() 
+                        shopData = ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop") 
+                    end)
+                    
+                    local SeedsToBuy = {}
+                    local totalBuyAmount = 0 
+                    local detectedNames = ""
+                    local myMoney = GetPlayerMoney() 
+                    local hasStockButNoMoney = false
+                    
+                    if type(shopData) == "table" and shopData.Items then
+                        for seedBase, isSelected in pairs(SelectedSeeds) do
+                            if isSelected then
+                                local ActualSeedName = seedBase .. " Seed"
+                                local seedData = shopData.Items[ActualSeedName]
+                                if seedData and type(seedData) == "table" then
+                                    local amt = seedData.Amount or 0
+                                    local price = ItemPrices[seedBase] or 500
+                                    
+                                    if amt > 0 then
+                                        local maxCanBuy = math.floor(myMoney / price)
+                                        local buyAmt = math.min(maxCanBuy, amt)
+                                        
+                                        if buyAmt > 0 then
+                                            table.insert(SeedsToBuy, {Name = ActualSeedName, Amount = buyAmt})
+                                            totalBuyAmount = totalBuyAmount + buyAmt
+                                            detectedNames = detectedNames .. buyAmt .. " " .. seedBase .. ", "
+                                            myMoney = myMoney - (buyAmt * price)
+                                        else
+                                            hasStockButNoMoney = true
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    if totalBuyAmount > 0 then
+                        IsBuying = true
+                        wasEmpty = false
+                        detectedNames = detectedNames:sub(1, -3)
+                        Notify("Tiến hành múc", "Chỉ mua ĐÚNG: " .. detectedNames, 3)
+                        
+                        local char = LocalPlayer.Character
+                        local root = char and char:FindFirstChild("HumanoidRootPart")
+                        if not root then 
+                            IsBuying = false
+                            task.wait(2)
+                            continue 
+                        end
+
+                        local billPrompt = nil
+                        for _, obj in pairs(Workspace:GetDescendants()) do
+                            if obj:IsA("ProximityPrompt") then
+                                local pName = obj.Parent and string.lower(obj.Parent.Name) or ""
+                                local oText = obj.ObjectText and string.lower(obj.ObjectText) or ""
+                                if string.find(pName, "bill") or string.find(oText, "bill") then
+                                    billPrompt = obj
+                                    break
+                                end
+                            end
+                        end
+
+                        if billPrompt then
+                            local oldRootCF = root.CFrame
+                            local currentCam = Workspace.CurrentCamera
+                            local oldCamType = currentCam.CameraType
+                            local oldCamCF = currentCam.CFrame
+
+                            local killMenu = true
+                            task.spawn(function()
+                                while killMenu do
+                                    for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+                                        if gui:IsA("TextButton") or gui:IsA("ImageButton") then
+                                            local text = gui:IsA("TextButton") and gui.Text or ""
+                                            local name = string.lower(gui.Name)
+                                            if text == "X" or text == "Close" or string.find(name, "close") or string.find(name, "exit") then
+                                                pcall(function() 
+                                                    if getconnections then 
+                                                        for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end 
+                                                    end 
+                                                end)
+                                            end
+                                        end
+                                    end
+                                    task.wait(0.01)
+                                end
+                            end)
+
+                            local billStandPos = Vector3.new(176.7, 204.0, 672.0)
+                            local billCamPos = Vector3.new(175.5, 211.3, 653.9)
+                            local billLookPos = Vector3.new(177.0, 204.0, 676.8)
+
+                            root.Velocity = Vector3.zero
+                            root.RotVelocity = Vector3.zero
+                            local hum = char:FindFirstChild("Humanoid")
+                            if hum then hum.Sit = false; hum.PlatformStand = false end
+                            
+                            root.CFrame = CFrame.lookAt(billStandPos, billLookPos)
+                            currentCam.CameraType = Enum.CameraType.Scriptable
+                            currentCam.CFrame = CFrame.lookAt(billCamPos, billLookPos)
+                            task.wait(0.3)
+
+                            if billPrompt then FirePrompt(billPrompt) end
+                            pcall(function() ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop") end)
+                            task.wait(0.4)
+
+                            root.Velocity = Vector3.zero
+                            root.CFrame = oldRootCF + Vector3.new(0, 4, 0)
+                            currentCam.CameraType = oldCamType
+                            currentCam.CFrame = oldCamCF
+
+                            for _, seedInfo in ipairs(SeedsToBuy) do
+                                for i = 1, seedInfo.Amount do
+                                    task.spawn(function()
+                                        pcall(function() ReplicatedStorage.RemoteEvents.PurchaseShopItem:InvokeServer("SeedShop", seedInfo.Name) end)
+                                    end)
+                                    if i % 10 == 0 then RunService.Heartbeat:Wait() end 
+                                end
+                            end
+                            
+                            task.wait(1.5) 
+                            Notify("Giao Dịch Xong", "Đã mua đúng số lượng sếp đủ tiền.", 4)
+                            killMenu = false
+                        end
+                        
+                        IsBuying = false
+                        task.wait(5) 
+                    else
+                        if hasStockButNoMoney then
+                            if not wasEmpty then
+                                Notify("Cháy Túi", "Shop có Hàng nhưng sếp méo đủ tiền. Đứng im!", 2)
+                                wasEmpty = true
+                            end
+                        else
+                            if not wasEmpty then
+                                Notify("Đang rình...", "Mục tiêu hết sạch hàng, chờ thời...", 2)
+                                wasEmpty = true
+                            end
+                        end
+                        task.wait(3) 
+                    end
+                end
+            end)
+        else
+            Notify("Sniper Mode", "Đã TẮT rình mồi.", 2)
+        end
+    end,
+})
+
+-- ================= [ MỤC 2: SHOP DỤNG CỤ (GEARS) ] =================
+local GearList = {
+    "Watering Can", "Basic Sprinkler", "Harvest Bell", "Turbo Sprinkler", "Favorite Tool", "Super Sprinkler",
+    "Shovel", "Iron Shovel", "Golden Shovel", "Rake", "Basket"
+}
+
+local SelectedGears = {["Watering Can"] = true} 
+getgenv().AutoBuyGearToggle = false
+
+Tabs.Shop:Dropdown({
+    Title = "🛠️ Chọn Loại Dụng Cụ (Chọn Nhiều)",
+    Multi = true,
+    Values = GearList,
+    Default = {"Watering Can"},
+    Callback = function(Options)
+        SelectedGears = {}
+        if type(Options) == "table" then
+            for k, v in pairs(Options) do
+                if type(k) == "number" and type(v) == "string" then 
+                    SelectedGears[v] = true 
+                elseif type(k) == "string" and v == true then 
+                    SelectedGears[k] = true 
+                end
+            end
+        elseif type(Options) == "string" then 
+            SelectedGears[Options] = true 
+        end
+    end,
+})
+
+Tabs.Shop:Toggle({
+    Title = "⚡ AUTO RÌNH GEAR (Sniper Dụng Cụ)",
+    Desc = "Chỉ bay đi mua khi TIỀN TRONG VÍ ĐỦ TRẢ.",
+    Value = false,
+    Callback = function(state)
+        getgenv().AutoBuyGearToggle = state
+        
+        if state then
+            Notify("Bật Sniper Gear", "Hệ thống đang soi Shop Dụng Cụ từ xa!", 3)
+            local wasEmptyGear = false 
+            
+            task.spawn(function()
+                while getgenv().AutoBuyGearToggle do
+                    if IsBuying then 
+                        task.wait(1)
+                        continue 
+                    end
+                    
+                    local targetCount = 0
+                    for _ in pairs(SelectedGears) do targetCount = targetCount + 1 end
+                    if targetCount == 0 then 
+                        task.wait(2)
+                        continue 
+                    end
+
+                    local shopData = nil
+                    pcall(function() 
+                        shopData = ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("GearShop") 
+                    end)
+                    
+                    local GearsToBuy = {}
+                    local totalBuyAmount = 0 
+                    local detectedNames = ""
+                    local myMoney = GetPlayerMoney() 
+                    local hasStockButNoMoneyGear = false
+                    
+                    if type(shopData) == "table" and shopData.Items then
+                        for gearName, isSelected in pairs(SelectedGears) do
+                            if isSelected then
+                                local gearData = shopData.Items[gearName]
+                                if gearData and type(gearData) == "table" then
+                                    local amt = gearData.Amount or gearData.Quantity or gearData.Stock or 0
+                                    local price = ItemPrices[gearName] or 5000 
+                                    
+                                    if amt > 0 then
+                                        local maxCanBuy = math.floor(myMoney / price)
+                                        local buyAmt = math.min(maxCanBuy, amt)
+                                        
+                                        if buyAmt > 0 then
+                                            table.insert(GearsToBuy, {Name = gearName, Amount = buyAmt})
+                                            totalBuyAmount = totalBuyAmount + buyAmt
+                                            detectedNames = detectedNames .. buyAmt .. " " .. gearName .. ", "
+                                            myMoney = myMoney - (buyAmt * price)
+                                        else
+                                            hasStockButNoMoneyGear = true
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    if totalBuyAmount > 0 then
+                        IsBuying = true
+                        wasEmptyGear = false
+                        detectedNames = detectedNames:sub(1, -3)
+                        Notify("Phát hiện Dụng Cụ", "Chỉ mua ĐÚNG: " .. detectedNames, 3)
+                        
+                        local char = LocalPlayer.Character
+                        local root = char and char:FindFirstChild("HumanoidRootPart")
+                        if not root then 
+                            IsBuying = false
+                            task.wait(2)
+                            continue 
+                        end
+
+                        local mollyPrompt = nil
+                        for _, obj in pairs(Workspace:GetDescendants()) do
+                            if obj:IsA("ProximityPrompt") then
+                                local pName = obj.Parent and string.lower(obj.Parent.Name) or ""
+                                local oText = obj.ObjectText and string.lower(obj.ObjectText) or ""
+                                if string.find(pName, "molly") or string.find(oText, "molly") then
+                                    mollyPrompt = obj
+                                    break
+                                end
+                            end
+                        end
+
+                        if mollyPrompt and mollyPrompt.Parent then
+                            local oldRootCF = root.CFrame
+                            local currentCam = Workspace.CurrentCamera
+                            local oldCamType = currentCam.CameraType
+                            local oldCamCF = currentCam.CFrame
+
+                            local killMenu = true
+                            task.spawn(function()
+                                while killMenu do
+                                    for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+                                        if gui:IsA("TextButton") or gui:IsA("ImageButton") then
+                                            local text = gui:IsA("TextButton") and gui.Text or ""
+                                            local name = string.lower(gui.Name)
+                                            if text == "X" or text == "Close" or string.find(name, "close") or string.find(name, "exit") then
+                                                pcall(function() 
+                                                    if getconnections then 
+                                                        for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end 
+                                                    end 
+                                                end)
+                                            end
+                                        end
+                                    end
+                                    task.wait(0.01)
+                                end
+                            end)
+
+                            local npcPos = mollyPrompt.Parent.Position
+                            local gearStandPos = npcPos + Vector3.new(0, 0, 5) 
+                            local gearCamPos = npcPos + Vector3.new(0, 5, 8)
+                            local gearLookPos = npcPos
+
+                            root.Velocity = Vector3.zero
+                            root.RotVelocity = Vector3.zero
+                            local hum = char:FindFirstChild("Humanoid")
+                            if hum then hum.Sit = false; hum.PlatformStand = false end
+                            
+                            pcall(function()
+                                root.CFrame = CFrame.lookAt(gearStandPos, gearLookPos)
+                                currentCam.CameraType = Enum.CameraType.Scriptable
+                                currentCam.CFrame = CFrame.lookAt(gearCamPos, gearLookPos)
+                            end)
+                            task.wait(0.3)
+
+                            if mollyPrompt then FirePrompt(mollyPrompt) end
+                            pcall(function() ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("GearShop") end)
+                            task.wait(0.4)
+
+                            root.Velocity = Vector3.zero
+                            root.CFrame = oldRootCF + Vector3.new(0, 4, 0)
+                            currentCam.CameraType = oldCamType
+                            currentCam.CFrame = oldCamCF
+
+                            for _, gearInfo in ipairs(GearsToBuy) do
+                                for i = 1, gearInfo.Amount do
+                                    task.spawn(function()
+                                        pcall(function() ReplicatedStorage.RemoteEvents.PurchaseShopItem:InvokeServer("GearShop", gearInfo.Name) end)
+                                    end)
+                                    if i % 10 == 0 then RunService.Heartbeat:Wait() end 
+                                end
+                            end
+                            
+                            task.wait(1.5)
+                            Notify("Hoàn tất", "Đã nạp đúng số lượng Dụng Cụ cho phép!", 4)
+                            killMenu = false
+                        end
+                        
+                        IsBuying = false
+                        task.wait(5) 
+                    else
+                        if hasStockButNoMoneyGear then
+                            if not wasEmptyGear then
+                                Notify("Cháy Túi", "Shop có Dụng Cụ nhưng Không Đủ Tiền. Đứng im!", 2)
+                                wasEmptyGear = true
+                            end
+                        else
+                            if not wasEmptyGear then
+                                Notify("Đang rình Gear...", "Mục tiêu hết hàng, nằm im chờ...", 2)
+                                wasEmptyGear = true
+                            end
+                        end
+                        task.wait(3) 
+                    end
+                end
+            end)
+        else
+            Notify("Sniper Gear", "Đã TẮT rình Gear.", 2)
+        end
+    end,
+})
+
+-- ================= [ MỤC 3: AUTO FARM ] =================
+getgenv().EnableFarmTest = false
+getgenv().FarmDelay = 0.25 
+getgenv().SellLimit = 20  
+
+Tabs.Farm:Slider({
+    Title = "⏱️ Tốc độ Delay",
+    Desc = "Bơm điện 1 chạm, nên để 0.25 để UI kịp load tín hiệu.",
+    Step = 0.05,
+    Min = 0.05,
+    Max = 1.0,
+    Default = 0.25,
+    Callback = function(Value)
+        getgenv().FarmDelay = Value
+    end
+})
+
+Tabs.Farm:Toggle({
+    Title = "🔥 BẬT AUTO FARM (TÀNG HÌNH MÓC UI)",
+    Desc = "100% Không dùng Chuột Ảo -> KHÔNG BAO GIỜ LIỆT PHÍM!",
+    Value = false,
+    Callback = function(state)
+        getgenv().EnableFarmTest = state
+        
+        if state then
+            Notify("Khởi Động", "Công nghệ tàng hình kích hoạt, đợi 1 giây...", 3)
+            
+            task.spawn(function()
+                task.wait(1) 
+                local HarvestCount = 0 
+                local LastFarmPosition = nil 
+                
+                while getgenv().EnableFarmTest do
+                    if IsBuying then 
+                        task.wait(1)
+                        continue 
+                    end
+                    
+                    local char = LocalPlayer.Character
+                    local root = char and char:FindFirstChild("HumanoidRootPart")
+                    if not root then 
+                        task.wait(0.5)
+                        continue 
+                    end
+
+                    local FoundCropThisCycle = false 
+                    local prompts = Workspace:GetDescendants()
+                    
+                    for i = 1, #prompts do
+                        if not getgenv().EnableFarmTest then break end
+                        if IsBuying then break end
+                        if HarvestCount >= getgenv().SellLimit then break end 
+                        
+                        local obj = prompts[i]
+                        if obj:IsA("ProximityPrompt") and obj.Enabled then
+                            local actionName = string.lower(obj.ActionText)
+                            local objName = string.lower(obj.Name)
+                            
+                            if (string.find(actionName, "harvest") or string.find(actionName, "thu hoạch") or 
+                               string.find(actionName, "plant") or string.find(actionName, "gieo") or
+                               string.find(objName, "harvest") or string.find(objName, "plant")) and not string.find(actionName, "talk") then
+                               
+                               if obj.Parent and obj.Parent:IsA("BasePart") then
+                                   local dist = (root.Position - obj.Parent.Position).Magnitude
+                                   if dist < 999999 then 
+                                       FoundCropThisCycle = true
+                                       LastFarmPosition = obj.Parent.Position 
+                                       
+                                       root.Velocity = Vector3.zero
+                                       root.RotVelocity = Vector3.zero
+                                       root.CFrame = CFrame.new(obj.Parent.Position + Vector3.new(0, 3, 0))
+                                       
+                                       local cam = Workspace.CurrentCamera
+                                       cam.CameraType = Enum.CameraType.Scriptable
+                                       cam.CFrame = CFrame.lookAt(cam.CFrame.Position, obj.Parent.Position)
+                                       
+                                       task.wait(getgenv().FarmDelay) 
+                                       
+                                       local targetUuid = GetCropUuid(obj.Parent)
+                                       if targetUuid then
+                                           pcall(function()
+                                               local args = { [1] = { [1] = { ["Uuid"] = targetUuid } } }
+                                               ReplicatedStorage.RemoteEvents.HarvestFruit:FireServer(unpack(args))
+                                           end)
+                                       end
+                                       
+                                       NinjaClickHarvestButton(obj.Parent)
+                                       FirePrompt(obj)
+                                       task.wait(getgenv().FarmDelay) 
+                                       
+                                       HarvestCount = HarvestCount + 1
+                                   end
+                               end
+                            end
+                        end
+                        if i % 500 == 0 then RunService.Heartbeat:Wait() end
+                    end
+                    
+                    SafeUnfreeze()
+
+                    if HarvestCount >= getgenv().SellLimit or (HarvestCount > 0 and not FoundCropThisCycle) then
+                        local stevePos = Vector3.new(149.4, 204.0, 672.0)
+                        local standPos = stevePos + Vector3.new(0, 3, 0)
+                        local lookPos = Vector3.new(149.4, 204.0, 676.6)
+                        local camPos = Vector3.new(149.6, 213.3, 661.0)
+                        
+                        local talkPrompt = nil
+                        for _, obj in pairs(Workspace:GetDescendants()) do
+                            if obj:IsA("ProximityPrompt") then
+                                local actionName = string.lower(obj.ActionText)
+                                if string.find(actionName, "talk") or string.find(actionName, "sell") then
+                                    if obj.Parent and obj.Parent:IsA("BasePart") then
+                                        local distToSteve = (obj.Parent.Position - stevePos).Magnitude
+                                        if distToSteve < 20 then 
+                                            talkPrompt = obj
+                                            break 
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        if talkPrompt then
+                            local currentPos = LastFarmPosition or root.Position
+                            
+                            local hum = char:FindFirstChild("Humanoid")
+                            if hum then hum.Sit = false; hum.PlatformStand = false end
+
+                            root.Velocity = Vector3.zero
+                            root.CFrame = CFrame.lookAt(standPos, lookPos)
+                            Workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+                            Workspace.CurrentCamera.CFrame = CFrame.lookAt(camPos, lookPos)
+                            
+                            task.wait(0.3) 
+                            FirePrompt(talkPrompt) 
+                            task.wait(0.3) 
+                            
+                            pcall(function() ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll") end)
+                            task.wait(0.5)
+                            
+                            SafeUnfreeze()
+                            task.wait(0.2)
+                            
+                            root.Velocity = Vector3.zero
+                            root.CFrame = CFrame.new(currentPos + Vector3.new(0, 3, 0))
+                            
+                            SafeUnfreeze()
+                            
+                            Notify("Giao Dịch Xong", "Bán thành công! Sẽ cày tiếp sau 2 giây...", 3)
+                            HarvestCount = 0
+                            task.wait(2)
+                        end
+                    end
+                    task.wait(0.2) 
+                end
+            end)
+        else
+            Notify("Đã Tắt", "Auto Farm đã ngắt. Sếp tự do di chuyển!", 3)
+            SafeUnfreeze()
+        end
+    end
+})
+
+Tabs.Farm:Button({
+    Title = "💰 Bán Nông Sản (Nhấn Nút Bán Liền)",
+    Desc = "Nhấn 1 cái tự động dịch chuyển bán hết kho đồ và quay về chỗ cũ.",
+    Callback = function()
+        local char = LocalPlayer.Character
+        if not char then return end
+        local root = char:FindFirstChild("HumanoidRootPart")
+        if not root then return end
+        
+        local stevePos = Vector3.new(149.4, 204.0, 672.0)
+        local standPos = stevePos + Vector3.new(0, 3, 0)
+        local lookPos = Vector3.new(149.4, 204.0, 676.6)
+        local camPos = Vector3.new(149.6, 213.3, 661.0)
+        
+        local talkPrompt = nil
+        for _, obj in pairs(Workspace:GetDescendants()) do
+            if obj:IsA("ProximityPrompt") then
+                local actionName = string.lower(obj.ActionText)
+                if string.find(actionName, "talk") or string.find(actionName, "sell") then
+                    if obj.Parent and obj.Parent:IsA("BasePart") then
+                        local distToSteve = (obj.Parent.Position - stevePos).Magnitude
+                        if distToSteve < 20 then 
+                            talkPrompt = obj
+                            break 
+                        end
+                    end
+                end
+            end
+        end
+
+        if talkPrompt then
+            local oldCamType = Workspace.CurrentCamera.CameraType
+            local oldCamCF = Workspace.CurrentCamera.CFrame
+            local currentPos = root.Position
+            
+            root.Velocity = Vector3.zero
+            root.RotVelocity = Vector3.zero
+            local hum = char:FindFirstChild("Humanoid")
+            if hum then hum.Sit = false; hum.PlatformStand = false end
+            
+            root.CFrame = CFrame.lookAt(standPos, lookPos)
+            Workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+            Workspace.CurrentCamera.CFrame = CFrame.lookAt(camPos, lookPos)
+            
+            task.wait(0.3) 
+            FirePrompt(talkPrompt)
+            task.wait(0.3) 
+            
+            pcall(function()
+                ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll")
+            end)
+            task.wait(0.2)
+            
+            root.Velocity = Vector3.zero
+            root.CFrame = CFrame.new(currentPos + Vector3.new(0, 3, 0))
+            Workspace.CurrentCamera.CameraType = oldCamType
+            Workspace.CurrentCamera.CFrame = oldCamCF
+
+            Notify("Bán Thủ Công", "Đã vét sạch kho đồ đổi lấy tiền mặt!", 3)
+        else
+            Notify("Lỗi Hệ Thống", "Không tìm thấy NPC thương gia Steve!", 3)
+        end
+    end
+})
+
+-- ================= [ MỤC 4: AUTO GIEO HẠT ] =================
+local TabPlant = Tabs.Plant
+local PlantGridSpacing = 3.5 
+local CayHuongDoc = true 
+local PlantSelectedSeeds = {["Carrot"] = true}
+
+getgenv().TestAutoPlant = false
+getgenv().PlantedCache = {} 
+
+TabPlant:Dropdown({
+    Title = "🌱 Chọn Hạt (Được chọn nhiều)",
+    Multi = true,
+    Values = ShortSeedsList, 
+    Default = {"Carrot"},
+    Callback = function(Options)
+        PlantSelectedSeeds = {}
+        if type(Options) == "table" then
+            for k, v in pairs(Options) do
+                if type(k) == "number" and type(v) == "string" then 
+                    PlantSelectedSeeds[v] = true 
+                elseif type(k) == "string" and v == true then 
+                    PlantSelectedSeeds[k] = true 
+                end
+            end
+        elseif type(Options) == "string" then 
+            PlantSelectedSeeds[Options] = true 
+        end
+    end,
+})
+
+TabPlant:Dropdown({
+    Title = "🚜 Hướng Cày",
+    Multi = false,
+    Values = {"Cày Dọc (Trục Z)", "Cày Ngang (Trục X)"},
+    Default = "Cày Dọc (Trục Z)",
+    Callback = function(Option)
+        if Option == "Cày Dọc (Trục Z)" then 
+            CayHuongDoc = true 
+        else 
+            CayHuongDoc = false 
+        end
+    end,
+})
+
+TabPlant:Toggle({
+    Title = "🚀 BẬT AUTO GIEO HẠT (Bản Xuyên Lục Địa)",
+    Desc = "Dịch chuyển từ xa, Quét Sổ Đỏ, Mắt thần Vệ Tinh, Anti-Lag",
+    Value = false,
+    Callback = function(state)
+        getgenv().TestAutoPlant = state
+        
+        if state then
+            getgenv().PlantedCache = {} 
+            Notify("Khởi động", "Đang bật Radar quét tìm vườn của sếp trên toàn Map...", 4)
+            
+            local connection
+            connection = LocalPlayer.PlayerGui.DescendantAdded:Connect(function(ui)
+                if not getgenv().TestAutoPlant then 
+                    if connection then connection:Disconnect() end
+                    return 
+                end
+                
+                if ui:IsA("TextLabel") or ui:IsA("TextBox") then
+                    task.spawn(function()
+                        task.wait(0.1) 
+                        if ui.Text and string.find(string.lower(ui.Text), "300 plants") then
+                            getgenv().TestAutoPlant = false
+                            Notify("⛔ DỪNG KHẨN CẤP", "Vườn đã Full 300 cây! Auto đã tự tắt để chống kẹt.", 5)
+                            if connection then connection:Disconnect() end
+                        end
+                    end)
+                end
+            end)
+
+            task.spawn(function()
+                while getgenv().TestAutoPlant do
+                    local char = LocalPlayer.Character
+                    local root = char and char:FindFirstChild("HumanoidRootPart")
+                    local hum = char and char:FindFirstChild("Humanoid")
+                    if not root or not hum then 
+                        task.wait(1)
+                        continue 
+                    end
+
+                    local myPlot = nil
+                    local dirtPartTarget = nil
+                    
+                    local plotsFolder = Workspace:FindFirstChild("Plots")
+                    if plotsFolder then
+                        for _, plot in pairs(plotsFolder:GetChildren()) do
+                            local pArea = plot:FindFirstChild("PlantableArea")
+                            if pArea then
+                                local isMyLand = false
+                                if string.find(string.lower(plot.Name), string.lower(LocalPlayer.Name)) then 
+                                    isMyLand = true 
+                                end
+                                
+                                if not isMyLand then
+                                    for _, obj in pairs(plot:GetDescendants()) do
+                                        if obj:IsA("ObjectValue") and obj.Value == LocalPlayer then 
+                                            isMyLand = true
+                                            break 
+                                        end
+                                        if obj:IsA("StringValue") and (obj.Value == LocalPlayer.Name or obj.Value == LocalPlayer.DisplayName) then 
+                                            isMyLand = true
+                                            break 
+                                        end
+                                        if obj:IsA("TextLabel") and obj.Text ~= "" and (string.find(string.lower(obj.Text), string.lower(LocalPlayer.Name)) or string.find(string.lower(obj.Text), string.lower(LocalPlayer.DisplayName))) then 
+                                            isMyLand = true
+                                            break 
+                                        end
+                                    end
+                                end
+
+                                if isMyLand then
+                                    local dirt = pArea:FindFirstChildOfClass("BasePart") or pArea:FindFirstChildOfClass("Part")
+                                    if dirt then
+                                        myPlot = plot
+                                        dirtPartTarget = dirt
+                                        break
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    if not myPlot or not dirtPartTarget then
+                        Notify("Lỗi Vườn", "Không tìm thấy Sổ Đỏ của sếp trên máy chủ này!", 4)
+                        task.wait(3)
+                        continue
+                    end
+
+                    local distToGarden = (root.Position - dirtPartTarget.Position).Magnitude
+                    if distToGarden > 50 then
+                        Notify("Định Vị", "Sếp đang ở xa, tiến hành dịch chuyển về vườn...", 3)
+                        root.Velocity = Vector3.zero
+                        root.CFrame = CFrame.new(dirtPartTarget.Position + Vector3.new(0, 10, 0))
+                        task.wait(0.8) 
+                    end
+
+                    local plantedCount = 0
+                    local outOfSeeds = false
+                    local centerPos = dirtPartTarget.Position
+                    local scanRadius = 40 
+                    
+                    for i = -scanRadius, scanRadius, PlantGridSpacing do
+                        if not getgenv().TestAutoPlant or outOfSeeds then break end
+                        
+                        for j = -scanRadius, scanRadius, PlantGridSpacing do
+                            if not getgenv().TestAutoPlant or outOfSeeds then break end
+                            
+                            local x, z
+                            if CayHuongDoc then 
+                                x = i
+                                z = j 
+                            else 
+                                x = j
+                                z = i 
+                            end
+                            
+                            local gridKey = tostring(math.floor(centerPos.X + x)) .. "_" .. tostring(math.floor(centerPos.Z + z))
+                            
+                            if not getgenv().PlantedCache[gridKey] then
+                                local rayOrigin = Vector3.new(centerPos.X + x, centerPos.Y + 50, centerPos.Z + z)
+                                local rayDirection = Vector3.new(0, -100, 0) 
+                                
+                                local rayParams = RaycastParams.new()
+                                rayParams.FilterDescendantsInstances = {char} 
+                                rayParams.FilterType = Enum.RaycastFilterType.Exclude
+                                
+                                local result = Workspace:Raycast(rayOrigin, rayDirection, rayParams)
+                                
+                                if result and result.Instance.Name == "Part" and result.Instance.Parent.Name == "PlantableArea" then
+                                    local targetPos = result.Position
+                                    
+                                    local backpack = LocalPlayer:FindFirstChild("Backpack")
+                                    local seedTool = nil
+                                    local activeSeedName = nil
+                                    
+                                    for _, checkSeed in ipairs(ShortSeedsList) do
+                                        if PlantSelectedSeeds[checkSeed] then
+                                            local targetCrop = string.lower(checkSeed) 
+                                            local function isValidSeed(tool)
+                                                if not tool:IsA("Tool") then return false end
+                                                local lowerName = string.lower(tool.Name)
+                                                if string.find(lowerName, targetCrop) and string.find(lowerName, "seed") then return true end
+                                                return false
+                                            end
+                                            
+                                            for _, t in pairs(char:GetChildren()) do 
+                                                if isValidSeed(t) then seedTool = t; break end 
+                                            end
+                                            if not seedTool and backpack then
+                                                for _, t in pairs(backpack:GetChildren()) do 
+                                                    if isValidSeed(t) then seedTool = t; break end 
+                                                end
+                                            end
+                                            
+                                            if seedTool then 
+                                                activeSeedName = checkSeed
+                                                break 
+                                            end
+                                        end
+                                    end
+                                    
+                                    if not seedTool or not activeSeedName then
+                                        outOfSeeds = true
+                                        break
+                                    end
+
+                                    if seedTool.Parent ~= char then
+                                        hum:EquipTool(seedTool)
+                                        task.wait(0.1) 
+                                    end
+                                    
+                                    root.Velocity = Vector3.zero
+                                    root.CFrame = CFrame.new(targetPos + Vector3.new(0, 4, 0))
+                                    task.wait(0.15) 
+                                    
+                                    pcall(function()
+                                        ReplicatedStorage.RemoteEvents.PlantSeed:InvokeServer(activeSeedName, targetPos)
+                                    end)
+
+                                    getgenv().PlantedCache[gridKey] = true
+                                    plantedCount = plantedCount + 1
+                                    task.wait(0.1) 
+                                end
+                            end
+                        end
+                    end
+                    
+                    if not getgenv().TestAutoPlant then
+                        break 
+                    elseif outOfSeeds then
+                        Notify("Hết Hạt Giống", "Đã trồng xong " .. plantedCount .. " hạt. Sạch bách kho đồ rồi sếp!", 5)
+                        task.wait(5) 
+                    else
+                        task.wait(0.5)
+                    end
+                end
+                
+                if connection then connection:Disconnect() end
+            end)
+        else
+            Notify("Đã Tắt", "Dừng Auto Gieo Hạt.", 3)
+        end
+    end
+})
+
+-- ================= [ MỤC 5: NÚT VỆ TINH & TÙY CHỈNH ] =================
+Tabs.Settings:Button({ 
+    Title = "Mở khóa Camera", 
+    Callback = function() 
+        Workspace.CurrentCamera.CameraType = Enum.CameraType.Custom 
+    end 
+})
+Tabs.Settings:Button({ 
+    Title = "Tắt Menu (Unload UI)", 
+    Callback = function() 
+        Window:Destroy() 
+    end 
+})
+
+getgenv().EnableQuickTeleport = true 
+
+Tabs.Settings:Toggle({
+    Title = "🚀 BẬT 2 NÚT DỊCH CHUYỂN (GEARS & QUEST)",
+    Desc = "Hiển thị 2 nút bay siêu tốc 2 bên cạnh màn hình.",
+    Value = true, 
+    Callback = function(state)
+        getgenv().EnableQuickTeleport = state
+        if state then
+            Notify("Vệ Tinh Kích Hoạt", "2 nút dịch chuyển đã xuất hiện trên màn hình!", 3)
+        else
+            Notify("Vệ Tinh Tắt", "Đã ẩn 2 nút dịch chuyển.", 3)
+        end
+    end
+})
+
+local HIEN_THI_VUNG_BAM = false
+local RONG_GEARS = 350
+local CAO_GEARS = 150
+local TRUOT_PHAI_GEARS = 100 
+local LECH_Y_GEARS = 2.5     
+local HITBOX_RONG_GEARS = 130  
+local HITBOX_CAO_GEARS = 45    
+
+local RONG_QUEST = 350       
+local CAO_QUEST = 150        
+local TRUOT_TRAI_QUEST = 100 
+local LECH_Y_QUEST = 5     
+local HITBOX_RONG_QUEST = 130  
+local HITBOX_CAO_QUEST = 45    
+
+local pGui = LocalPlayer:WaitForChild("PlayerGui")
+if CoreGui:FindFirstChild("AmethystDualButtons") then CoreGui.AmethystDualButtons:Destroy() end
+if pGui:FindFirstChild("AmethystDualButtons") then pGui.AmethystDualButtons:Destroy() end
+
+local function TeleportTo(posStr, lookStr, notiTitle, notiText, iconId)
+    local char = LocalPlayer.Character
+    local root = char and char:FindFirstChild("HumanoidRootPart")
+    if not root then return end
+    
+    root.Velocity = Vector3.zero
+    root.RotVelocity = Vector3.zero
+    local hum = char:FindFirstChild("Humanoid")
+    if hum then hum.Sit = false; hum.PlatformStand = false end
+    
+    root.CFrame = CFrame.lookAt(posStr, Vector3.new(lookStr.X, posStr.Y, lookStr.Z))
+    pcall(function()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = notiTitle,
+            Text = notiText,
+            Duration = 2,
+            Icon = "rbxassetid://" .. iconId
+        })
+    end)
+end
+
+local function GoToGears()
+    local myPos = Vector3.new(210.5, 204.0, 608.9)
+    local mollyPos = Vector3.new(214.1, 203.3, 609.0)
+    TeleportTo(myPos, mollyPos, "Thành Công", "Đã bay đến Shop Dụng Cụ!", "122244956223282")
+end
+
+local function GoToQuest()
+    local myPos = Vector3.new(113.1, 204.0, 635.0)
+    local boardPos = Vector3.new(104.7, 201.0, 635.2)
+    TeleportTo(myPos, boardPos, "Thành Công", "Đã bay đến Bảng Nhiệm Vụ!", "100757552873965")
+end
+
+local function CreateButton(parent, name, imageId, anchorPoint, actionFunc, baseWidth, baseHeight, hitboxWidth, hitboxHeight)
+    local Container = Instance.new("Frame")
+    Container.Name = name .. "_Container"
+    Container.BackgroundTransparency = 1
+    Container.Size = UDim2.new(0, baseWidth, 0, baseHeight)
+    Container.AnchorPoint = anchorPoint 
+    Container.Parent = parent
+
+    local VisualImg = Instance.new("ImageLabel")
+    VisualImg.Name = "Visual"
+    VisualImg.BackgroundTransparency = 1 
+    VisualImg.Image = "rbxassetid://" .. imageId
+    VisualImg.ScaleType = Enum.ScaleType.Fit 
+    VisualImg.Size = UDim2.new(1, 0, 1, 0)
+    VisualImg.AnchorPoint = Vector2.new(0.5, 0.5)
+    VisualImg.Position = UDim2.new(0.5, 0, 0.5, 0)
+    VisualImg.Parent = Container
+
+    local Hitbox = Instance.new("TextButton")
+    Hitbox.Name = "Hitbox"
+    Hitbox.Text = ""
+    Hitbox.Size = UDim2.new(0, hitboxWidth, 0, hitboxHeight)
+    Hitbox.AnchorPoint = Vector2.new(0.5, 0.5)
+    Hitbox.Position = UDim2.new(0.5, 0, 0.5, 0)
+    
+    if HIEN_THI_VUNG_BAM then
+        Hitbox.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        Hitbox.BackgroundTransparency = 0.5
+    else
+        Hitbox.BackgroundTransparency = 1
+    end
+    Hitbox.Parent = Container
+    
+    local isPressed = false
+    
+    Hitbox.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            isPressed = true
+            TweenService:Create(VisualImg, TweenInfo.new(0.1), {Size = UDim2.new(1, -15, 1, -15)}):Play()
+        end
+    end)
+    
+    Hitbox.MouseLeave:Connect(function()
+        if isPressed then
+            isPressed = false
+            TweenService:Create(VisualImg, TweenInfo.new(0.15, Enum.EasingStyle.Bounce), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+        end
+    end)
+    
+    Hitbox.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            if isPressed then
+                TweenService:Create(VisualImg, TweenInfo.new(0.15, Enum.EasingStyle.Bounce), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+                isPressed = false
+            end
+        end
+    end)
+    
+    Hitbox.Activated:Connect(function()
+        actionFunc()
+    end)
+    
+    return Container
+end
+
+task.spawn(function()
+    local seedButton = nil
+    local sellButton = nil
+    
+    while not seedButton or not sellButton do
+        for _, obj in pairs(pGui:GetDescendants()) do
+            if obj:IsA("ImageButton") or obj:IsA("TextButton") then
+                local objName = string.lower(obj.Name)
+                if string.find(objName, "seed") and obj.AbsoluteSize.X > 50 then
+                    seedButton = obj
+                elseif string.find(objName, "sell") and obj.AbsoluteSize.X > 50 then
+                    sellButton = obj
+                end
+            end
+        end
+        task.wait(1)
+    end
+
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "AmethystDualButtons"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Parent = pGui
+    
+    local GearBtn = CreateButton(ScreenGui, "GearContainer", "122244956223282", Vector2.new(1, 0.5), GoToGears, RONG_GEARS, CAO_GEARS, HITBOX_RONG_GEARS, HITBOX_CAO_GEARS)
+    local QuestBtn = CreateButton(ScreenGui, "QuestContainer", "100757552873965", Vector2.new(0, 0.5), GoToQuest, RONG_QUEST, CAO_QUEST, HITBOX_RONG_QUEST, HITBOX_CAO_QUEST)
+    
+    local isRobloxMenuOpen = false
+    GuiService.MenuOpened:Connect(function() isRobloxMenuOpen = true end)
+    GuiService.MenuClosed:Connect(function() isRobloxMenuOpen = false end)
+    
+    RunService.RenderStepped:Connect(function()
+        if not getgenv().EnableQuickTeleport or isRobloxMenuOpen or not seedButton.Visible or not seedButton.Parent then
+            GearBtn.Visible = false
+            QuestBtn.Visible = false
+            return
+        end
+        
+        if seedButton.AbsoluteSize.X > 0 then
+            GearBtn.Visible = true
+            GearBtn.Size = UDim2.new(0, RONG_GEARS, 0, CAO_GEARS)
+            local seedAbsPos = seedButton.AbsolutePosition
+            local seedAbsSize = seedButton.AbsoluteSize
+            local targetX_Gears = seedAbsPos.X - 5 + TRUOT_PHAI_GEARS
+            local targetY_Gears = seedAbsPos.Y + (seedAbsSize.Y / 2) + LECH_Y_GEARS
+            GearBtn.Position = UDim2.new(0, targetX_Gears, 0, targetY_Gears)
+        else
+            GearBtn.Visible = false
+        end
+        
+        if sellButton.AbsoluteSize.X > 0 then
+            QuestBtn.Visible = true
+            QuestBtn.Size = UDim2.new(0, RONG_QUEST, 0, CAO_QUEST)
+            local sellAbsPos = sellButton.AbsolutePosition
+            local sellAbsSize = sellButton.AbsoluteSize
+            local targetX_Quest = sellAbsPos.X + sellAbsSize.X + 5 - TRUOT_TRAI_QUEST
+            local targetY_Quest = sellAbsPos.Y + (sellAbsSize.Y / 2) + LECH_Y_QUEST
+            QuestBtn.Position = UDim2.new(0, targetX_Quest, 0, targetY_Quest)
+        else
+            QuestBtn.Visible = false
+        end
+    end)
+end)
+
+Notify("HỆ THỐNG", "Garden Horizons Hub Loaded! Vệ Tinh Đã Bật!", 5)
