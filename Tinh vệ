@@ -535,13 +535,14 @@ local ItemPrices = {
     ["Mushroom"] = 1500, ["Beetroot"] = 2500, ["Tomato"] = 4000, ["Apple"] = 7000,
     ["Rose"] = 10000, ["Wheat"] = 12000, ["Banana"] = 30000, ["Plum"] = 60000,
     ["Potato"] = 100000, ["Cabbage"] = 150000, ["Cherry"] = 1000000,
+    ["Bamboo"] = 175000, ["Mango"] = 10000000,
     ["Watering Can"] = 5000, ["Basic Sprinkler"] = 15000, ["Harvest Bell"] = 35000,
-    ["Turbo Sprinkler"] = 60000, ["Favorite Tool"] = 80000, ["Super Sprinkler"] = 100000
+    ["Turbo Sprinkler"] = 60000, ["Favorite Tool"] = 80000, ["Super Sprinkler"] = 100000, ["Trowel"] = 250000
 }
 
 local ShortSeedsList = {
     "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
-    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry"
+    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry", "Bamboo", "Mango"
 }
 
 -- ==================================================
@@ -621,6 +622,12 @@ local function AI_NormalizeName(name)
     end
     if string.find(n, "plums") then
         return "Plum"
+    end
+    if string.find(n, "bamboos") then
+        return "Bamboo"
+    end
+    if string.find(n, "mangoes") or string.find(n, "mangos") then
+        return "Mango"
     end
     if string.find(n, "crops") or string.find(n, "plants") then
         return "ANY"
@@ -1977,8 +1984,7 @@ TabShop:Toggle({
 
 local GearList = {
     "Watering Can", "Basic Sprinkler", "Harvest Bell", "Turbo Sprinkler", 
-    "Favorite Tool", "Super Sprinkler", "Shovel", "Iron Shovel", 
-    "Golden Shovel", "Rake", "Basket"
+    "Favorite Tool", "Super Sprinkler", "Trowel"
 }
 local SelectedGears = {["Watering Can"] = true} 
 getgenv().AutoBuyGearToggle = false
