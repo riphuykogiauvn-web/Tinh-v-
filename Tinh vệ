@@ -1,8 +1,7 @@
 -- ==================================================
 -- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + SMART AI QUEST)
--- Cập nhật: Chuẩn hóa Giao Diện, Loại bỏ mô tả dưới nút, Không rút gọn code.
+-- Cập nhật: Giao diện chuẩn mực, mô tả tập trung, tên chức năng tinh gọn.
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -22,6 +21,9 @@ if CoreGui:FindFirstChild("GardenImageLoading") then
     CoreGui.GardenImageLoading:Destroy()
 end
 
+-- ==================================================
+-- 1. LOADING SCREEN GỐC
+-- ==================================================
 local LoadGui = Instance.new("ScreenGui")
 LoadGui.Name = "GardenImageLoading"
 LoadGui.DisplayOrder = 10000 
@@ -328,7 +330,7 @@ task.wait(16.5)
 
 
 -- ==================================================
--- PROJECT: GARDEN HORIZONS - WIND UI
+-- 2. KHỞI TẠO WIND UI VÀ MENU CHÍNH
 -- ==================================================
 
 if not game:IsLoaded() then
@@ -363,7 +365,7 @@ local Window = WindUI:CreateWindow({
 })
 
 local Tabs = {
-    QuestAI = Window:Tab({ Title = "🤖 Auto Quest AI", Icon = "bot" }),
+    QuestAI = Window:Tab({ Title = "Auto Quest", Icon = "bot" }),
     Farm = Window:Tab({ Title = "Auto Farm", Icon = "sword" }),
     Shop = Window:Tab({ Title = "Shop Tự Động", Icon = "shopping-cart" }),
     Plant = Window:Tab({ Title = "Khu Vực Cày", Icon = "flask" }),
@@ -625,24 +627,24 @@ local function ForceClick(element)
 end
 
 -- ==================================================
--- 4. TAB 1: 🤖 AUTO QUEST AI 
+-- 4. TAB 1: AUTO QUEST
 -- ==================================================
 getgenv().SmartAIToggle = false
 getgenv().CurrentQuestTab = "Daily"
 
 Tabs.QuestAI:Paragraph({
-    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
-    Desc = "Trí tuệ nhân tạo sẽ tự động vét sạch bảng nhiệm vụ Hàng Ngày, sau đó tự nhảy sang làm Hàng Tuần. Quá trình bao gồm: tự động mua hạt nếu thiếu, tự trồng bù cây, và tự động thu hoạch/bán để hoàn thành nhiệm vụ."
+    Title = "GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Hệ thống tự động làm nhiệm vụ Hàng Ngày và Hàng Tuần. Tự động mua hạt giống, gieo hạt, thu hoạch và tưới nước để hoàn thành nhiệm vụ."
 })
 
 local QuestStatusDisplay = Tabs.QuestAI:Paragraph({
-    Title = "📊 TRẠNG THÁI AI",
+    Title = "TRẠNG THÁI HỆ THỐNG",
     Desc = "Đang chờ lệnh từ sếp..."
 })
 
 local function AI_UpdateStatus(text)
     QuestStatusDisplay:Set({
-        Title = "📊 TRẠNG THÁI AI",
+        Title = "TRẠNG THÁI HỆ THỐNG",
         Desc = text
     })
 end
@@ -1126,7 +1128,7 @@ local function AI_ExecutePlant(targetName, qNameText)
                 task.wait(1)
             end
         else
-            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Balo không có hạt " .. targetName .. ". Đang Sniper rình mua hạt...")
+            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Balo không có hạt " .. targetName .. ". Đang chờ mua hạt...")
             local bought = AI_GoBuySeed_Strict(targetName)
             if bought then
                 task.wait(1)
@@ -1192,7 +1194,7 @@ local function AI_ExecutePlant(targetName, qNameText)
         return false
     end
 
-    AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n🌱 Đang dùng Vệ Tinh gieo hạt " .. realSeedNameToPlant .. "...")
+    AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n🌱 Đang tự động gieo hạt " .. realSeedNameToPlant .. "...")
     
     local centerPos = dirtPartTarget.Position
     local scanRadius = 40 
@@ -1440,14 +1442,14 @@ local function AI_ExecuteWater(targetName)
 end
 
 Tabs.QuestAI:Toggle({
-    Title = "BẬT AUTO QUEST AI",
+    Title = "BẬT AUTO QUEST",
     Value = false,
     Callback = function(state)
         getgenv().SmartAIToggle = state
         getgenv().CurrentQuestTab = "Daily"
         
         if state then
-            AI_UpdateStatus("🚀 Đã kích hoạt trí tuệ nhân tạo! Đang phân tích...")
+            AI_UpdateStatus("🚀 Hệ thống đã kích hoạt! Đang phân tích...")
             
             task.spawn(function()
                 while getgenv().SmartAIToggle do
@@ -1467,7 +1469,7 @@ Tabs.QuestAI:Toggle({
                                     
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
-                                        AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang click đớp quà...")
+                                        AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang click nhận quà...")
                                         AI_ForceClick(claimBtn)
                                         foundAction = true
                                         task.wait(1.5)
@@ -1516,7 +1518,7 @@ Tabs.QuestAI:Toggle({
                                                     foundAction = true
                                                     task.wait(0.2) 
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn sạch bóng " .. questData.Name .. "! Đang trồng bù...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Không có " .. questData.Name .. "! Đang trồng bù...")
                                                     local planted = AI_ExecutePlant(questData.Name, questRawText)
                                                     if planted then
                                                         foundAction = true
@@ -1569,7 +1571,7 @@ Tabs.QuestAI:Toggle({
                                                 end
 
                                             elseif questData.Type == "Money" then
-                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💵 Lâm Tặc MODE: Vặt sạch cây đem bán lấy tiền!")
+                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💵 Tự động thu hoạch trái cây đem bán lấy tiền!")
                                                 local status = AI_ExecuteHarvest("ANY")
                                                 
                                                 if status == "Harvested" then 
@@ -1577,7 +1579,7 @@ Tabs.QuestAI:Toggle({
                                                     AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang bán trái cây...")
                                                     AI_SellAllCrops_Strict()
                                                 elseif status == "Waiting" or status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Vườn hết cây chín cày tiền rồi! Đang đứng rình...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Vườn hết cây chín cày tiền rồi! Đang chờ...")
                                                 end
                                             end
                                         end
@@ -1590,14 +1592,14 @@ Tabs.QuestAI:Toggle({
                             end 
 
                             if getgenv().CurrentQuestTab == "Daily" then
-                                AI_UpdateStatus("🔄 Đã vét sạch Tab Daily! Đang nhảy sang Tab Weekly...")
+                                AI_UpdateStatus("🔄 Đã hoàn thành mục Hàng Ngày! Đang chuyển sang Hàng Tuần...")
                                 local switched = AI_SwitchQuestTab("weekly")
                                 if switched then
                                     getgenv().CurrentQuestTab = "Weekly"
                                     task.wait(1.5)
                                 end
                             else
-                                AI_UpdateStatus("🔄 Đã vét sạch Tab Weekly! Đang nhảy về check Tab Daily...")
+                                AI_UpdateStatus("🔄 Đã hoàn thành mục Hàng Tuần! Kiểm tra lại Hàng Ngày...")
                                 local switched = AI_SwitchQuestTab("daily")
                                 if switched then
                                     getgenv().CurrentQuestTab = "Daily"
@@ -1612,7 +1614,7 @@ Tabs.QuestAI:Toggle({
                 end
             end)
         else
-            AI_UpdateStatus("⛔ AI đã bị tắt.")
+            AI_UpdateStatus("⛔ Hệ thống đã tắt.")
             SafeUnfreeze()
         end
     end
@@ -1624,8 +1626,8 @@ Tabs.QuestAI:Toggle({
 local TabFarm = Tabs.Farm
 
 TabFarm:Paragraph({
-    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
-    Desc = "Hệ thống tự động thu hoạch (tàng hình) 1 chạm không sử dụng chuột ảo để chống liệt phím. Tính năng chỉ thu hoạch và đi bán, vui lòng không bật chung với Auto Quest AI để tránh xung đột."
+    Title = "GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Tự động thu hoạch và bán nông sản. Phương pháp an toàn không dùng chuột ảo giúp chống liệt phím. Không dùng chung với Auto Quest."
 })
 
 getgenv().EnableFarmTest = false
@@ -1649,7 +1651,7 @@ TabFarm:Toggle({
     Callback = function(state)
         getgenv().EnableFarmTest = state
         if state then
-            Notify("Khởi Động", "Công nghệ tàng hình kích hoạt...", 3)
+            Notify("Khởi Động", "Hệ thống tự động farm kích hoạt...", 3)
             task.spawn(function()
                 task.wait(1) 
                 local HarvestCount = 0 
@@ -1773,7 +1775,7 @@ TabFarm:Toggle({
                             
                             SafeUnfreeze()
                             
-                            Notify("Giao Dịch Xong", "Bán thành công! Sẽ cày tiếp sau 2 giây...", 3)
+                            Notify("Hệ Thống", "Đã bán thành công! Tiếp tục cày...", 3)
                             HarvestCount = 0
                             task.wait(2)
                         end
@@ -1782,14 +1784,14 @@ TabFarm:Toggle({
                 end
             end)
         else
-            Notify("Đã Tắt", "Auto Farm đã ngắt.", 3)
+            Notify("Hệ Thống", "Auto Farm đã tắt.", 3)
             SafeUnfreeze()
         end
     end
 })
 
 TabFarm:Button({
-    Title = "Bán Nông Sản",
+    Title = "Bán Nông Sản (Thủ Công)",
     Callback = function()
         local char = LocalPlayer.Character
         if not char then return end
@@ -1842,9 +1844,9 @@ TabFarm:Button({
             Workspace.CurrentCamera.CameraType = oldCamType
             Workspace.CurrentCamera.CFrame = oldCamCF
 
-            Notify("Bán Thủ Công", "Đã vét sạch kho đồ đổi lấy tiền mặt!", 3)
+            Notify("Hệ Thống", "Đã bán hết nông sản trong kho!", 3)
         else
-            Notify("Lỗi Hệ Thống", "Không tìm thấy NPC thương gia Steve!", 3)
+            Notify("Hệ Thống", "Không tìm thấy người mua!", 3)
         end
     end
 })
@@ -1855,8 +1857,8 @@ TabFarm:Button({
 local TabShop = Tabs.Shop
 
 TabShop:Paragraph({
-    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
-    Desc = "Hệ thống tự động soi Shop từ xa thông qua Remote. Chỉ bay tới mua hàng khi đã check đủ điều kiện: Shop có stock và ví đủ tiền. Tự động đứng rình (Sniper) nếu mục tiêu hết hàng."
+    Title = "GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Kiểm tra cửa hàng từ xa. Tự động mua vật phẩm khi có hàng và ví đủ tiền. Tự động chờ khi cửa hàng hết hàng."
 })
 
 local SelectedSeeds = {["Carrot"] = true} 
@@ -1885,13 +1887,13 @@ TabShop:Dropdown({
 })
 
 TabShop:Toggle({
-    Title = "AUTO RÌNH MỒI HẠT GIỐNG",
+    Title = "AUTO MUA HẠT GIỐNG",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyToggle = state
         
         if state then
-            Notify("Bật Sniper", "Hệ thống đang soi Shop từ xa!", 3)
+            Notify("Hệ Thống", "Đang quét Shop từ xa!", 3)
             local wasEmpty = false 
             
             task.spawn(function()
@@ -1953,7 +1955,6 @@ TabShop:Toggle({
                         IsBuying = true
                         wasEmpty = false
                         detectedNames = detectedNames:sub(1, -3)
-                        Notify("Tiến hành múc", "Chỉ mua ĐÚNG: " .. detectedNames, 3)
                         
                         local char = LocalPlayer.Character
                         local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -2048,7 +2049,6 @@ TabShop:Toggle({
                             end
                             
                             task.wait(1.5) 
-                            Notify("Giao Dịch Xong", "Đã mua đúng số lượng sếp đủ tiền. Đứng im chờ cày thêm!", 4)
                             killMenu = false
                         end
                         
@@ -2057,12 +2057,10 @@ TabShop:Toggle({
                     else
                         if hasStockButNoMoney then
                             if not wasEmpty then
-                                Notify("Cháy Túi", "Shop có Hàng nhưng sếp méo đủ tiền. Đứng im!", 2)
                                 wasEmpty = true
                             end
                         else
                             if not wasEmpty then
-                                Notify("Đang rình...", "Mục tiêu hết sạch hàng, chờ thời...", 2)
                                 wasEmpty = true
                             end
                         end
@@ -2071,7 +2069,7 @@ TabShop:Toggle({
                 end
             end)
         else
-            Notify("Sniper Mode", "Đã TẮT rình mồi.", 2)
+            Notify("Hệ Thống", "Đã tắt Auto Mua Hạt.", 2)
         end
     end,
 })
@@ -2105,12 +2103,12 @@ TabShop:Dropdown({
 })
 
 TabShop:Toggle({
-    Title = "AUTO RÌNH DỤNG CỤ",
+    Title = "AUTO MUA DỤNG CỤ",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyGearToggle = state
         if state then
-            Notify("Bật Sniper Gear", "Hệ thống đang soi Shop Dụng Cụ...", 3)
+            Notify("Hệ Thống", "Đang quét Shop Dụng Cụ...", 3)
             task.spawn(function()
                 while getgenv().AutoBuyGearToggle do
                     local hasTarget = false
@@ -2258,7 +2256,7 @@ TabShop:Toggle({
                 end
             end)
         else
-            Notify("Sniper Gear", "Đã TẮT rình Gear.", 2)
+            Notify("Hệ Thống", "Đã tắt Auto Mua Dụng Cụ.", 2)
         end
     end,
 })
@@ -2269,8 +2267,8 @@ TabShop:Toggle({
 local TabPlant = Tabs.Plant
 
 TabPlant:Paragraph({
-    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
-    Desc = "Hệ thống tự động gieo hạt xuyên lục địa sử dụng sóng Radar (Raycast) bắn từ trên trời xuống để dò ô đất trống, hỗ trợ khi sếp muốn tự cày bằng tay thay vì dùng AI."
+    Title = "GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Tự động gieo hạt trên toàn bộ khu vườn của bạn. Hỗ trợ cho việc tự cày cuốc thủ công."
 })
 
 local PlantGridSpacing = 3.5 
@@ -2281,7 +2279,7 @@ getgenv().TestAutoPlant = false
 getgenv().PlantedCache = {} 
 
 TabPlant:Dropdown({
-    Title = "Chọn Hạt Mọc Tay",
+    Title = "Chọn Hạt Cần Gieo",
     Multi = true,
     Values = ShortSeedsList, 
     Default = {"Carrot"},
@@ -2322,7 +2320,7 @@ TabPlant:Toggle({
         getgenv().TestAutoPlant = state
         if state then
             getgenv().PlantedCache = {} 
-            Notify("Khởi động", "Radar quét tìm vườn...", 4)
+            Notify("Hệ Thống", "Bắt đầu quét tìm vườn...", 4)
             task.spawn(function()
                 while getgenv().TestAutoPlant do
                     local char = LocalPlayer.Character
@@ -2478,7 +2476,7 @@ TabPlant:Toggle({
                     if not getgenv().TestAutoPlant then
                         break 
                     elseif outOfSeeds then
-                        Notify("Hết Hạt Giống", "Sạch bách kho đồ rồi sếp!", 5)
+                        Notify("Hệ Thống", "Đã hết loại hạt giống yêu cầu!", 5)
                         task.wait(5) 
                     else
                         task.wait(0.5)
@@ -2486,7 +2484,7 @@ TabPlant:Toggle({
                 end
             end)
         else
-            Notify("Đã Tắt", "Dừng Auto Gieo Hạt.", 3)
+            Notify("Hệ Thống", "Đã tắt Auto Gieo Hạt.", 3)
         end
     end
 })
@@ -2497,12 +2495,12 @@ TabPlant:Toggle({
 local TabSettings = Tabs.Settings
 
 TabSettings:Paragraph({
-    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
-    Desc = "Tùy chỉnh góc nhìn, tắt menu hoặc hiển thị 2 Nút Vệ Tinh (Quick Teleport) bám theo màn hình để bay siêu tốc đến Shop Dụng Cụ và Bảng Nhiệm Vụ."
+    Title = "GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Các cài đặt hệ thống và phím tắt dịch chuyển nhanh trên màn hình."
 })
 
 TabSettings:Button({
-    Title = "Mở khóa Camera",
+    Title = "Mở Khóa Camera",
     Callback = function()
         Workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
     end
@@ -2517,7 +2515,7 @@ TabSettings:Button({
 
 getgenv().EnableQuickTeleport = true 
 TabSettings:Toggle({
-    Title = "BẬT 2 NÚT DỊCH CHUYỂN",
+    Title = "BẬT NÚT DỊCH CHUYỂN NHANH",
     Value = true,
     Callback = function(state)
         getgenv().EnableQuickTeleport = state
@@ -2704,4 +2702,4 @@ task.spawn(function()
     end)
 end)
 
-Notify("HỆ THỐNG", "Amethyst x Garden Horizons Đã Kích Hoạt!", 5)
+Notify("Hệ Thống", "AMETHYST X GARDEN HORIZONS Đã Kích Hoạt!", 5)
