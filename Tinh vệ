@@ -2,7 +2,7 @@
 -- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
 -- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + AUTO QUEST)
--- Cập nhật: Fix lỗi hiển thị trạng thái Quest, Dọn dẹp từ ngữ rối rắm, Không rút gọn code.
+-- Cập nhật: FIX LỖI KHÔNG NHẬN NHIỆM VỤ, THÊM TRẠNG THÁI FARM, CẤM RÚT GỌN.
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -628,7 +628,7 @@ local function ForceClick(element)
 end
 
 -- ==================================================
--- 4. TAB 1: AUTO QUEST
+-- 4. TAB 1: AUTO QUEST (ĐÃ SỬA LỖI ĐỨNG YÊN)
 -- ==================================================
 getgenv().SmartAIToggle = false
 getgenv().CurrentQuestTab = "Daily"
@@ -816,7 +816,6 @@ local function AI_IsQuestCompletedByText(slot)
     return false
 end
 
--- [NÂNG CẤP BỘ LỌC TÌM TÊN NHIỆM VỤ AN TOÀN]
 local function AI_GetQuestNameText(slot)
     local direct = slot:FindFirstChild("QuestName")
     if direct and direct:IsA("TextLabel") then
@@ -1499,6 +1498,7 @@ Tabs.QuestAI:Toggle({
                             local hasActiveQuests = false
                             local statusOverwritten = false
                             
+                            -- BƯỚC 1: ĐỚP QUÀ TRƯỚC
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) then
                                     if AI_IsQuestClaimed(slot) then
@@ -1521,6 +1521,30 @@ Tabs.QuestAI:Toggle({
                                 continue
                             end
 
+                            -- BƯỚC 2: [FIX LỖI CHÍ MẠNG] - TÌM NÚT REFRESH ĐỂ NHẬN NHIỆM VỤ MỚI
+                            for _, slot in pairs(scrollFrame:GetChildren()) do
+                                if tonumber(slot.Name) then
+                                    local refreshBtn = AI_GetActionButton(slot, "refresh")
+                                    if not refreshBtn then
+                                        refreshBtn = AI_GetActionButton(slot, "new")
+                                    end
+                                    
+                                    if refreshBtn then
+                                        AI_UpdateStatus("🔄 Phát hiện ô trống! Đang tự động nhận nhiệm vụ mới...")
+                                        AI_ForceClick(refreshBtn)
+                                        actionExecuted = true
+                                        statusOverwritten = true
+                                        task.wait(1.5)
+                                        break 
+                                    end
+                                end
+                            end
+
+                            if actionExecuted then
+                                continue
+                            end
+
+                            -- BƯỚC 3: THỰC THI NHIỆM VỤ ĐANG CÓ
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) and not actionExecuted then
                                     if AI_IsQuestClaimed(slot) then
@@ -1537,8 +1561,8 @@ Tabs.QuestAI:Toggle({
                                         end
 
                                         hasActiveQuests = true
-
                                         local questData = AI_ParseQuestText(questRawText)
+                                        
                                         if questData then
                                             statusOverwritten = true
                                             
@@ -1569,7 +1593,7 @@ Tabs.QuestAI:Toggle({
                                                         task.wait(2)
                                                     end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ " .. questData.Name .. " chưa chín. Đang chờ...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Cây " .. questData.Name .. " chưa chín. Đang chờ...")
                                                     actionExecuted = true
                                                     task.wait(1)
                                                 end
@@ -1600,7 +1624,7 @@ Tabs.QuestAI:Toggle({
                                                 local status = AI_ExecuteWater(questData.Name)
                                                 
                                                 if status == "Watered" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tìm " .. questData.Name .. " để tưới...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tưới nước cho " .. questData.Name .. "...")
                                                     actionExecuted = true
                                                     task.wait(0.3)
                                                 elseif status == "NotFound" then
@@ -1613,7 +1637,7 @@ Tabs.QuestAI:Toggle({
                                                         task.wait(2)
                                                     end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 " .. questData.Name .. " hiện không cần tưới nước. Đang chờ...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Cây " .. questData.Name .. " hiện không cần tưới nước. Đang chờ...")
                                                     actionExecuted = true
                                                     task.wait(1)
                                                 end
@@ -1623,14 +1647,14 @@ Tabs.QuestAI:Toggle({
                                                 
                                                 if status == "Harvested" then 
                                                     actionExecuted = true
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang bán trái cây để lấy tiền...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang thu hoạch và đi bán để lấy tiền...")
                                                     AI_SellAllCrops_Strict()
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Đang chờ trái cây chín để cày tiền...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Đang chờ trái cây chín để thu hoạch đem bán...")
                                                     actionExecuted = true
                                                     task.wait(1)
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn đang trống trải! Tự động trồng Cà Rốt để cày tiền...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn trống! Tự động trồng Cà Rốt để cày tiền...")
                                                     local planted = AI_ExecutePlant("Carrot", questRawText)
                                                     if planted then
                                                         actionExecuted = true
@@ -1649,6 +1673,7 @@ Tabs.QuestAI:Toggle({
                                 continue
                             end 
 
+                            -- BƯỚC 4: CHUYỂN TAB (CHỈ KHI KHÔNG CÒN BẤT CỨ NHIỆM VỤ NÀO ĐỂ LÀM HOẶC CHỜ)
                             if not hasActiveQuests then
                                 if getgenv().CurrentQuestTab == "Daily" then
                                     AI_UpdateStatus("🔄 Đã hoàn thành toàn bộ mục Hàng Ngày! Đang chuyển sang Hàng Tuần...")
@@ -1667,7 +1692,7 @@ Tabs.QuestAI:Toggle({
                                 end
                             else
                                 if not statusOverwritten then
-                                    AI_UpdateStatus("🔍 Không có nhiệm vụ nào đang chạy. Đang rình...")
+                                    AI_UpdateStatus("🔍 Đang trong tiến trình làm nhiệm vụ. Xin vui lòng đợi...")
                                 end
                                 task.wait(2)
                             end
@@ -1687,7 +1712,7 @@ Tabs.QuestAI:Toggle({
 })
 
 -- ==================================================
--- 5. TAB 2: AUTO FARM GỐC
+-- 5. TAB 2: AUTO FARM (ĐÃ THÊM BẢNG TRẠNG THÁI TRỰC QUAN)
 -- ==================================================
 local TabFarm = Tabs.Farm
 
@@ -1695,6 +1720,18 @@ TabFarm:Paragraph({
     Title = "GIỚI THIỆU CHỨC NĂNG",
     Desc = "Tự động thu hoạch và bán nông sản. Phương pháp an toàn không dùng chuột ảo giúp chống liệt phím. Không dùng chung với Auto Quest."
 })
+
+local FarmStatusDisplay = TabFarm:Paragraph({
+    Title = "TRẠNG THÁI FARM",
+    Desc = "Đang chờ lệnh từ sếp..."
+})
+
+local function Farm_UpdateStatus(text)
+    FarmStatusDisplay:Set({
+        Title = "TRẠNG THÁI FARM",
+        Desc = text
+    })
+end
 
 getgenv().EnableFarmTest = false
 getgenv().FarmDelay = 0.25 
@@ -1718,6 +1755,7 @@ TabFarm:Toggle({
         getgenv().EnableFarmTest = state
         if state then
             Notify("Khởi Động", "Hệ thống tự động farm kích hoạt...", 3)
+            Farm_UpdateStatus("🚀 Đã bật hệ thống Auto Farm! Đang quét dữ liệu...")
             task.spawn(function()
                 task.wait(1) 
                 local HarvestCount = 0 
@@ -1727,10 +1765,13 @@ TabFarm:Toggle({
                     local char = LocalPlayer.Character
                     local root = char and char:FindFirstChild("HumanoidRootPart")
                     if not root then
+                        Farm_UpdateStatus("⚠️ Không tìm thấy nhân vật, đang chờ đợi...")
                         task.wait(0.5)
                         continue
                     end
 
+                    Farm_UpdateStatus("🔍 Đang quét vườn tìm nông sản đã chín (Đã thu hoạch: " .. HarvestCount .. "/" .. getgenv().SellLimit .. ").")
+                    
                     local FoundCropThisCycle = false 
                     local prompts = Workspace:GetDescendants()
                     
@@ -1754,6 +1795,8 @@ TabFarm:Toggle({
                                    if dist < 999999 then 
                                        FoundCropThisCycle = true
                                        LastFarmPosition = obj.Parent.Position 
+                                       
+                                       Farm_UpdateStatus("🌾 Đang thu hoạch nông sản... (Tổng: " .. HarvestCount + 1 .. ")")
                                        
                                        root.Velocity = Vector3.zero
                                        root.RotVelocity = Vector3.zero
@@ -1788,6 +1831,7 @@ TabFarm:Toggle({
                     SafeUnfreeze()
 
                     if HarvestCount >= getgenv().SellLimit or (HarvestCount > 0 and not FoundCropThisCycle) then
+                        Farm_UpdateStatus("💰 Kho đã đầy hoặc vườn hết cây. Đang đi bán nông sản...")
                         
                         local stevePos = Vector3.new(149.4, 204.0, 672.0)
                         local standPos = stevePos + Vector3.new(0, 3, 0)
@@ -1842,15 +1886,20 @@ TabFarm:Toggle({
                             SafeUnfreeze()
                             
                             Notify("Hệ Thống", "Đã bán thành công! Tiếp tục cày...", 3)
+                            Farm_UpdateStatus("✅ Bán xong! Đang quay lại công việc cày cuốc...")
                             HarvestCount = 0
                             task.wait(2)
                         end
+                    elseif not FoundCropThisCycle then
+                        Farm_UpdateStatus("⏳ Vườn trống, chưa có cây nào chín. Hệ thống đang rình...")
                     end
+                    
                     task.wait(0.2) 
                 end
             end)
         else
             Notify("Hệ Thống", "Auto Farm đã tắt.", 3)
+            Farm_UpdateStatus("⛔ Hệ thống đã tắt.")
             SafeUnfreeze()
         end
     end
@@ -2542,7 +2591,7 @@ TabPlant:Toggle({
                     if not getgenv().TestAutoPlant then
                         break 
                     elseif outOfSeeds then
-                        Notify("Hết Hạt Giống", "Sạch bách kho đồ rồi sếp!", 5)
+                        Notify("Hệ Thống", "Đã hết loại hạt giống yêu cầu!", 5)
                         task.wait(5) 
                     else
                         task.wait(0.5)
