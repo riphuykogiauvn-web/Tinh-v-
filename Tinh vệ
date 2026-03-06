@@ -1,7 +1,8 @@
 -- ==================================================
 -- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Cập nhật: Giao diện chuẩn, Tên mới, Cấm rút gọn code, Tích hợp AI V21
+-- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + SMART AI QUEST)
+-- Cập nhật: Chuẩn hóa Giao Diện, Loại bỏ mô tả dưới nút, Không rút gọn code.
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -21,9 +22,6 @@ if CoreGui:FindFirstChild("GardenImageLoading") then
     CoreGui.GardenImageLoading:Destroy()
 end
 
--- ==================================================
--- 1. LOADING SCREEN GỐC
--- ==================================================
 local LoadGui = Instance.new("ScreenGui")
 LoadGui.Name = "GardenImageLoading"
 LoadGui.DisplayOrder = 10000 
@@ -328,8 +326,9 @@ end)
 
 task.wait(16.5) 
 
+
 -- ==================================================
--- 2. KHỞI TẠO WIND UI VÀ MENU CHÍNH
+-- PROJECT: GARDEN HORIZONS - WIND UI
 -- ==================================================
 
 if not game:IsLoaded() then
@@ -352,7 +351,6 @@ end
 
 WindUI:SetNotificationLower(true) 
 
--- ĐỔI TÊN HUB THEO LỆNH CỦA SẾP
 local Window = WindUI:CreateWindow({
     Title = "AMETHYST X GARDEN HORIZONS",
     Icon = "rbxassetid://100817188992562",
@@ -382,7 +380,7 @@ local function Notify(title, content, duration)
 end
 
 -- ==================================================
--- 3. CÁC HÀM HỖ TRỢ CHUNG (GIỮ NGUYÊN 100%)
+-- 3. CÁC HÀM HỖ TRỢ CHUNG
 -- ==================================================
 
 local ItemPrices = {
@@ -649,6 +647,31 @@ local function AI_UpdateStatus(text)
     })
 end
 
+local function AI_ForceClick(element)
+    if not element then
+        return
+    end
+    pcall(function()
+        if getconnections then
+            for _, c in pairs(getconnections(element.MouseButton1Down)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.MouseButton1Up)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.MouseButton1Click)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.Activated)) do
+                c:Fire()
+            end
+        end
+    end)
+    pcall(function()
+        element:Activate()
+    end)
+end
+
 local function AI_NormalizeName(name)
     local n = string.lower(name)
     if string.find(n, "apples") then
@@ -710,13 +733,13 @@ local function AI_SwitchQuestTab(keyword)
         if (obj:IsA("TextButton") or obj:IsA("ImageButton")) and obj.Visible then
             local text = string.lower(obj:IsA("TextButton") and obj.Text or "")
             if string.find(text, string.lower(keyword)) then
-                ForceClick(obj)
+                AI_ForceClick(obj)
                 return true
             end
             
             for _, child in pairs(obj:GetChildren()) do
                 if child:IsA("TextLabel") and string.find(string.lower(child.Text), string.lower(keyword)) then
-                    ForceClick(obj)
+                    AI_ForceClick(obj)
                     return true
                 end
             end
@@ -1417,7 +1440,7 @@ local function AI_ExecuteWater(targetName)
 end
 
 Tabs.QuestAI:Toggle({
-    Title = "🔥 BẬT SMART QUEST AI (All-in-One)",
+    Title = "BẬT AUTO QUEST AI",
     Value = false,
     Callback = function(state)
         getgenv().SmartAIToggle = state
@@ -1445,7 +1468,7 @@ Tabs.QuestAI:Toggle({
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
                                         AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang click đớp quà...")
-                                        ForceClick(claimBtn)
+                                        AI_ForceClick(claimBtn)
                                         foundAction = true
                                         task.wait(1.5)
                                         break 
@@ -1610,7 +1633,7 @@ getgenv().FarmDelay = 0.25
 getgenv().SellLimit = 20  
 
 TabFarm:Slider({
-    Title = "⏱️ Tốc độ Delay",
+    Title = "Tốc độ Delay",
     Step = 0.05,
     Min = 0.05,
     Max = 1.0,
@@ -1621,7 +1644,7 @@ TabFarm:Slider({
 })
 
 TabFarm:Toggle({
-    Title = "🔥 BẬT AUTO FARM (TÀNG HÌNH)",
+    Title = "BẬT AUTO FARM",
     Value = false,
     Callback = function(state)
         getgenv().EnableFarmTest = state
@@ -1766,7 +1789,7 @@ TabFarm:Toggle({
 })
 
 TabFarm:Button({
-    Title = "💰 Bán Nông Sản (Bán Thủ Công)",
+    Title = "Bán Nông Sản",
     Callback = function()
         local char = LocalPlayer.Character
         if not char then return end
@@ -1841,7 +1864,7 @@ getgenv().AutoBuyToggle = false
 local IsBuying = false
 
 TabShop:Dropdown({
-    Title = "🛒 Chọn Loại Hạt Giống (Chọn Nhiều)",
+    Title = "Chọn Loại Hạt Giống",
     Multi = true,
     Values = ShortSeedsList,
     Default = {"Carrot"},
@@ -1862,7 +1885,7 @@ TabShop:Dropdown({
 })
 
 TabShop:Toggle({
-    Title = "⚡ AUTO RÌNH MỒI (Sniper Hạt Giống)",
+    Title = "AUTO RÌNH MỒI HẠT GIỐNG",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyToggle = state
@@ -2061,7 +2084,7 @@ local SelectedGears = {["Watering Can"] = true}
 getgenv().AutoBuyGearToggle = false
 
 TabShop:Dropdown({
-    Title = "🛠️ Chọn Loại Dụng Cụ (Chọn Nhiều)",
+    Title = "Chọn Loại Dụng Cụ",
     Multi = true,
     Values = GearList,
     Default = {"Watering Can"},
@@ -2082,7 +2105,7 @@ TabShop:Dropdown({
 })
 
 TabShop:Toggle({
-    Title = "⚡ AUTO RÌNH GEAR (Sniper Dụng Cụ)",
+    Title = "AUTO RÌNH DỤNG CỤ",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyGearToggle = state
@@ -2258,7 +2281,7 @@ getgenv().TestAutoPlant = false
 getgenv().PlantedCache = {} 
 
 TabPlant:Dropdown({
-    Title = "🌱 Chọn Hạt (Được chọn nhiều)",
+    Title = "Chọn Hạt Mọc Tay",
     Multi = true,
     Values = ShortSeedsList, 
     Default = {"Carrot"},
@@ -2279,7 +2302,7 @@ TabPlant:Dropdown({
 })
 
 TabPlant:Dropdown({
-    Title = "🚜 Hướng Cày",
+    Title = "Hướng Cày",
     Multi = false,
     Values = {"Cày Dọc (Trục Z)", "Cày Ngang (Trục X)"},
     Default = "Cày Dọc (Trục Z)",
@@ -2293,7 +2316,7 @@ TabPlant:Dropdown({
 })
 
 TabPlant:Toggle({
-    Title = "🚀 BẬT AUTO GIEO HẠT (Xuyên Lục Địa)",
+    Title = "BẬT AUTO GIEO HẠT",
     Value = false,
     Callback = function(state)
         getgenv().TestAutoPlant = state
@@ -2486,7 +2509,7 @@ TabSettings:Button({
 })
 
 TabSettings:Button({
-    Title = "Tắt Menu (Unload UI)",
+    Title = "Tắt Menu",
     Callback = function()
         Window:Destroy()
     end
@@ -2494,7 +2517,7 @@ TabSettings:Button({
 
 getgenv().EnableQuickTeleport = true 
 TabSettings:Toggle({
-    Title = "🚀 BẬT 2 NÚT DỊCH CHUYỂN (GEARS & QUEST)",
+    Title = "BẬT 2 NÚT DỊCH CHUYỂN",
     Value = true,
     Callback = function(state)
         getgenv().EnableQuickTeleport = state
