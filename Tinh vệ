@@ -1,7 +1,8 @@
 -- ==================================================
 -- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Cập nhật: Fix triệt để lỗi AI ngáo chuyển Tab, lỗi kẹt Quest. Không rút gọn code.
+-- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + AUTO QUEST)
+-- Cập nhật: Fix lỗi hiển thị trạng thái Quest, Dọn dẹp từ ngữ rối rắm, Không rút gọn code.
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -249,13 +250,13 @@ task.spawn(function()
     task.wait(0.5) 
     
     SetCharacterState(true)
-    currentBaseText = "Đang tạo gui"
+    currentBaseText = "Đang tải dữ liệu"
     local t1 = TweenService:Create(BarFill, TweenInfo.new(2.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0.3, 0, 1, 0)})
     t1:Play()
     t1.Completed:Wait()
     
     SetCharacterState(false)
-    currentBaseText = "Đang tạo chức năng script vui lòng chờ ⌚"
+    currentBaseText = "Khởi tạo chức năng script vui lòng chờ ⌚"
     SpawnLeaves() 
     task.wait(1.0) 
 
@@ -815,12 +816,41 @@ local function AI_IsQuestCompletedByText(slot)
     return false
 end
 
+-- [NÂNG CẤP BỘ LỌC TÌM TÊN NHIỆM VỤ AN TOÀN]
+local function AI_GetQuestNameText(slot)
+    local direct = slot:FindFirstChild("QuestName")
+    if direct and direct:IsA("TextLabel") then
+        return direct.Text
+    end
+    
+    for _, obj in pairs(slot:GetDescendants()) do
+        if obj:IsA("TextLabel") and obj.Name == "QuestName" then
+            return obj.Text
+        end
+    end
+    
+    for _, obj in pairs(slot:GetDescendants()) do
+        if obj:IsA("TextLabel") then
+            local txt = string.lower(obj.Text)
+            if string.find(txt, "plant") or string.find(txt, "harvest") or string.find(txt, "sell") or string.find(txt, "water") or string.find(txt, "earn") then
+                return obj.Text
+            end
+        end
+    end
+    return nil
+end
+
 local function AI_ParseQuestText(text)
-    local plantAmt, plantName = string.match(text, "Plant (%d+) (.+)")
+    local cleanText = string.gsub(text, "<[^>]+>", "") 
+    local lowerText = string.lower(cleanText)
+    
+    local plantAmt, plantName = string.match(lowerText, "plant (%d+) (.-) seed")
+    if not plantAmt then
+        plantAmt, plantName = string.match(lowerText, "plant (%d+) (.+)")
+    end
+    
     if plantAmt and plantName then
-        local cleanName = string.gsub(plantName, " Seeds", "")
-        cleanName = string.gsub(cleanName, " Seed", "")
-        cleanName = string.gsub(cleanName, " seeds", "")
+        local cleanName = string.gsub(plantName, " seeds", "")
         cleanName = string.gsub(cleanName, " seed", "")
         return {
             Type = "Plant",
@@ -829,7 +859,7 @@ local function AI_ParseQuestText(text)
         }
     end
     
-    local harvestAmt, harvestName = string.match(text, "Harvest (%d+) (.+)")
+    local harvestAmt, harvestName = string.match(lowerText, "harvest (%d+) (.+)")
     if harvestAmt and harvestName then
         return {
             Type = "Harvest",
@@ -838,7 +868,7 @@ local function AI_ParseQuestText(text)
         }
     end
     
-    local sellAmt, sellName = string.match(text, "Sell (%d+) (.+)")
+    local sellAmt, sellName = string.match(lowerText, "sell (%d+) (.+)")
     if sellAmt and sellName then
         return {
             Type = "SellSpecific",
@@ -847,7 +877,7 @@ local function AI_ParseQuestText(text)
         }
     end
 
-    local waterAmt, waterName = string.match(text, "Water (%d+) (.+)")
+    local waterAmt, waterName = string.match(lowerText, "water (%d+) (.+)")
     if waterAmt and waterName then
         return {
             Type = "Water",
@@ -856,8 +886,7 @@ local function AI_ParseQuestText(text)
         }
     end
 
-    local lowerText = string.lower(text)
-    if string.find(lowerText, "earn") or string.find(lowerText, "shilling") or string.find(lowerText, "%$") or string.match(text, "%d+/%d+[KkMm]") then
+    if string.find(lowerText, "earn") or string.find(lowerText, "shilling") or string.find(lowerText, "%$") then
         return {
             Type = "Money",
             Name = "ANY"
@@ -1456,7 +1485,7 @@ Tabs.QuestAI:Toggle({
         getgenv().CurrentQuestTab = "Daily"
         
         if state then
-            AI_UpdateStatus("🚀 Hệ thống đã kích hoạt! Đang phân tích...")
+            AI_UpdateStatus("🚀 Bắt đầu quét dữ liệu nhiệm vụ...")
             
             task.spawn(function()
                 while getgenv().SmartAIToggle do
@@ -1468,6 +1497,7 @@ Tabs.QuestAI:Toggle({
                         if scrollFrame then
                             local actionExecuted = false
                             local hasActiveQuests = false
+                            local statusOverwritten = false
                             
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) then
@@ -1477,9 +1507,10 @@ Tabs.QuestAI:Toggle({
                                     
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
-                                        AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang nhận quà...")
+                                        AI_UpdateStatus("🎉 Có phần thưởng! Đang nhận quà...")
                                         AI_ForceClick(claimBtn)
                                         actionExecuted = true
+                                        statusOverwritten = true
                                         task.wait(1.5)
                                         break 
                                     end
@@ -1499,9 +1530,8 @@ Tabs.QuestAI:Toggle({
                                         continue
                                     end
                                     
-                                    local qNameObj = slot:FindFirstChild("QuestName")
-                                    if qNameObj and qNameObj:IsA("TextLabel") then
-                                        local questRawText = qNameObj.Text
+                                    local questRawText = AI_GetQuestNameText(slot)
+                                    if questRawText then
                                         if string.find(string.lower(questRawText), "refresh") then
                                             continue
                                         end
@@ -1510,6 +1540,8 @@ Tabs.QuestAI:Toggle({
 
                                         local questData = AI_ParseQuestText(questRawText)
                                         if questData then
+                                            statusOverwritten = true
+                                            
                                             if questData.Type == "Plant" then
                                                 AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌱 Trạng thái: Đang gieo hạt...")
                                                 local planted = AI_ExecutePlant(questData.Name, questRawText)
@@ -1521,14 +1553,14 @@ Tabs.QuestAI:Toggle({
                                                 end
                                                 
                                             elseif questData.Type == "Harvest" then
-                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌾 Trạng thái: Đang tìm " .. questData.Name .. " để thu hoạch...")
                                                 local status = AI_ExecuteHarvest(questData.Name)
                                                 
                                                 if status == "Harvested" then
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌾 Trạng thái: Đang thu hoạch " .. questData.Name .. "...")
                                                     actionExecuted = true
                                                     task.wait(0.2) 
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn sạch bóng " .. questData.Name .. "! Đang tự động trồng bù...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn không có " .. questData.Name .. "! Đang tự động trồng bù...")
                                                     local planted = AI_ExecutePlant(questData.Name, questRawText)
                                                     if planted then
                                                         actionExecuted = true
@@ -1537,14 +1569,16 @@ Tabs.QuestAI:Toggle({
                                                         task.wait(2)
                                                     end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ " .. questData.Name .. " chưa chín. Hệ thống đang chờ đợi...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ " .. questData.Name .. " chưa chín. Đang chờ...")
+                                                    actionExecuted = true
+                                                    task.wait(1)
                                                 end
                                                 
                                             elseif questData.Type == "SellSpecific" then
-                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n📦 Trạng thái: Đang tìm hái " .. questData.Name .. " để bán...")
                                                 local status = AI_ExecuteHarvest(questData.Name)
                                                 
                                                 if status == "Harvested" then
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n📦 Trạng thái: Đang hái " .. questData.Name .. " để bán...")
                                                     actionExecuted = true
                                                     AI_SellAllCrops_Strict()
                                                 elseif status == "NotFound" then
@@ -1557,14 +1591,16 @@ Tabs.QuestAI:Toggle({
                                                         task.wait(2)
                                                     end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ " .. questData.Name .. " chưa chín để thu hoạch đem bán. Đang chờ...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Chờ " .. questData.Name .. " chín để thu hoạch đem bán...")
+                                                    actionExecuted = true
+                                                    task.wait(1)
                                                 end
 
                                             elseif questData.Type == "Water" then
-                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tìm " .. questData.Name .. " để tưới...")
                                                 local status = AI_ExecuteWater(questData.Name)
                                                 
                                                 if status == "Watered" then
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tìm " .. questData.Name .. " để tưới...")
                                                     actionExecuted = true
                                                     task.wait(0.3)
                                                 elseif status == "NotFound" then
@@ -1578,20 +1614,23 @@ Tabs.QuestAI:Toggle({
                                                     end
                                                 elseif status == "Waiting" then
                                                     AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 " .. questData.Name .. " hiện không cần tưới nước. Đang chờ...")
+                                                    actionExecuted = true
+                                                    task.wait(1)
                                                 end
 
                                             elseif questData.Type == "Money" then
-                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💵 Trạng thái: Tự động thu hoạch trái cây bất kỳ đem bán lấy tiền!")
                                                 local status = AI_ExecuteHarvest("ANY")
                                                 
                                                 if status == "Harvested" then 
                                                     actionExecuted = true
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang di chuyển để bán trái cây...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang bán trái cây để lấy tiền...")
                                                     AI_SellAllCrops_Strict()
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Vườn có cây nhưng chưa chín. Đang chờ...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Đang chờ trái cây chín để cày tiền...")
+                                                    actionExecuted = true
+                                                    task.wait(1)
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn đang trống trải! Trồng Cà Rốt để cày tiền...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn đang trống trải! Tự động trồng Cà Rốt để cày tiền...")
                                                     local planted = AI_ExecutePlant("Carrot", questRawText)
                                                     if planted then
                                                         actionExecuted = true
@@ -1627,8 +1666,10 @@ Tabs.QuestAI:Toggle({
                                     end
                                 end
                             else
-                                AI_UpdateStatus("⏳ Đang chờ cây trồng lớn hoặc đợi cập nhật điều kiện để tiếp tục...")
-                                task.wait(3)
+                                if not statusOverwritten then
+                                    AI_UpdateStatus("🔍 Không có nhiệm vụ nào đang chạy. Đang rình...")
+                                end
+                                task.wait(2)
                             end
 
                         else
@@ -2501,7 +2542,7 @@ TabPlant:Toggle({
                     if not getgenv().TestAutoPlant then
                         break 
                     elseif outOfSeeds then
-                        Notify("Hệ Thống", "Đã hết loại hạt giống yêu cầu!", 5)
+                        Notify("Hết Hạt Giống", "Sạch bách kho đồ rồi sếp!", 5)
                         task.wait(5) 
                     else
                         task.wait(0.5)
