@@ -1,7 +1,7 @@
 -- ==================================================
--- AMETHYST HUB - PREMIUM EDITION (INTEGRATED SMART AI)
+-- AMETHYST HUB - PREMIUM LOADING SCREEN (NATURE THEME)
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Cập nhật: Tích hợp AI Quest vào bảng chính. GIỮ NGUYÊN 100% CODE KHÔNG RÚT GỌN!
+-- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + SMART AI QUEST)
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -21,19 +21,6 @@ if CoreGui:FindFirstChild("GardenImageLoading") then
     CoreGui.GardenImageLoading:Destroy()
 end
 
--- Xóa bảng đen trôi nổi của AI nếu nó còn sót lại
-if CoreGui:FindFirstChild("AmethystQuestAI_V21") then
-    CoreGui.AmethystQuestAI_V21:Destroy()
-end
-for _, gui in pairs(CoreGui:GetChildren()) do
-    if string.find(gui.Name, "AmethystQuestAI") then
-        gui:Destroy()
-    end
-end
-
--- ==================================================
--- 1. LOADING SCREEN GỐC
--- ==================================================
 local LoadGui = Instance.new("ScreenGui")
 LoadGui.Name = "GardenImageLoading"
 LoadGui.DisplayOrder = 10000 
@@ -232,9 +219,7 @@ task.spawn(function()
         local dotCount = 0
         while isLoading do
             dotCount = dotCount + 1
-            if dotCount > 3 then
-                dotCount = 0
-            end
+            if dotCount > 3 then dotCount = 0 end
             local dots = string.rep(".", dotCount)
             StatusText.Text = currentBaseText .. dots
             task.wait(0.4)
@@ -265,7 +250,7 @@ task.spawn(function()
     t1.Completed:Wait()
     
     SetCharacterState(false)
-    currentBaseText = "Tích hợp AI siêu việt..."
+    currentBaseText = "Đang tạo chức năng script vui lòng chờ ⌚"
     SpawnLeaves() 
     task.wait(1.0) 
 
@@ -287,7 +272,7 @@ task.spawn(function()
     t3.Completed:Wait()
     
     SetCharacterState(false)
-    currentBaseText = "Discord: AMETHYST HUB"
+    currentBaseText = "Discord: AMETHYST HUB "
     pcall(function()
         setclipboard("https://discord.gg/Buk7UWu32")
     end)
@@ -295,7 +280,7 @@ task.spawn(function()
     task.wait(1.0)
 
     SetCharacterState(true)
-    currentBaseText = "Hoàn tất khởi động!"
+    currentBaseText = "Thanks for using Script!!!"
     local t4 = TweenService:Create(BarFill, TweenInfo.new(2.0, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)})
     t4:Play()
     t4.Completed:Wait()
@@ -341,7 +326,7 @@ task.wait(16.5)
 
 
 -- ==================================================
--- 2. KHỞI TẠO WIND UI VÀ MENU CHÍNH
+-- PROJECT: GARDEN HORIZONS - WIND UI (REMOTE SHOP V69)
 -- ==================================================
 
 if not game:IsLoaded() then
@@ -367,18 +352,18 @@ end
 WindUI:SetNotificationLower(true) 
 
 local Window = WindUI:CreateWindow({
-    Title = "AMETHYST HUB - ALL IN ONE",
+    Title = "GARDEN HORIZONS HUB",
     Icon = "rbxassetid://100817188992562",
     Author = "HUYKOGIAUVN",
     Folder = "GardenHorizons",
     Transparent = true,
     Theme = "Dark",
-    SideBarWidth = 190,
+    SideBarWidth = 170,
     HasOutline = true,
 })
 
 local Tabs = {
-    QuestAI = Window:Tab({ Title = "🤖 Auto Quest AI", Icon = "bot" }),
+    QuestAI = Window:Tab({ Title = "🤖 Auto Quest AI", Icon = "bot" }), -- TAB MỚI TÍCH HỢP TẠI ĐÂY
     Farm = Window:Tab({ Title = "Auto Farm", Icon = "sword" }),
     Shop = Window:Tab({ Title = "Shop Tự Động", Icon = "shopping-cart" }),
     Plant = Window:Tab({ Title = "Khu Vực Cày", Icon = "flask" }),
@@ -394,100 +379,24 @@ local function Notify(title, content, duration)
     })
 end
 
--- ==================================================
--- 3. CÁC HÀM HỖ TRỢ CHUNG (KHÔNG RÚT GỌN)
--- ==================================================
-
-local ItemPrices = {
-    ["Carrot"] = 20,
-    ["Corn"] = 100,
-    ["Onion"] = 200,
-    ["Strawberry"] = 800,
-    ["Mushroom"] = 1500,
-    ["Beetroot"] = 2500,
-    ["Tomato"] = 4000,
-    ["Apple"] = 7000,
-    ["Rose"] = 10000,
-    ["Wheat"] = 12000,
-    ["Banana"] = 30000,
-    ["Plum"] = 60000,
-    ["Potato"] = 100000,
-    ["Cabbage"] = 150000,
-    ["Cherry"] = 1000000,
-    ["Watering Can"] = 5000,
-    ["Basic Sprinkler"] = 15000,
-    ["Harvest Bell"] = 35000,
-    ["Turbo Sprinkler"] = 60000,
-    ["Favorite Tool"] = 80000,
-    ["Super Sprinkler"] = 100000
-}
-
-local ShortSeedsList = {
-    "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
-    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry"
-}
-
-local function GetPlayerMoney()
-    local pGui = LocalPlayer:FindFirstChild("PlayerGui")
-    local cam = Workspace.CurrentCamera
-    
-    if not pGui or not cam then
-        return 0
-    end
-    
-    local screenW = cam.ViewportSize.X
-    local screenH = cam.ViewportSize.Y
-    
-    for _, obj in pairs(pGui:GetDescendants()) do
-        if obj:IsA("TextLabel") and obj.Visible and obj.TextTransparency < 1 then
-            if obj.AbsolutePosition.X < (screenW * 0.4) and obj.AbsolutePosition.Y > (screenH * 0.6) then
-                if string.match(obj.Text, "^%$[%d%,%.]+") then
-                    local rawText = string.gsub(obj.Text, "^%$", "")
-                    rawText = string.gsub(rawText, ",", "")
-                    
-                    local multi = 1
-                    if string.match(rawText, "K$") then
-                        multi = 1000
-                        rawText = string.gsub(rawText, "K$", "")
-                    elseif string.match(rawText, "M$") then
-                        multi = 1000000
-                        rawText = string.gsub(rawText, "M$", "")
-                    elseif string.match(rawText, "B$") then
-                        multi = 1000000000
-                        rawText = string.gsub(rawText, "B$", "")
-                    end
-                    
-                    local number = tonumber(rawText)
-                    if number then
-                        return number * multi
-                    end
-                end
-            end
-        end
-    end
-    return 0
-end
-
+-- ================= [ HÀM HỖ TRỢ FARM & TÀI CHÍNH BẢN GỐC ] =================
 local function FirePrompt(prompt)
     if prompt and prompt:IsA("ProximityPrompt") then
         local oldLOS = prompt.RequiresLineOfSight
         local oldDist = prompt.MaxActivationDistance
-        
         pcall(function()
             prompt.RequiresLineOfSight = false
             prompt.MaxActivationDistance = 99999
         end)
-        
         pcall(function()
             if fireproximityprompt then
                 fireproximityprompt(prompt, 1, true)
             else
                 prompt:InputHoldBegin()
-                task.wait(0.1)
+                task.wait(prompt.HoldDuration + 0.1)
                 prompt:InputHoldEnd()
             end
         end)
-        
         pcall(function()
             prompt.RequiresLineOfSight = oldLOS
             prompt.MaxActivationDistance = oldDist
@@ -497,15 +406,9 @@ end
 
 local function GetCropUuid(obj)
     local uuid = obj:GetAttribute("Uuid") or obj:GetAttribute("UUID") or obj:GetAttribute("uuid")
-    if uuid then
-        return uuid
-    end
-    
+    if uuid then return uuid end
     local val = obj:FindFirstChild("Uuid") or obj:FindFirstChild("UUID") or obj:FindFirstChild("uuid")
-    if val and val:IsA("StringValue") then
-        return val.Value
-    end
-    
+    if val and val:IsA("StringValue") then return val.Value end
     return nil
 end
 
@@ -513,9 +416,7 @@ local function NinjaClickHarvestButton(targetPart)
     local clicked = false
     
     local function FireSignals(gui)
-        if clicked then
-            return
-        end
+        if clicked then return end
         pcall(function()
             if getconnections then
                 for _, c in pairs(getconnections(gui.MouseButton1Down)) do c:Fire() end
@@ -529,15 +430,12 @@ local function NinjaClickHarvestButton(targetPart)
     end
 
     pcall(function()
-        if LocalPlayer.PlayerGui then
-            for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
-                if clicked then
-                    break
-                end
+        local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+        if pGui then
+            for _, gui in pairs(pGui:GetDescendants()) do
+                if clicked then break end
                 if (gui:IsA("ImageButton") or gui:IsA("TextButton")) and gui.Visible then
-                    if string.find(string.lower(gui.Name), "harvest") then
-                        FireSignals(gui)
-                    end
+                    if string.find(string.lower(gui.Name), "harvest") then FireSignals(gui) end
                 end
             end
         end
@@ -546,13 +444,9 @@ local function NinjaClickHarvestButton(targetPart)
     if targetPart and not clicked then
         pcall(function()
             for _, gui in pairs(targetPart:GetDescendants()) do
-                if clicked then
-                    break
-                end
+                if clicked then break end
                 if gui:IsA("ImageButton") or gui:IsA("TextButton") then
-                    if string.find(string.lower(gui.Name), "harvest") then
-                        FireSignals(gui)
-                    end
+                    if string.find(string.lower(gui.Name), "harvest") then FireSignals(gui) end
                 end
             end
         end)
@@ -585,11 +479,10 @@ local function SafeUnfreeze()
             if root then
                 root.Anchored = false
             end
-            
             local hum = char:FindFirstChild("Humanoid")
             if hum then 
                 hum.Sit = false
-                hum.Jump = true
+                hum.Jump = true 
                 hum.WalkSpeed = 16
                 hum:ChangeState(Enum.HumanoidStateType.Running) 
                 Workspace.CurrentCamera.CameraSubject = hum 
@@ -601,25 +494,58 @@ local function SafeUnfreeze()
     end)
 end
 
-local function ForceClick(element)
-    if not element then
-        return
-    end
-    pcall(function()
-        if getconnections then
-            for _, c in pairs(getconnections(element.MouseButton1Down)) do c:Fire() end
-            for _, c in pairs(getconnections(element.MouseButton1Up)) do c:Fire() end
-            for _, c in pairs(getconnections(element.MouseButton1Click)) do c:Fire() end
-            for _, c in pairs(getconnections(element.Activated)) do c:Fire() end
+local function GetPlayerMoney()
+    local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+    local cam = Workspace.CurrentCamera
+    if not pGui or not cam then return 0 end
+    
+    local screenW = cam.ViewportSize.X
+    local screenH = cam.ViewportSize.Y
+    
+    for _, obj in pairs(pGui:GetDescendants()) do
+        if obj:IsA("TextLabel") and obj.Visible and obj.TextTransparency < 1 then
+            if obj.AbsolutePosition.X < (screenW * 0.4) and obj.AbsolutePosition.Y > (screenH * 0.6) then
+                if string.match(obj.Text, "^%$[%d%,%.]+") then
+                    local rawText = string.gsub(obj.Text, "^%$", "")
+                    rawText = string.gsub(rawText, ",", "")
+                    
+                    local multi = 1
+                    if string.match(rawText, "K$") then
+                        multi = 1000
+                        rawText = string.gsub(rawText, "K$", "")
+                    elseif string.match(rawText, "M$") then
+                        multi = 1000000
+                        rawText = string.gsub(rawText, "M$", "")
+                    elseif string.match(rawText, "B$") then
+                        multi = 1000000000
+                        rawText = string.gsub(rawText, "B$", "")
+                    end
+                    
+                    local number = tonumber(rawText)
+                    if number then return number * multi end
+                end
+            end
         end
-    end)
-    pcall(function()
-        element:Activate()
-    end)
+    end
+    return 0
 end
 
+local ItemPrices = {
+    ["Carrot"] = 20, ["Corn"] = 100, ["Onion"] = 200, ["Strawberry"] = 800,
+    ["Mushroom"] = 1500, ["Beetroot"] = 2500, ["Tomato"] = 4000, ["Apple"] = 7000,
+    ["Rose"] = 10000, ["Wheat"] = 12000, ["Banana"] = 30000, ["Plum"] = 60000,
+    ["Potato"] = 100000, ["Cabbage"] = 150000, ["Cherry"] = 1000000,
+    ["Watering Can"] = 5000, ["Basic Sprinkler"] = 15000, ["Harvest Bell"] = 35000,
+    ["Turbo Sprinkler"] = 60000, ["Favorite Tool"] = 80000, ["Super Sprinkler"] = 100000
+}
+
+local ShortSeedsList = {
+    "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
+    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry"
+}
+
 -- ==================================================
--- 4. TAB 1: 🤖 AUTO QUEST AI (LÕI V21 KHÔNG RÚT GỌN)
+-- [TÍCH HỢP TẠI ĐÂY] TAB 1: 🤖 AUTO QUEST AI 
 -- ==================================================
 getgenv().SmartAIToggle = false
 getgenv().CurrentQuestTab = "Daily"
@@ -641,21 +567,64 @@ local function AI_UpdateStatus(text)
     })
 end
 
+local function AI_ForceClick(element)
+    if not element then
+        return
+    end
+    pcall(function()
+        if getconnections then
+            for _, c in pairs(getconnections(element.MouseButton1Down)) do c:Fire() end
+            for _, c in pairs(getconnections(element.MouseButton1Up)) do c:Fire() end
+            for _, c in pairs(getconnections(element.MouseButton1Click)) do c:Fire() end
+            for _, c in pairs(getconnections(element.Activated)) do c:Fire() end
+        end
+    end)
+    pcall(function()
+        element:Activate()
+    end)
+end
+
 local function AI_NormalizeName(name)
     local n = string.lower(name)
-    if string.find(n, "apples") then return "Apple" end
-    if string.find(n, "onions") then return "Onion" end
-    if string.find(n, "carrots") then return "Carrot" end
-    if string.find(n, "corns") then return "Corn" end
-    if string.find(n, "strawberries") then return "Strawberry" end
-    if string.find(n, "mushrooms") then return "Mushroom" end
-    if string.find(n, "tomatoes") then return "Tomato" end
-    if string.find(n, "roses") then return "Rose" end
-    if string.find(n, "cabbages") then return "Cabbage" end
-    if string.find(n, "cherries") then return "Cherry" end
-    if string.find(n, "potatoes") then return "Potato" end
-    if string.find(n, "plums") then return "Plum" end
-    if string.find(n, "crops") or string.find(n, "plants") then return "ANY" end 
+    if string.find(n, "apples") then
+        return "Apple"
+    end
+    if string.find(n, "onions") then
+        return "Onion"
+    end
+    if string.find(n, "carrots") then
+        return "Carrot"
+    end
+    if string.find(n, "corns") then
+        return "Corn"
+    end
+    if string.find(n, "strawberries") then
+        return "Strawberry"
+    end
+    if string.find(n, "mushrooms") then
+        return "Mushroom"
+    end
+    if string.find(n, "tomatoes") then
+        return "Tomato"
+    end
+    if string.find(n, "roses") then
+        return "Rose"
+    end
+    if string.find(n, "cabbages") then
+        return "Cabbage"
+    end
+    if string.find(n, "cherries") then
+        return "Cherry"
+    end
+    if string.find(n, "potatoes") then
+        return "Potato"
+    end
+    if string.find(n, "plums") then
+        return "Plum"
+    end
+    if string.find(n, "crops") or string.find(n, "plants") then
+        return "ANY"
+    end 
     return (name:gsub("^%l", string.upper))
 end
 
@@ -670,13 +639,13 @@ local function AI_SwitchQuestTab(keyword)
         if (obj:IsA("TextButton") or obj:IsA("ImageButton")) and obj.Visible then
             local text = string.lower(obj:IsA("TextButton") and obj.Text or "")
             if string.find(text, string.lower(keyword)) then
-                ForceClick(obj)
+                AI_ForceClick(obj)
                 return true
             end
             
             for _, child in pairs(obj:GetChildren()) do
                 if child:IsA("TextLabel") and string.find(string.lower(child.Text), string.lower(keyword)) then
-                    ForceClick(obj)
+                    AI_ForceClick(obj)
                     return true
                 end
             end
@@ -753,27 +722,46 @@ end
 local function AI_ParseQuestText(text)
     local plantAmt, plantName = string.match(text, "Plant (%d+) (.-) Seed")
     if plantAmt and plantName then
-        return {Type = "Plant", Amount = tonumber(plantAmt), Name = AI_NormalizeName(plantName)}
+        return {
+            Type = "Plant",
+            Amount = tonumber(plantAmt),
+            Name = AI_NormalizeName(plantName)
+        }
     end
     
     local harvestAmt, harvestName = string.match(text, "Harvest (%d+) (.+)")
     if harvestAmt and harvestName then
-        return {Type = "Harvest", Amount = tonumber(harvestAmt), Name = AI_NormalizeName(harvestName)}
+        return {
+            Type = "Harvest",
+            Amount = tonumber(harvestAmt),
+            Name = AI_NormalizeName(harvestName)
+        }
     end
     
     local sellAmt, sellName = string.match(text, "Sell (%d+) (.+)")
     if sellAmt and sellName then
-        return {Type = "SellSpecific", Amount = tonumber(sellAmt), Name = AI_NormalizeName(sellName)}
+        return {
+            Type = "SellSpecific",
+            Amount = tonumber(sellAmt),
+            Name = AI_NormalizeName(sellName)
+        }
     end
 
     local waterAmt, waterName = string.match(text, "Water (%d+) (.+)")
     if waterAmt and waterName then
-        return {Type = "Water", Amount = tonumber(waterAmt), Name = AI_NormalizeName(waterName)}
+        return {
+            Type = "Water",
+            Amount = tonumber(waterAmt),
+            Name = AI_NormalizeName(waterName)
+        }
     end
 
     local lowerText = string.lower(text)
     if string.find(lowerText, "earn") or string.find(lowerText, "shilling") or string.find(lowerText, "%$") or string.match(text, "%d+/%d+[KkMm]") then
-        return {Type = "Money", Name = "ANY"}
+        return {
+            Type = "Money",
+            Name = "ANY"
+        }
     end
     
     return nil 
@@ -1378,7 +1366,6 @@ Tabs.QuestAI:Toggle({
                         if scrollFrame then
                             local foundAction = false
                             
-                            -- BƯỚC 1: NHẬN THƯỞNG
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) then
                                     if AI_IsQuestClaimed(slot) then
@@ -1388,7 +1375,7 @@ Tabs.QuestAI:Toggle({
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
                                         AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang click đớp quà...")
-                                        ForceClick(claimBtn)
+                                        AI_ForceClick(claimBtn)
                                         foundAction = true
                                         task.wait(1.5)
                                         break 
@@ -1400,7 +1387,6 @@ Tabs.QuestAI:Toggle({
                                 continue
                             end
 
-                            -- BƯỚC 2: CÀY CUỐC
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) and not foundAction then
                                     if AI_IsQuestClaimed(slot) then
@@ -1510,7 +1496,6 @@ Tabs.QuestAI:Toggle({
                                 continue
                             end 
 
-                            -- BƯỚC 3: CHUYỂN TAB
                             if getgenv().CurrentQuestTab == "Daily" then
                                 AI_UpdateStatus("🔄 Đã vét sạch Tab Daily! Đang nhảy sang Tab Weekly...")
                                 local switched = AI_SwitchQuestTab("weekly")
@@ -1543,11 +1528,12 @@ Tabs.QuestAI:Toggle({
 -- ==================================================
 -- 5. TAB 2: AUTO FARM GỐC
 -- ==================================================
+local TabFarm = Tabs.Farm
 getgenv().EnableFarmTest = false
 getgenv().FarmDelay = 0.25 
 getgenv().SellLimit = 20  
 
-Tabs.Farm:Slider({
+TabFarm:Slider({
     Title = "⏱️ Tốc độ Delay",
     Desc = "Bơm điện 1 chạm, nên để 0.25 để UI kịp load tín hiệu.",
     Step = 0.05,
@@ -1559,7 +1545,7 @@ Tabs.Farm:Slider({
     end
 })
 
-Tabs.Farm:Toggle({
+TabFarm:Toggle({
     Title = "🔥 BẬT AUTO FARM (TÀNG HÌNH)",
     Desc = "Chỉ thu hoạch. Đừng bật chung với AI Quest bên kia.",
     Value = false,
@@ -1637,9 +1623,63 @@ Tabs.Farm:Toggle({
                     SafeUnfreeze()
 
                     if HarvestCount >= getgenv().SellLimit or (HarvestCount > 0 and not FoundCropThisCycle) then
-                        AI_SellAllCrops_Strict()
-                        HarvestCount = 0
-                        task.wait(2)
+                        
+                        local stevePos = Vector3.new(149.4, 204.0, 672.0)
+                        local standPos = stevePos + Vector3.new(0, 3, 0)
+                        local lookPos = Vector3.new(149.4, 204.0, 676.6)
+                        local camPos = Vector3.new(149.6, 213.3, 661.0)
+                        
+                        local talkPrompt = nil
+                        for _, obj in pairs(Workspace:GetDescendants()) do
+                            if obj:IsA("ProximityPrompt") then
+                                local actionName = string.lower(obj.ActionText)
+                                if string.find(actionName, "talk") or string.find(actionName, "sell") then
+                                    if obj.Parent and obj.Parent:IsA("BasePart") then
+                                        local distToSteve = (obj.Parent.Position - stevePos).Magnitude
+                                        if distToSteve < 20 then
+                                            talkPrompt = obj
+                                            break
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        if talkPrompt then
+                            local currentPos = LastFarmPosition or root.Position
+                            
+                            local hum = char:FindFirstChild("Humanoid")
+                            if hum then
+                                hum.Sit = false
+                                hum.PlatformStand = false
+                            end
+
+                            root.Velocity = Vector3.zero
+                            root.CFrame = CFrame.lookAt(standPos, lookPos)
+                            Workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+                            Workspace.CurrentCamera.CFrame = CFrame.lookAt(camPos, lookPos)
+                            
+                            task.wait(0.3) 
+                            FirePrompt(talkPrompt) 
+                            task.wait(0.3) 
+                            
+                            pcall(function()
+                                ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll")
+                            end)
+                            task.wait(0.5)
+                            
+                            SafeUnfreeze()
+                            task.wait(0.2)
+                            
+                            root.Velocity = Vector3.zero
+                            root.CFrame = CFrame.new(currentPos + Vector3.new(0, 3, 0))
+                            
+                            SafeUnfreeze()
+                            
+                            Notify("Giao Dịch Xong", "Bán thành công! Sẽ cày tiếp sau 2 giây...", 3)
+                            HarvestCount = 0
+                            task.wait(2)
+                        end
                     end
                     task.wait(0.2) 
                 end
@@ -1651,21 +1691,77 @@ Tabs.Farm:Toggle({
     end
 })
 
-Tabs.Farm:Button({
+TabFarm:Button({
     Title = "💰 Bán Nông Sản (Bán Thủ Công)",
     Desc = "Dịch chuyển bán sạch rồi về chỗ cũ.",
     Callback = function()
-        AI_SellAllCrops_Strict()
+        local char = LocalPlayer.Character
+        if not char then return end
+        local root = char:FindFirstChild("HumanoidRootPart")
+        if not root then return end
+        
+        local stevePos = Vector3.new(149.4, 204.0, 672.0)
+        local standPos = stevePos + Vector3.new(0, 3, 0)
+        local lookPos = Vector3.new(149.4, 204.0, 676.6)
+        local camPos = Vector3.new(149.6, 213.3, 661.0)
+        
+        local talkPrompt = nil
+        for _, obj in pairs(Workspace:GetDescendants()) do
+            if obj:IsA("ProximityPrompt") then
+                local actionName = string.lower(obj.ActionText)
+                if string.find(actionName, "talk") or string.find(actionName, "sell") then
+                    if obj.Parent and obj.Parent:IsA("BasePart") then
+                        local distToSteve = (obj.Parent.Position - stevePos).Magnitude
+                        if distToSteve < 20 then talkPrompt = obj; break end
+                    end
+                end
+            end
+        end
+
+        if talkPrompt then
+            local oldCamType = Workspace.CurrentCamera.CameraType
+            local oldCamCF = Workspace.CurrentCamera.CFrame
+            local currentPos = root.Position
+            
+            root.Velocity = Vector3.zero
+            root.RotVelocity = Vector3.zero
+            local hum = char:FindFirstChild("Humanoid")
+            if hum then hum.Sit = false; hum.PlatformStand = false end
+            
+            root.CFrame = CFrame.lookAt(standPos, lookPos)
+            Workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+            Workspace.CurrentCamera.CFrame = CFrame.lookAt(camPos, lookPos)
+            
+            task.wait(0.3) 
+            FirePrompt(talkPrompt)
+            task.wait(0.3) 
+            
+            pcall(function()
+                ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll")
+            end)
+            task.wait(0.2)
+            
+            root.Velocity = Vector3.zero
+            root.CFrame = CFrame.new(currentPos + Vector3.new(0, 3, 0))
+            Workspace.CurrentCamera.CameraType = oldCamType
+            Workspace.CurrentCamera.CFrame = oldCamCF
+
+            Notify("Bán Thủ Công", "Đã vét sạch kho đồ đổi lấy tiền mặt!", 3)
+        else
+            Notify("Lỗi Hệ Thống", "Không tìm thấy NPC thương gia Steve!", 3)
+        end
     end
 })
 
 -- ==================================================
 -- 6. TAB 3: SHOP TỰ ĐỘNG GỐC
 -- ==================================================
+local TabShop = Tabs.Shop
 local SelectedSeeds = {["Carrot"] = true} 
 getgenv().AutoBuyToggle = false
+local IsBuying = false
 
-Tabs.Shop:Dropdown({
+TabShop:Dropdown({
     Title = "🛒 Chọn Loại Hạt Giống (Chọn Nhiều)",
     Multi = true,
     Values = ShortSeedsList,
@@ -1686,35 +1782,191 @@ Tabs.Shop:Dropdown({
     end,
 })
 
-Tabs.Shop:Toggle({
+TabShop:Toggle({
     Title = "⚡ AUTO RÌNH MỒI (Sniper Hạt Giống)",
     Desc = "Bay đi mua khi đủ tiền. Tự động tắt nếu thiếu tiền/hàng.",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyToggle = state
+        
         if state then
-            Notify("Bật Sniper", "Đang soi Shop từ xa...", 3)
+            Notify("Bật Sniper", "Hệ thống đang soi Shop từ xa!", 3)
+            local wasEmpty = false 
+            
             task.spawn(function()
                 while getgenv().AutoBuyToggle do
-                    local hasTarget = false
-                    for k, v in pairs(SelectedSeeds) do
-                        if v then
-                            hasTarget = true
-                            break
-                        end
-                    end
-                    
-                    if not hasTarget then
-                        task.wait(2)
+                    if IsBuying then
+                        task.wait(1)
                         continue
                     end
                     
-                    for seedName, isSel in pairs(SelectedSeeds) do
-                        if isSel and getgenv().AutoBuyToggle then
-                            AI_GoBuySeed_Strict(seedName)
+                    local targetCount = 0
+                    for _ in pairs(SelectedSeeds) do
+                        targetCount = targetCount + 1
+                    end
+                    
+                    if targetCount == 0 then
+                        task.wait(2)
+                        continue
+                    end
+
+                    local shopData = nil
+                    pcall(function()
+                        shopData = ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop")
+                    end)
+                    
+                    local SeedsToBuy = {}
+                    local totalBuyAmount = 0 
+                    local detectedNames = ""
+                    local myMoney = GetPlayerMoney() 
+                    local hasStockButNoMoney = false
+                    
+                    if type(shopData) == "table" and shopData.Items then
+                        for seedBase, isSelected in pairs(SelectedSeeds) do
+                            if isSelected then
+                                local ActualSeedName = seedBase .. " Seed"
+                                local seedData = shopData.Items[ActualSeedName]
+                                if seedData and type(seedData) == "table" then
+                                    local amt = seedData.Amount or 0
+                                    local price = ItemPrices[seedBase] or 500
+                                    
+                                    if amt > 0 then
+                                        local maxCanBuy = math.floor(myMoney / price)
+                                        local buyAmt = math.min(maxCanBuy, amt)
+                                        
+                                        if buyAmt > 0 then
+                                            table.insert(SeedsToBuy, {Name = ActualSeedName, Amount = buyAmt})
+                                            totalBuyAmount = totalBuyAmount + buyAmt
+                                            detectedNames = detectedNames .. buyAmt .. " " .. seedBase .. ", "
+                                            myMoney = myMoney - (buyAmt * price)
+                                        else
+                                            hasStockButNoMoney = true
+                                        end
+                                    end
+                                end
+                            end
                         end
                     end
-                    task.wait(2)
+
+                    if totalBuyAmount > 0 then
+                        IsBuying = true
+                        wasEmpty = false
+                        detectedNames = detectedNames:sub(1, -3)
+                        Notify("Tiến hành múc", "Chỉ mua ĐÚNG: " .. detectedNames, 3)
+                        
+                        local char = LocalPlayer.Character
+                        local root = char and char:FindFirstChild("HumanoidRootPart")
+                        if not root then
+                            IsBuying = false
+                            task.wait(2)
+                            continue
+                        end
+
+                        local billPrompt = nil
+                        for _, obj in pairs(Workspace:GetDescendants()) do
+                            if obj:IsA("ProximityPrompt") then
+                                local pName = obj.Parent and string.lower(obj.Parent.Name) or ""
+                                local oText = obj.ObjectText and string.lower(obj.ObjectText) or ""
+                                if string.find(pName, "bill") or string.find(oText, "bill") then
+                                    billPrompt = obj
+                                    break
+                                end
+                            end
+                        end
+
+                        if billPrompt then
+                            local oldRootCF = root.CFrame
+                            local currentCam = Workspace.CurrentCamera
+                            local oldCamType = currentCam.CameraType
+                            local oldCamCF = currentCam.CFrame
+
+                            local killMenu = true
+                            task.spawn(function()
+                                while killMenu do
+                                    for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+                                        if gui:IsA("TextButton") or gui:IsA("ImageButton") then
+                                            local text = gui:IsA("TextButton") and gui.Text or ""
+                                            local name = string.lower(gui.Name)
+                                            if text == "X" or text == "Close" or string.find(name, "close") or string.find(name, "exit") then
+                                                pcall(function()
+                                                    if getconnections then
+                                                        for _, c in pairs(getconnections(gui.MouseButton1Click)) do
+                                                            c:Fire()
+                                                        end
+                                                    end
+                                                end)
+                                            end
+                                        end
+                                    end
+                                    task.wait(0.01)
+                                end
+                            end)
+
+                            local billStandPos = Vector3.new(176.7, 204.0, 672.0)
+                            local billCamPos = Vector3.new(175.5, 211.3, 653.9)
+                            local billLookPos = Vector3.new(177.0, 204.0, 676.8)
+
+                            root.Velocity = Vector3.zero
+                            root.RotVelocity = Vector3.zero
+                            local hum = char:FindFirstChild("Humanoid")
+                            if hum then
+                                hum.Sit = false
+                                hum.PlatformStand = false
+                            end
+                            
+                            root.CFrame = CFrame.lookAt(billStandPos, billLookPos)
+                            currentCam.CameraType = Enum.CameraType.Scriptable
+                            currentCam.CFrame = CFrame.lookAt(billCamPos, billLookPos)
+                            task.wait(0.3)
+
+                            if billPrompt then
+                                FirePrompt(billPrompt)
+                            end
+                            
+                            pcall(function()
+                                ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop")
+                            end)
+                            task.wait(0.4)
+
+                            root.Velocity = Vector3.zero
+                            root.CFrame = oldRootCF + Vector3.new(0, 4, 0)
+                            currentCam.CameraType = oldCamType
+                            currentCam.CFrame = oldCamCF
+
+                            for _, seedInfo in ipairs(SeedsToBuy) do
+                                for i = 1, seedInfo.Amount do
+                                    task.spawn(function()
+                                        pcall(function()
+                                            ReplicatedStorage.RemoteEvents.PurchaseShopItem:InvokeServer("SeedShop", seedInfo.Name)
+                                        end)
+                                    end)
+                                    if i % 10 == 0 then
+                                        RunService.Heartbeat:Wait()
+                                    end 
+                                end
+                            end
+                            
+                            task.wait(1.5) 
+                            Notify("Giao Dịch Xong", "Đã mua đúng số lượng sếp đủ tiền. Đứng im chờ cày thêm!", 4)
+                            killMenu = false
+                        end
+                        
+                        IsBuying = false
+                        task.wait(5) 
+                    else
+                        if hasStockButNoMoney then
+                            if not wasEmpty then
+                                Notify("Cháy Túi", "Shop có Hàng nhưng sếp méo đủ tiền. Đứng im!", 2)
+                                wasEmpty = true
+                            end
+                        else
+                            if not wasEmpty then
+                                Notify("Đang rình...", "Mục tiêu hết sạch hàng, chờ thời...", 2)
+                                wasEmpty = true
+                            end
+                        end
+                        task.wait(3) 
+                    end
                 end
             end)
         else
@@ -1731,7 +1983,7 @@ local GearList = {
 local SelectedGears = {["Watering Can"] = true} 
 getgenv().AutoBuyGearToggle = false
 
-Tabs.Shop:Dropdown({
+TabShop:Dropdown({
     Title = "🛠️ Chọn Loại Dụng Cụ (Chọn Nhiều)",
     Multi = true,
     Values = GearList,
@@ -1752,7 +2004,7 @@ Tabs.Shop:Dropdown({
     end,
 })
 
-Tabs.Shop:Toggle({
+TabShop:Toggle({
     Title = "⚡ AUTO RÌNH GEAR (Sniper Dụng Cụ)",
     Value = false,
     Callback = function(state)
@@ -2137,14 +2389,16 @@ TabPlant:Toggle({
 -- ==================================================
 -- 8. TAB 5: SETTINGS & NÚT VỆ TINH GỐC
 -- ==================================================
-Tabs.Settings:Button({
+local TabSettings = Tabs.Settings
+
+TabSettings:Button({
     Title = "Mở khóa Camera",
     Callback = function()
         Workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
     end
 })
 
-Tabs.Settings:Button({
+TabSettings:Button({
     Title = "Tắt Menu (Unload UI)",
     Callback = function()
         Window:Destroy()
@@ -2152,7 +2406,7 @@ Tabs.Settings:Button({
 })
 
 getgenv().EnableQuickTeleport = true 
-Tabs.Settings:Toggle({
+TabSettings:Toggle({
     Title = "🚀 BẬT 2 NÚT DỊCH CHUYỂN (GEARS & QUEST)",
     Value = true,
     Callback = function(state)
@@ -2282,8 +2536,22 @@ task.spawn(function()
     ScreenGui.ResetOnSpawn = false
     ScreenGui.Parent = pGui
     
-    local GearBtn = CreateButton(ScreenGui, "GearContainer", "122244956223282", Vector2.new(1, 0.5), GoToGears, 350, 150, 130, 45)
-    local QuestBtn = CreateButton(ScreenGui, "QuestContainer", "100757552873965", Vector2.new(0, 0.5), GoToQuest, 350, 150, 130, 45)
+    local RONG_GEARS = 350
+    local CAO_GEARS = 150
+    local TRUOT_PHAI_GEARS = 100 
+    local LECH_Y_GEARS = 2.5     
+    local HITBOX_RONG_GEARS = 130  
+    local HITBOX_CAO_GEARS = 45    
+
+    local RONG_QUEST = 350       
+    local CAO_QUEST = 150        
+    local TRUOT_TRAI_QUEST = 100 
+    local LECH_Y_QUEST = 5     
+    local HITBOX_RONG_QUEST = 130  
+    local HITBOX_CAO_QUEST = 45    
+    
+    local GearBtn = CreateButton(ScreenGui, "GearContainer", "122244956223282", Vector2.new(1, 0.5), GoToGears, RONG_GEARS, CAO_GEARS, HITBOX_RONG_GEARS, HITBOX_CAO_GEARS)
+    local QuestBtn = CreateButton(ScreenGui, "QuestContainer", "100757552873965", Vector2.new(0, 0.5), GoToQuest, RONG_QUEST, CAO_QUEST, HITBOX_RONG_QUEST, HITBOX_CAO_QUEST)
     
     local isRobloxMenuOpen = false
     GuiService.MenuOpened:Connect(function()
@@ -2302,16 +2570,24 @@ task.spawn(function()
         
         if seedButton.AbsoluteSize.X > 0 then
             GearBtn.Visible = true
-            GearBtn.Size = UDim2.new(0, 350, 0, 150)
-            GearBtn.Position = UDim2.new(0, seedButton.AbsolutePosition.X - 5 + 100, 0, seedButton.AbsolutePosition.Y + (seedButton.AbsoluteSize.Y / 2) + 2.5)
+            GearBtn.Size = UDim2.new(0, RONG_GEARS, 0, CAO_GEARS)
+            local seedAbsPos = seedButton.AbsolutePosition
+            local seedAbsSize = seedButton.AbsoluteSize
+            local targetX_Gears = seedAbsPos.X - 5 + TRUOT_PHAI_GEARS
+            local targetY_Gears = seedAbsPos.Y + (seedAbsSize.Y / 2) + LECH_Y_GEARS
+            GearBtn.Position = UDim2.new(0, targetX_Gears, 0, targetY_Gears)
         else
             GearBtn.Visible = false
         end
         
         if sellButton.AbsoluteSize.X > 0 then
             QuestBtn.Visible = true
-            QuestBtn.Size = UDim2.new(0, 350, 0, 150)
-            QuestBtn.Position = UDim2.new(0, sellButton.AbsolutePosition.X + sellButton.AbsoluteSize.X + 5 - 100, 0, sellButton.AbsolutePosition.Y + (sellButton.AbsoluteSize.Y / 2) + 5)
+            QuestBtn.Size = UDim2.new(0, RONG_QUEST, 0, CAO_QUEST)
+            local sellAbsPos = sellButton.AbsolutePosition
+            local sellAbsSize = sellButton.AbsoluteSize
+            local targetX_Quest = sellAbsPos.X + sellAbsSize.X + 5 - TRUOT_TRAI_QUEST
+            local targetY_Quest = sellAbsPos.Y + (sellAbsSize.Y / 2) + LECH_Y_QUEST
+            QuestBtn.Position = UDim2.new(0, targetX_Quest, 0, targetY_Quest)
         else
             QuestBtn.Visible = false
         end
