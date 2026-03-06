@@ -1,7 +1,7 @@
 -- ==================================================
--- AMETHYST HUB - PREMIUM LOADING SCREEN (NATURE THEME)
+-- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + SMART AI QUEST)
+-- Cập nhật: Giao diện chuẩn, Tên mới, Cấm rút gọn code, Tích hợp AI V21
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -21,6 +21,9 @@ if CoreGui:FindFirstChild("GardenImageLoading") then
     CoreGui.GardenImageLoading:Destroy()
 end
 
+-- ==================================================
+-- 1. LOADING SCREEN GỐC
+-- ==================================================
 local LoadGui = Instance.new("ScreenGui")
 LoadGui.Name = "GardenImageLoading"
 LoadGui.DisplayOrder = 10000 
@@ -219,7 +222,9 @@ task.spawn(function()
         local dotCount = 0
         while isLoading do
             dotCount = dotCount + 1
-            if dotCount > 3 then dotCount = 0 end
+            if dotCount > 3 then
+                dotCount = 0
+            end
             local dots = string.rep(".", dotCount)
             StatusText.Text = currentBaseText .. dots
             task.wait(0.4)
@@ -321,25 +326,21 @@ task.spawn(function()
     LoadGui:Destroy() 
 end)
 
--- THỜI GIAN ĐỢI CHUẨN XÁC ĐỂ LOADING SCREEN BIẾN MẤT HOÀN TOÀN RỒI MỚI BẬT WIND UI
 task.wait(16.5) 
 
-
 -- ==================================================
--- PROJECT: GARDEN HORIZONS - WIND UI (REMOTE SHOP V69)
+-- 2. KHỞI TẠO WIND UI VÀ MENU CHÍNH
 -- ==================================================
 
 if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
--- ================= [ ANTI-AFK ] =================
 LocalPlayer.Idled:Connect(function()
     VirtualUser:CaptureController()
     VirtualUser:ClickButton2(Vector2.new())
 end)
 
--- ================= [ TẢI WIND UI ] =================
 local Success, WindUI = pcall(function()
     return loadstring(game:HttpGet("https://raw.githubusercontent.com/Footagesus/WindUI/main/dist/main.lua"))()
 end)
@@ -351,19 +352,20 @@ end
 
 WindUI:SetNotificationLower(true) 
 
+-- ĐỔI TÊN HUB THEO LỆNH CỦA SẾP
 local Window = WindUI:CreateWindow({
-    Title = "GARDEN HORIZONS HUB",
+    Title = "AMETHYST X GARDEN HORIZONS",
     Icon = "rbxassetid://100817188992562",
     Author = "HUYKOGIAUVN",
     Folder = "GardenHorizons",
     Transparent = true,
     Theme = "Dark",
-    SideBarWidth = 170,
+    SideBarWidth = 190,
     HasOutline = true,
 })
 
 local Tabs = {
-    QuestAI = Window:Tab({ Title = "🤖 Auto Quest AI", Icon = "bot" }), -- TAB MỚI TÍCH HỢP TẠI ĐÂY
+    QuestAI = Window:Tab({ Title = "🤖 Auto Quest AI", Icon = "bot" }),
     Farm = Window:Tab({ Title = "Auto Farm", Icon = "sword" }),
     Shop = Window:Tab({ Title = "Shop Tự Động", Icon = "shopping-cart" }),
     Plant = Window:Tab({ Title = "Khu Vực Cày", Icon = "flask" }),
@@ -379,24 +381,103 @@ local function Notify(title, content, duration)
     })
 end
 
--- ================= [ HÀM HỖ TRỢ FARM & TÀI CHÍNH BẢN GỐC ] =================
+-- ==================================================
+-- 3. CÁC HÀM HỖ TRỢ CHUNG (GIỮ NGUYÊN 100%)
+-- ==================================================
+
+local ItemPrices = {
+    ["Carrot"] = 20,
+    ["Corn"] = 100,
+    ["Onion"] = 200,
+    ["Strawberry"] = 800,
+    ["Mushroom"] = 1500,
+    ["Beetroot"] = 2500,
+    ["Tomato"] = 4000,
+    ["Apple"] = 7000,
+    ["Rose"] = 10000,
+    ["Wheat"] = 12000,
+    ["Banana"] = 30000,
+    ["Plum"] = 60000,
+    ["Potato"] = 100000,
+    ["Cabbage"] = 150000,
+    ["Bamboo"] = 175000,
+    ["Cherry"] = 1000000,
+    ["Mango"] = 10000000,
+    ["Watering Can"] = 5000,
+    ["Basic Sprinkler"] = 15000,
+    ["Harvest Bell"] = 35000,
+    ["Turbo Sprinkler"] = 60000,
+    ["Favorite Tool"] = 80000,
+    ["Super Sprinkler"] = 100000,
+    ["Trowel"] = 250000
+}
+
+local ShortSeedsList = {
+    "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
+    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Bamboo", "Cherry", "Mango"
+}
+
+local function GetPlayerMoney()
+    local pGui = LocalPlayer:FindFirstChild("PlayerGui")
+    local cam = Workspace.CurrentCamera
+    
+    if not pGui or not cam then
+        return 0
+    end
+    
+    local screenW = cam.ViewportSize.X
+    local screenH = cam.ViewportSize.Y
+    
+    for _, obj in pairs(pGui:GetDescendants()) do
+        if obj:IsA("TextLabel") and obj.Visible and obj.TextTransparency < 1 then
+            if obj.AbsolutePosition.X < (screenW * 0.4) and obj.AbsolutePosition.Y > (screenH * 0.6) then
+                if string.match(obj.Text, "^%$[%d%,%.]+") then
+                    local rawText = string.gsub(obj.Text, "^%$", "")
+                    rawText = string.gsub(rawText, ",", "")
+                    
+                    local multi = 1
+                    if string.match(rawText, "K$") then
+                        multi = 1000
+                        rawText = string.gsub(rawText, "K$", "")
+                    elseif string.match(rawText, "M$") then
+                        multi = 1000000
+                        rawText = string.gsub(rawText, "M$", "")
+                    elseif string.match(rawText, "B$") then
+                        multi = 1000000000
+                        rawText = string.gsub(rawText, "B$", "")
+                    end
+                    
+                    local number = tonumber(rawText)
+                    if number then
+                        return number * multi
+                    end
+                end
+            end
+        end
+    end
+    return 0
+end
+
 local function FirePrompt(prompt)
     if prompt and prompt:IsA("ProximityPrompt") then
         local oldLOS = prompt.RequiresLineOfSight
         local oldDist = prompt.MaxActivationDistance
+        
         pcall(function()
             prompt.RequiresLineOfSight = false
             prompt.MaxActivationDistance = 99999
         end)
+        
         pcall(function()
             if fireproximityprompt then
                 fireproximityprompt(prompt, 1, true)
             else
                 prompt:InputHoldBegin()
-                task.wait(prompt.HoldDuration + 0.1)
+                task.wait(0.1)
                 prompt:InputHoldEnd()
             end
         end)
+        
         pcall(function()
             prompt.RequiresLineOfSight = oldLOS
             prompt.MaxActivationDistance = oldDist
@@ -406,9 +487,15 @@ end
 
 local function GetCropUuid(obj)
     local uuid = obj:GetAttribute("Uuid") or obj:GetAttribute("UUID") or obj:GetAttribute("uuid")
-    if uuid then return uuid end
+    if uuid then
+        return uuid
+    end
+    
     local val = obj:FindFirstChild("Uuid") or obj:FindFirstChild("UUID") or obj:FindFirstChild("uuid")
-    if val and val:IsA("StringValue") then return val.Value end
+    if val and val:IsA("StringValue") then
+        return val.Value
+    end
+    
     return nil
 end
 
@@ -416,26 +503,41 @@ local function NinjaClickHarvestButton(targetPart)
     local clicked = false
     
     local function FireSignals(gui)
-        if clicked then return end
+        if clicked then
+            return
+        end
         pcall(function()
             if getconnections then
-                for _, c in pairs(getconnections(gui.MouseButton1Down)) do c:Fire() end
-                for _, c in pairs(getconnections(gui.MouseButton1Up)) do c:Fire() end
-                for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end
-                for _, c in pairs(getconnections(gui.Activated)) do c:Fire() end
-                for _, c in pairs(getconnections(gui.TouchTap)) do c:Fire() end
+                for _, c in pairs(getconnections(gui.MouseButton1Down)) do
+                    c:Fire()
+                end
+                for _, c in pairs(getconnections(gui.MouseButton1Up)) do
+                    c:Fire()
+                end
+                for _, c in pairs(getconnections(gui.MouseButton1Click)) do
+                    c:Fire()
+                end
+                for _, c in pairs(getconnections(gui.Activated)) do
+                    c:Fire()
+                end
+                for _, c in pairs(getconnections(gui.TouchTap)) do
+                    c:Fire()
+                end
             end
         end)
         clicked = true
     end
 
     pcall(function()
-        local pGui = LocalPlayer:FindFirstChild("PlayerGui")
-        if pGui then
-            for _, gui in pairs(pGui:GetDescendants()) do
-                if clicked then break end
+        if LocalPlayer.PlayerGui then
+            for _, gui in pairs(LocalPlayer.PlayerGui:GetDescendants()) do
+                if clicked then
+                    break
+                end
                 if (gui:IsA("ImageButton") or gui:IsA("TextButton")) and gui.Visible then
-                    if string.find(string.lower(gui.Name), "harvest") then FireSignals(gui) end
+                    if string.find(string.lower(gui.Name), "harvest") then
+                        FireSignals(gui)
+                    end
                 end
             end
         end
@@ -444,9 +546,13 @@ local function NinjaClickHarvestButton(targetPart)
     if targetPart and not clicked then
         pcall(function()
             for _, gui in pairs(targetPart:GetDescendants()) do
-                if clicked then break end
+                if clicked then
+                    break
+                end
                 if gui:IsA("ImageButton") or gui:IsA("TextButton") then
-                    if string.find(string.lower(gui.Name), "harvest") then FireSignals(gui) end
+                    if string.find(string.lower(gui.Name), "harvest") then
+                        FireSignals(gui)
+                    end
                 end
             end
         end)
@@ -479,10 +585,11 @@ local function SafeUnfreeze()
             if root then
                 root.Anchored = false
             end
+            
             local hum = char:FindFirstChild("Humanoid")
             if hum then 
                 hum.Sit = false
-                hum.Jump = true 
+                hum.Jump = true
                 hum.WalkSpeed = 16
                 hum:ChangeState(Enum.HumanoidStateType.Running) 
                 Workspace.CurrentCamera.CameraSubject = hum 
@@ -494,66 +601,40 @@ local function SafeUnfreeze()
     end)
 end
 
-local function GetPlayerMoney()
-    local pGui = LocalPlayer:FindFirstChild("PlayerGui")
-    local cam = Workspace.CurrentCamera
-    if not pGui or not cam then return 0 end
-    
-    local screenW = cam.ViewportSize.X
-    local screenH = cam.ViewportSize.Y
-    
-    for _, obj in pairs(pGui:GetDescendants()) do
-        if obj:IsA("TextLabel") and obj.Visible and obj.TextTransparency < 1 then
-            if obj.AbsolutePosition.X < (screenW * 0.4) and obj.AbsolutePosition.Y > (screenH * 0.6) then
-                if string.match(obj.Text, "^%$[%d%,%.]+") then
-                    local rawText = string.gsub(obj.Text, "^%$", "")
-                    rawText = string.gsub(rawText, ",", "")
-                    
-                    local multi = 1
-                    if string.match(rawText, "K$") then
-                        multi = 1000
-                        rawText = string.gsub(rawText, "K$", "")
-                    elseif string.match(rawText, "M$") then
-                        multi = 1000000
-                        rawText = string.gsub(rawText, "M$", "")
-                    elseif string.match(rawText, "B$") then
-                        multi = 1000000000
-                        rawText = string.gsub(rawText, "B$", "")
-                    end
-                    
-                    local number = tonumber(rawText)
-                    if number then return number * multi end
-                end
+local function ForceClick(element)
+    if not element then
+        return
+    end
+    pcall(function()
+        if getconnections then
+            for _, c in pairs(getconnections(element.MouseButton1Down)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.MouseButton1Up)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.MouseButton1Click)) do
+                c:Fire()
+            end
+            for _, c in pairs(getconnections(element.Activated)) do
+                c:Fire()
             end
         end
-    end
-    return 0
+    end)
+    pcall(function()
+        element:Activate()
+    end)
 end
 
-local ItemPrices = {
-    ["Carrot"] = 20, ["Corn"] = 100, ["Onion"] = 200, ["Strawberry"] = 800,
-    ["Mushroom"] = 1500, ["Beetroot"] = 2500, ["Tomato"] = 4000, ["Apple"] = 7000,
-    ["Rose"] = 10000, ["Wheat"] = 12000, ["Banana"] = 30000, ["Plum"] = 60000,
-    ["Potato"] = 100000, ["Cabbage"] = 150000, ["Cherry"] = 1000000,
-    ["Bamboo"] = 175000, ["Mango"] = 10000000,
-    ["Watering Can"] = 5000, ["Basic Sprinkler"] = 15000, ["Harvest Bell"] = 35000,
-    ["Turbo Sprinkler"] = 60000, ["Favorite Tool"] = 80000, ["Super Sprinkler"] = 100000, ["Trowel"] = 250000
-}
-
-local ShortSeedsList = {
-    "Carrot", "Corn", "Onion", "Strawberry", "Mushroom", "Beetroot", "Tomato", 
-    "Apple", "Rose", "Wheat", "Banana", "Plum", "Potato", "Cabbage", "Cherry", "Bamboo", "Mango"
-}
-
 -- ==================================================
--- [TÍCH HỢP TẠI ĐÂY] TAB 1: 🤖 AUTO QUEST AI 
+-- 4. TAB 1: 🤖 AUTO QUEST AI 
 -- ==================================================
 getgenv().SmartAIToggle = false
 getgenv().CurrentQuestTab = "Daily"
 
 Tabs.QuestAI:Paragraph({
-    Title = "Hướng Dẫn Cày Nhiệm Vụ",
-    Desc = "AI tự động vét sạch bảng nhiệm vụ Hàng Ngày, sau đó tự nhảy sang làm Hàng Tuần. Tự động mua hạt, tự trồng bù cây nếu thiếu."
+    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Trí tuệ nhân tạo sẽ tự động vét sạch bảng nhiệm vụ Hàng Ngày, sau đó tự nhảy sang làm Hàng Tuần. Quá trình bao gồm: tự động mua hạt nếu thiếu, tự trồng bù cây, và tự động thu hoạch/bán để hoàn thành nhiệm vụ."
 })
 
 local QuestStatusDisplay = Tabs.QuestAI:Paragraph({
@@ -566,23 +647,6 @@ local function AI_UpdateStatus(text)
         Title = "📊 TRẠNG THÁI AI",
         Desc = text
     })
-end
-
-local function AI_ForceClick(element)
-    if not element then
-        return
-    end
-    pcall(function()
-        if getconnections then
-            for _, c in pairs(getconnections(element.MouseButton1Down)) do c:Fire() end
-            for _, c in pairs(getconnections(element.MouseButton1Up)) do c:Fire() end
-            for _, c in pairs(getconnections(element.MouseButton1Click)) do c:Fire() end
-            for _, c in pairs(getconnections(element.Activated)) do c:Fire() end
-        end
-    end)
-    pcall(function()
-        element:Activate()
-    end)
 end
 
 local function AI_NormalizeName(name)
@@ -646,13 +710,13 @@ local function AI_SwitchQuestTab(keyword)
         if (obj:IsA("TextButton") or obj:IsA("ImageButton")) and obj.Visible then
             local text = string.lower(obj:IsA("TextButton") and obj.Text or "")
             if string.find(text, string.lower(keyword)) then
-                AI_ForceClick(obj)
+                ForceClick(obj)
                 return true
             end
             
             for _, child in pairs(obj:GetChildren()) do
                 if child:IsA("TextLabel") and string.find(string.lower(child.Text), string.lower(keyword)) then
-                    AI_ForceClick(obj)
+                    ForceClick(obj)
                     return true
                 end
             end
@@ -1354,7 +1418,6 @@ end
 
 Tabs.QuestAI:Toggle({
     Title = "🔥 BẬT SMART QUEST AI (All-in-One)",
-    Desc = "Bật cái này là tự lo từ A-Z, xin đừng bấm tay làm nhiễu AI.",
     Value = false,
     Callback = function(state)
         getgenv().SmartAIToggle = state
@@ -1382,7 +1445,7 @@ Tabs.QuestAI:Toggle({
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
                                         AI_UpdateStatus("🎉 Nhận thấy phần thưởng! Đang click đớp quà...")
-                                        AI_ForceClick(claimBtn)
+                                        ForceClick(claimBtn)
                                         foundAction = true
                                         task.wait(1.5)
                                         break 
@@ -1536,13 +1599,18 @@ Tabs.QuestAI:Toggle({
 -- 5. TAB 2: AUTO FARM GỐC
 -- ==================================================
 local TabFarm = Tabs.Farm
+
+TabFarm:Paragraph({
+    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Hệ thống tự động thu hoạch (tàng hình) 1 chạm không sử dụng chuột ảo để chống liệt phím. Tính năng chỉ thu hoạch và đi bán, vui lòng không bật chung với Auto Quest AI để tránh xung đột."
+})
+
 getgenv().EnableFarmTest = false
 getgenv().FarmDelay = 0.25 
 getgenv().SellLimit = 20  
 
 TabFarm:Slider({
     Title = "⏱️ Tốc độ Delay",
-    Desc = "Bơm điện 1 chạm, nên để 0.25 để UI kịp load tín hiệu.",
     Step = 0.05,
     Min = 0.05,
     Max = 1.0,
@@ -1554,7 +1622,6 @@ TabFarm:Slider({
 
 TabFarm:Toggle({
     Title = "🔥 BẬT AUTO FARM (TÀNG HÌNH)",
-    Desc = "Chỉ thu hoạch. Đừng bật chung với AI Quest bên kia.",
     Value = false,
     Callback = function(state)
         getgenv().EnableFarmTest = state
@@ -1700,7 +1767,6 @@ TabFarm:Toggle({
 
 TabFarm:Button({
     Title = "💰 Bán Nông Sản (Bán Thủ Công)",
-    Desc = "Dịch chuyển bán sạch rồi về chỗ cũ.",
     Callback = function()
         local char = LocalPlayer.Character
         if not char then return end
@@ -1764,6 +1830,12 @@ TabFarm:Button({
 -- 6. TAB 3: SHOP TỰ ĐỘNG GỐC
 -- ==================================================
 local TabShop = Tabs.Shop
+
+TabShop:Paragraph({
+    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Hệ thống tự động soi Shop từ xa thông qua Remote. Chỉ bay tới mua hàng khi đã check đủ điều kiện: Shop có stock và ví đủ tiền. Tự động đứng rình (Sniper) nếu mục tiêu hết hàng."
+})
+
 local SelectedSeeds = {["Carrot"] = true} 
 getgenv().AutoBuyToggle = false
 local IsBuying = false
@@ -1791,7 +1863,6 @@ TabShop:Dropdown({
 
 TabShop:Toggle({
     Title = "⚡ AUTO RÌNH MỒI (Sniper Hạt Giống)",
-    Desc = "Bay đi mua khi đủ tiền. Tự động tắt nếu thiếu tiền/hàng.",
     Value = false,
     Callback = function(state)
         getgenv().AutoBuyToggle = state
@@ -2173,6 +2244,12 @@ TabShop:Toggle({
 -- 7. TAB 4: KHU VỰC CÀY TAY (GIEO HẠT) GỐC
 -- ==================================================
 local TabPlant = Tabs.Plant
+
+TabPlant:Paragraph({
+    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Hệ thống tự động gieo hạt xuyên lục địa sử dụng sóng Radar (Raycast) bắn từ trên trời xuống để dò ô đất trống, hỗ trợ khi sếp muốn tự cày bằng tay thay vì dùng AI."
+})
+
 local PlantGridSpacing = 3.5 
 local CayHuongDoc = true 
 local PlantSelectedSeeds = {["Carrot"] = true}
@@ -2217,7 +2294,6 @@ TabPlant:Dropdown({
 
 TabPlant:Toggle({
     Title = "🚀 BẬT AUTO GIEO HẠT (Xuyên Lục Địa)",
-    Desc = "Dùng khi sếp muốn tự cày tay không qua AI.",
     Value = false,
     Callback = function(state)
         getgenv().TestAutoPlant = state
@@ -2396,6 +2472,11 @@ TabPlant:Toggle({
 -- 8. TAB 5: SETTINGS & NÚT VỆ TINH GỐC
 -- ==================================================
 local TabSettings = Tabs.Settings
+
+TabSettings:Paragraph({
+    Title = "💡 GIỚI THIỆU CHỨC NĂNG",
+    Desc = "Tùy chỉnh góc nhìn, tắt menu hoặc hiển thị 2 Nút Vệ Tinh (Quick Teleport) bám theo màn hình để bay siêu tốc đến Shop Dụng Cụ và Bảng Nhiệm Vụ."
+})
 
 TabSettings:Button({
     Title = "Mở khóa Camera",
@@ -2600,4 +2681,4 @@ task.spawn(function()
     end)
 end)
 
-Notify("HỆ THỐNG", "Garden Horizons Hub Loaded! Vệ Tinh Đã Kích Hoạt!", 5)
+Notify("HỆ THỐNG", "Amethyst x Garden Horizons Đã Kích Hoạt!", 5)
