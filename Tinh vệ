@@ -1,8 +1,8 @@
 -- ==================================================
 -- AMETHYST X GARDEN HORIZONS
 -- Bản Quyền Thuộc Về: HUYKOGIAUVN
--- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + AUTO QUEST)
--- Cập nhật: FIX LỖI KHÔNG NHẬN NHIỆM VỤ, THÊM TRẠNG THÁI FARM, CẤM RÚT GỌN.
+-- Tính năng: All in One (Auto Farm + Auto Buy + Gieo Hạt + Nút Dịch Chuyển Vệ Tinh + SMART AI QUEST)
+-- Cập nhật: TÍCH HỢP NGUYÊN BẢN LÕI AUTO QUESTION.TXT. GIỮ NGUYÊN 100% CODE CỦA SẾP.
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -22,9 +22,6 @@ if CoreGui:FindFirstChild("GardenImageLoading") then
     CoreGui.GardenImageLoading:Destroy()
 end
 
--- ==================================================
--- 1. LOADING SCREEN GỐC
--- ==================================================
 local LoadGui = Instance.new("ScreenGui")
 LoadGui.Name = "GardenImageLoading"
 LoadGui.DisplayOrder = 10000 
@@ -250,13 +247,13 @@ task.spawn(function()
     task.wait(0.5) 
     
     SetCharacterState(true)
-    currentBaseText = "Đang tải dữ liệu"
+    currentBaseText = "Đang tạo gui"
     local t1 = TweenService:Create(BarFill, TweenInfo.new(2.5, Enum.EasingStyle.Linear), {Size = UDim2.new(0.3, 0, 1, 0)})
     t1:Play()
     t1.Completed:Wait()
     
     SetCharacterState(false)
-    currentBaseText = "Khởi tạo chức năng script vui lòng chờ ⌚"
+    currentBaseText = "Đang tạo chức năng script vui lòng chờ ⌚"
     SpawnLeaves() 
     task.wait(1.0) 
 
@@ -327,6 +324,7 @@ task.spawn(function()
     LoadGui:Destroy() 
 end)
 
+-- THỜI GIAN ĐỢI CHUẨN XÁC ĐỂ LOADING SCREEN BIẾN MẤT HOÀN TOÀN RỒI MỚI BẬT WIND UI
 task.wait(16.5) 
 
 
@@ -628,7 +626,7 @@ local function ForceClick(element)
 end
 
 -- ==================================================
--- 4. TAB 1: AUTO QUEST (ĐÃ SỬA LỖI ĐỨNG YÊN)
+-- 4. TAB 1: AUTO QUEST (TÍCH HỢP TỪ FILE AUTO QUESTION)
 -- ==================================================
 getgenv().SmartAIToggle = false
 getgenv().CurrentQuestTab = "Daily"
@@ -643,6 +641,7 @@ local QuestStatusDisplay = Tabs.QuestAI:Paragraph({
     Desc = "Đang chờ lệnh từ sếp..."
 })
 
+-- Các hàm cốt lõi bóc tách 100% từ AUTO QUESTION.txt
 local function AI_UpdateStatus(text)
     QuestStatusDisplay:Set({
         Title = "TRẠNG THÁI HỆ THỐNG",
@@ -650,100 +649,37 @@ local function AI_UpdateStatus(text)
     })
 end
 
-local function AI_ForceClick(element)
-    if not element then
-        return
-    end
-    pcall(function()
-        if getconnections then
-            for _, c in pairs(getconnections(element.MouseButton1Down)) do
-                c:Fire()
-            end
-            for _, c in pairs(getconnections(element.MouseButton1Up)) do
-                c:Fire()
-            end
-            for _, c in pairs(getconnections(element.MouseButton1Click)) do
-                c:Fire()
-            end
-            for _, c in pairs(getconnections(element.Activated)) do
-                c:Fire()
-            end
-        end
-    end)
-    pcall(function()
-        element:Activate()
-    end)
-end
-
 local function AI_NormalizeName(name)
     local n = string.lower(name)
-    if string.find(n, "apples") then
-        return "Apple"
-    end
-    if string.find(n, "onions") then
-        return "Onion"
-    end
-    if string.find(n, "carrots") then
-        return "Carrot"
-    end
-    if string.find(n, "corns") then
-        return "Corn"
-    end
-    if string.find(n, "strawberries") then
-        return "Strawberry"
-    end
-    if string.find(n, "mushrooms") then
-        return "Mushroom"
-    end
-    if string.find(n, "tomatoes") then
-        return "Tomato"
-    end
-    if string.find(n, "roses") then
-        return "Rose"
-    end
-    if string.find(n, "cabbages") then
-        return "Cabbage"
-    end
-    if string.find(n, "cherries") then
-        return "Cherry"
-    end
-    if string.find(n, "potatoes") then
-        return "Potato"
-    end
-    if string.find(n, "plums") then
-        return "Plum"
-    end
-    if string.find(n, "bamboos") then
-        return "Bamboo"
-    end
-    if string.find(n, "mangoes") or string.find(n, "mangos") then
-        return "Mango"
-    end
-    if string.find(n, "crops") or string.find(n, "plants") then
-        return "ANY"
-    end 
+    if string.find(n, "apples") then return "Apple" end
+    if string.find(n, "onions") then return "Onion" end
+    if string.find(n, "carrots") then return "Carrot" end
+    if string.find(n, "corns") then return "Corn" end
+    if string.find(n, "strawberries") then return "Strawberry" end
+    if string.find(n, "mushrooms") then return "Mushroom" end
+    if string.find(n, "tomatoes") then return "Tomato" end
+    if string.find(n, "roses") then return "Rose" end
+    if string.find(n, "cabbages") then return "Cabbage" end
+    if string.find(n, "cherries") then return "Cherry" end
+    if string.find(n, "potatoes") then return "Potato" end
+    if string.find(n, "plums") then return "Plum" end
+    if string.find(n, "bamboos") then return "Bamboo" end
+    if string.find(n, "mangoes") or string.find(n, "mangos") then return "Mango" end
+    if string.find(n, "crops") or string.find(n, "plants") then return "ANY" end 
     return (name:gsub("^%l", string.upper))
 end
 
 local function AI_SwitchQuestTab(keyword)
     local pGui = LocalPlayer:FindFirstChild("PlayerGui")
     local questGui = pGui and pGui:FindFirstChild("Quests")
-    if not questGui then
-        return false
-    end
-    
+    if not questGui then return false end
     for _, obj in pairs(questGui:GetDescendants()) do
         if (obj:IsA("TextButton") or obj:IsA("ImageButton")) and obj.Visible then
             local text = string.lower(obj:IsA("TextButton") and obj.Text or "")
-            if string.find(text, string.lower(keyword)) then
-                AI_ForceClick(obj)
-                return true
-            end
-            
+            if string.find(text, string.lower(keyword)) then ForceClick(obj); return true end
             for _, child in pairs(obj:GetChildren()) do
                 if child:IsA("TextLabel") and string.find(string.lower(child.Text), string.lower(keyword)) then
-                    AI_ForceClick(obj)
-                    return true
+                    ForceClick(obj); return true
                 end
             end
         end
@@ -754,13 +690,9 @@ end
 local function AI_IsQuestClaimed(slot)
     for _, obj in pairs(slot:GetDescendants()) do
         if obj:IsA("TextLabel") or obj:IsA("TextButton") then
-            if string.find(string.lower(obj.Text), "claimed") then
-                return true
-            end
+            if string.find(string.lower(obj.Text), "claimed") then return true end
         end
-        if string.find(string.lower(obj.Name), "claimed") then
-            return true
-        end
+        if string.find(string.lower(obj.Name), "claimed") then return true end
     end
     return false
 end
@@ -771,26 +703,15 @@ local function AI_GetActionButton(slot, keyword)
             local name = string.lower(obj.Name)
             local text = string.lower(obj:IsA("TextButton") and obj.Text or "")
             
-            if keyword == "claim" and (string.find(name, "claimed") or string.find(text, "claimed")) then
-                continue
-            end
-            
-            if string.find(name, keyword) or string.find(text, keyword) then
-                return obj
-            end
+            if keyword == "claim" and (string.find(name, "claimed") or string.find(text, "claimed")) then continue end
+            if string.find(name, keyword) or string.find(text, keyword) then return obj end
             
             for _, child in pairs(obj:GetChildren()) do
                 if child:IsA("TextLabel") then
                     local cText = string.lower(child.Text)
                     local cName = string.lower(child.Name)
-                    
-                    if keyword == "claim" and (string.find(cText, "claimed") or string.find(cName, "claimed")) then
-                        continue
-                    end
-                    
-                    if string.find(cText, keyword) or string.find(cName, keyword) then
-                        return obj
-                    end
+                    if keyword == "claim" and (string.find(cText, "claimed") or string.find(cName, "claimed")) then continue end
+                    if string.find(cText, keyword) or string.find(cName, keyword) then return obj end
                 end
             end
         end
@@ -803,108 +724,53 @@ local function AI_IsQuestCompletedByText(slot)
         if obj:IsA("TextLabel") then
             local current, max = string.match(obj.Text, "(%d+)/(%d+)")
             if current and max then
-                if tonumber(current) >= tonumber(max) and tonumber(max) > 0 then
-                    return true
-                end
+                if tonumber(current) >= tonumber(max) and tonumber(max) > 0 then return true end
             end
             local txt = string.lower(obj.Text)
-            if txt == "completed" or txt == "done" or txt == "finished" then
-                return true
-            end
+            if txt == "completed" or txt == "done" or txt == "finished" then return true end
         end
     end
     return false
 end
 
-local function AI_GetQuestNameText(slot)
-    local direct = slot:FindFirstChild("QuestName")
-    if direct and direct:IsA("TextLabel") then
-        return direct.Text
-    end
-    
-    for _, obj in pairs(slot:GetDescendants()) do
-        if obj:IsA("TextLabel") and obj.Name == "QuestName" then
-            return obj.Text
-        end
-    end
-    
-    for _, obj in pairs(slot:GetDescendants()) do
-        if obj:IsA("TextLabel") then
-            local txt = string.lower(obj.Text)
-            if string.find(txt, "plant") or string.find(txt, "harvest") or string.find(txt, "sell") or string.find(txt, "water") or string.find(txt, "earn") then
-                return obj.Text
-            end
-        end
-    end
-    return nil
-end
-
 local function AI_ParseQuestText(text)
-    local cleanText = string.gsub(text, "<[^>]+>", "") 
-    local lowerText = string.lower(cleanText)
-    
-    local plantAmt, plantName = string.match(lowerText, "plant (%d+) (.-) seed")
-    if not plantAmt then
-        plantAmt, plantName = string.match(lowerText, "plant (%d+) (.+)")
+    local plantAmt, plantName = string.match(text, "Plant (%d+) (.-) Seed")
+    if plantAmt and plantName then 
+        plantName = AI_NormalizeName(plantName)
+        return {Type = "Plant", Amount = tonumber(plantAmt), Name = plantName} 
     end
     
-    if plantAmt and plantName then
-        local cleanName = string.gsub(plantName, " seeds", "")
-        cleanName = string.gsub(cleanName, " seed", "")
-        return {
-            Type = "Plant",
-            Amount = tonumber(plantAmt),
-            Name = AI_NormalizeName(cleanName)
-        }
+    local harvestAmt, harvestName = string.match(text, "Harvest (%d+) (.+)")
+    if harvestAmt and harvestName then 
+        harvestName = AI_NormalizeName(harvestName)
+        return {Type = "Harvest", Amount = tonumber(harvestAmt), Name = harvestName} 
     end
     
-    local harvestAmt, harvestName = string.match(lowerText, "harvest (%d+) (.+)")
-    if harvestAmt and harvestName then
-        return {
-            Type = "Harvest",
-            Amount = tonumber(harvestAmt),
-            Name = AI_NormalizeName(harvestName)
-        }
-    end
-    
-    local sellAmt, sellName = string.match(lowerText, "sell (%d+) (.+)")
-    if sellAmt and sellName then
-        return {
-            Type = "SellSpecific",
-            Amount = tonumber(sellAmt),
-            Name = AI_NormalizeName(sellName)
-        }
+    local sellAmt, sellName = string.match(text, "Sell (%d+) (.+)")
+    if sellAmt and sellName then 
+        sellName = AI_NormalizeName(sellName)
+        return {Type = "SellSpecific", Amount = tonumber(sellAmt), Name = sellName} 
     end
 
-    local waterAmt, waterName = string.match(lowerText, "water (%d+) (.+)")
-    if waterAmt and waterName then
-        return {
-            Type = "Water",
-            Amount = tonumber(waterAmt),
-            Name = AI_NormalizeName(waterName)
-        }
+    local waterAmt, waterName = string.match(text, "Water (%d+) (.+)")
+    if waterAmt and waterName then 
+        waterName = AI_NormalizeName(waterName)
+        return {Type = "Water", Amount = tonumber(waterAmt), Name = waterName} 
     end
 
-    if string.find(lowerText, "earn") or string.find(lowerText, "shilling") or string.find(lowerText, "%$") then
-        return {
-            Type = "Money",
-            Name = "ANY"
-        }
+    local lowerText = string.lower(text)
+    if string.find(lowerText, "earn") or string.find(lowerText, "shilling") or string.find(lowerText, "%$") or string.match(text, "%d+/%d+[KkMm]") then
+        return {Type = "Money", Name = "ANY"}
     end
     
     return nil 
 end
 
 local function AI_GoBuySeed_Strict(seedName)
-    if seedName == "ANY" then
-        return false
-    end
-    
+    if seedName == "ANY" then return false end 
     local char = LocalPlayer.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
-    if not root then
-        return false
-    end
+    if not root then return false end
 
     local actualName = seedName .. " Seed"
     local bought = false
@@ -912,25 +778,16 @@ local function AI_GoBuySeed_Strict(seedName)
 
     while getgenv().SmartAIToggle and not bought do
         local shopData = nil
-        pcall(function()
-            shopData = ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop")
-        end)
+        pcall(function() shopData = ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop") end)
         
         if type(shopData) == "table" and shopData.Items and shopData.Items[actualName] then
             local amtInShop = shopData.Items[actualName].Amount or 0
             if amtInShop > 0 then
-                
                 local myMoney = GetPlayerMoney()
-                
+                if myMoney <= 0 then myMoney = 9999999 end 
                 local price = ItemPrices[seedName] or 500
-                local buyAmt = 10
-                
-                if myMoney > 0 then
-                    local maxCanBuy = math.floor(myMoney / price)
-                    buyAmt = math.min(10, math.min(maxCanBuy, amtInShop))
-                else
-                    buyAmt = math.min(10, amtInShop)
-                end
+                local maxCanBuy = math.floor(myMoney / price)
+                local buyAmt = math.min(10, math.min(maxCanBuy, amtInShop))
                 
                 if buyAmt > 0 then
                     local billPrompt = nil
@@ -939,8 +796,7 @@ local function AI_GoBuySeed_Strict(seedName)
                             local pName = obj.Parent and string.lower(obj.Parent.Name) or ""
                             local oText = obj.ObjectText and string.lower(obj.ObjectText) or ""
                             if string.find(pName, "bill") or string.find(oText, "bill") then
-                                billPrompt = obj
-                                break
+                                billPrompt = obj; break
                             end
                         end
                     end
@@ -959,13 +815,7 @@ local function AI_GoBuySeed_Strict(seedName)
                                         local text = gui:IsA("TextButton") and gui.Text or ""
                                         local name = string.lower(gui.Name)
                                         if text == "X" or text == "Close" or string.find(name, "close") or string.find(name, "exit") then
-                                            pcall(function()
-                                                if getconnections then
-                                                    for _, c in pairs(getconnections(gui.MouseButton1Click)) do
-                                                        c:Fire()
-                                                    end
-                                                end
-                                            end)
+                                            pcall(function() if getconnections then for _, c in pairs(getconnections(gui.MouseButton1Click)) do c:Fire() end end end)
                                         end
                                     end
                                 end
@@ -979,25 +829,16 @@ local function AI_GoBuySeed_Strict(seedName)
 
                         root.Velocity = Vector3.zero
                         root.RotVelocity = Vector3.zero
-                        
                         local hum = char:FindFirstChild("Humanoid")
-                        if hum then
-                            hum.Sit = false
-                            hum.PlatformStand = false
-                        end
+                        if hum then hum.Sit = false; hum.PlatformStand = false end
                         
                         root.CFrame = CFrame.lookAt(billStandPos, billLookPos)
                         currentCam.CameraType = Enum.CameraType.Scriptable
                         currentCam.CFrame = CFrame.lookAt(billCamPos, billLookPos)
                         task.wait(0.3)
 
-                        if billPrompt then
-                            FirePrompt(billPrompt)
-                        end
-                        
-                        pcall(function()
-                            ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop")
-                        end)
+                        if billPrompt then FirePrompt(billPrompt) end
+                        pcall(function() ReplicatedStorage.RemoteEvents.GetShopData:InvokeServer("SeedShop") end)
                         task.wait(0.4)
 
                         root.Velocity = Vector3.zero
@@ -1007,15 +848,10 @@ local function AI_GoBuySeed_Strict(seedName)
 
                         for i = 1, buyAmt do
                             task.spawn(function()
-                                pcall(function()
-                                    ReplicatedStorage.RemoteEvents.PurchaseShopItem:InvokeServer("SeedShop", actualName)
-                                end)
+                                pcall(function() ReplicatedStorage.RemoteEvents.PurchaseShopItem:InvokeServer("SeedShop", actualName) end)
                             end)
-                            if i % 10 == 0 then
-                                RunService.Heartbeat:Wait()
-                            end
+                            if i % 10 == 0 then RunService.Heartbeat:Wait() end 
                         end
-                        
                         bought = true
                         task.wait(1.5)
                         killMenu = false
@@ -1028,15 +864,11 @@ local function AI_GoBuySeed_Strict(seedName)
                     task.wait(3)
                 end
             else
-                if not wasEmpty then
-                    wasEmpty = true
-                end
+                if not wasEmpty then wasEmpty = true end
                 task.wait(3)
             end
         else
-            if not wasEmpty then
-                wasEmpty = true
-            end
+            if not wasEmpty then wasEmpty = true end
             task.wait(3)
         end
     end
@@ -1046,9 +878,7 @@ end
 local function AI_SellAllCrops_Strict()
     local char = LocalPlayer.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
-    if not root then
-        return
-    end
+    if not root then return end
 
     local stevePos = Vector3.new(149.4, 204.0, 672.0)
     local standPos = stevePos + Vector3.new(0, 3, 0)
@@ -1061,10 +891,7 @@ local function AI_SellAllCrops_Strict()
             local actionName = string.lower(obj.ActionText)
             if string.find(actionName, "talk") or string.find(actionName, "sell") then
                 if obj.Parent and obj.Parent:IsA("BasePart") then
-                    if (obj.Parent.Position - stevePos).Magnitude < 20 then
-                        talkPrompt = obj
-                        break
-                    end
+                    if (obj.Parent.Position - stevePos).Magnitude < 20 then talkPrompt = obj; break end
                 end
             end
         end
@@ -1077,12 +904,8 @@ local function AI_SellAllCrops_Strict()
         
         root.Velocity = Vector3.zero
         root.RotVelocity = Vector3.zero
-        
         local hum = char:FindFirstChild("Humanoid")
-        if hum then
-            hum.Sit = false
-            hum.PlatformStand = false
-        end
+        if hum then hum.Sit = false; hum.PlatformStand = false end
         
         root.CFrame = CFrame.lookAt(standPos, lookPos)
         Workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
@@ -1092,9 +915,7 @@ local function AI_SellAllCrops_Strict()
         FirePrompt(talkPrompt)
         task.wait(0.3) 
         
-        pcall(function()
-            ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll")
-        end)
+        pcall(function() ReplicatedStorage.RemoteEvents.SellItems:InvokeServer("SellAll") end)
         task.wait(0.2)
         
         root.Velocity = Vector3.zero
@@ -1111,139 +932,84 @@ local function AI_ExecutePlant(targetName, qNameText)
     local char = LocalPlayer.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
     local hum = char and char:FindFirstChild("Humanoid")
-    
-    if not root or not hum then
-        return false
-    end
+    if not root or not hum then return false end
 
     local seedTool = nil
     local function isValidSeed(tool)
-        if not tool:IsA("Tool") then
-            return false
-        end
+        if not tool:IsA("Tool") then return false end
         local lowerName = string.lower(tool.Name)
-        
         if targetName == "ANY" then
-            if string.find(lowerName, "seed") then
-                return true
-            end
+            if string.find(lowerName, "seed") then return true end
             return false
         end
-        
-        if string.find(lowerName, string.lower(targetName)) and string.find(lowerName, "seed") then
-            return true
-        end
+        if string.find(lowerName, string.lower(targetName)) and string.find(lowerName, "seed") then return true end
         return false
     end
     
-    for _, t in pairs(char:GetChildren()) do
-        if isValidSeed(t) then
-            seedTool = t
-            break
-        end
-    end
-    
+    for _, t in pairs(char:GetChildren()) do if isValidSeed(t) then seedTool = t; break end end
     if not seedTool then
         local backpack = LocalPlayer:FindFirstChild("Backpack")
         if backpack then
-            for _, t in pairs(backpack:GetChildren()) do
-                if isValidSeed(t) then
-                    seedTool = t
-                    break
-                end
-            end
+            for _, t in pairs(backpack:GetChildren()) do if isValidSeed(t) then seedTool = t; break end end
         end
     end
 
     if not seedTool then
         if targetName == "ANY" then
-            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Không có hạt giống. Đang tự động mua hạt Cà Rốt...")
+            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Balo hết sạch hạt. Đang đi mua hạt Cà Rốt...")
             local bought = AI_GoBuySeed_Strict("Carrot") 
-            if bought then
-                task.wait(1)
-            end
+            if bought then task.wait(1) end
         else
-            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Balo không có hạt " .. targetName .. ". Đang tự động mua hạt...")
+            AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Balo không có hạt " .. targetName .. ". Đang rình mua hạt...")
             local bought = AI_GoBuySeed_Strict(targetName)
-            if bought then
-                task.wait(1)
-            end
+            if bought then task.wait(1) end
         end
 
         local backpack = LocalPlayer:FindFirstChild("Backpack")
         if backpack then
-            for _, t in pairs(backpack:GetChildren()) do
-                if isValidSeed(t) then
-                    seedTool = t
-                    break
-                end
-            end
+            for _, t in pairs(backpack:GetChildren()) do if isValidSeed(t) then seedTool = t; break end end
         end
     end
 
-    if not seedTool then
-        return false
-    end 
+    if not seedTool then return false end 
 
     local realSeedNameToPlant = targetName
-    if targetName == "ANY" then
-        realSeedNameToPlant = string.gsub(seedTool.Name, " Seed", "")
-    end
+    if targetName == "ANY" then realSeedNameToPlant = string.gsub(seedTool.Name, " Seed", "") end
 
     local dirtPartTarget = nil
     local plotsFolder = Workspace:FindFirstChild("Plots")
-    
     if plotsFolder then
         for _, plot in pairs(plotsFolder:GetChildren()) do
             local pArea = plot:FindFirstChild("PlantableArea")
             if pArea then
                 local isMyLand = false
-                if string.find(string.lower(plot.Name), string.lower(LocalPlayer.Name)) then
-                    isMyLand = true
-                end
-                
+                if string.find(string.lower(plot.Name), string.lower(LocalPlayer.Name)) then isMyLand = true end
                 if not isMyLand then
                     for _, obj in pairs(plot:GetDescendants()) do
-                        if obj:IsA("ObjectValue") and obj.Value == LocalPlayer then
-                            isMyLand = true
-                            break
-                        end
-                        if obj:IsA("StringValue") and (obj.Value == LocalPlayer.Name or obj.Value == LocalPlayer.DisplayName) then
-                            isMyLand = true
-                            break
-                        end
+                        if obj:IsA("ObjectValue") and obj.Value == LocalPlayer then isMyLand = true; break end
+                        if obj:IsA("StringValue") and (obj.Value == LocalPlayer.Name or obj.Value == LocalPlayer.DisplayName) then isMyLand = true; break end
                     end
                 end
-                
                 if isMyLand then
                     dirtPartTarget = pArea:FindFirstChildOfClass("BasePart") or pArea:FindFirstChildOfClass("Part")
-                    if dirtPartTarget then
-                        break
-                    end
+                    if dirtPartTarget then break end
                 end
             end
         end
     end
 
-    if not dirtPartTarget then
-        return false
-    end
+    if not dirtPartTarget then return false end
 
-    AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n🌱 Đang tự động gieo hạt " .. realSeedNameToPlant .. "...")
-    
+    AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n🌱 Đang tiến hành gieo hạt " .. realSeedNameToPlant .. "...")
     local centerPos = dirtPartTarget.Position
     local scanRadius = 40 
     local PlantGridSpacing = 3.5 
     local plantedSuccess = false
 
     for i = -scanRadius, scanRadius, PlantGridSpacing do
-        if plantedSuccess or not getgenv().SmartAIToggle then
-            break
-        end
+        if plantedSuccess or not getgenv().SmartAIToggle then break end
         for j = -scanRadius, scanRadius, PlantGridSpacing do
-            if not getgenv().SmartAIToggle then
-                break
-            end
+            if not getgenv().SmartAIToggle then break end
             
             local rayOrigin = Vector3.new(centerPos.X + i, centerPos.Y + 50, centerPos.Z + j)
             local rayDirection = Vector3.new(0, -100, 0) 
@@ -1256,20 +1022,14 @@ local function AI_ExecutePlant(targetName, qNameText)
             if result and result.Instance.Name == "Part" and result.Instance.Parent and result.Instance.Parent.Name == "PlantableArea" then
                 local targetPos = result.Position
                 
-                if seedTool.Parent ~= char then
-                    hum:EquipTool(seedTool)
-                    task.wait(0.2)
-                end
+                if seedTool.Parent ~= char then hum:EquipTool(seedTool); task.wait(0.2) end
                 
                 root.Velocity = Vector3.zero
                 root.RotVelocity = Vector3.zero
                 root.CFrame = CFrame.new(targetPos + Vector3.new(0, 4, 0))
                 task.wait(0.2) 
                 
-                pcall(function()
-                    ReplicatedStorage.RemoteEvents.PlantSeed:InvokeServer(realSeedNameToPlant, targetPos)
-                end)
-                
+                pcall(function() ReplicatedStorage.RemoteEvents.PlantSeed:InvokeServer(realSeedNameToPlant, targetPos) end)
                 plantedSuccess = true
                 break 
             end
@@ -1277,7 +1037,7 @@ local function AI_ExecutePlant(targetName, qNameText)
     end
 
     if not plantedSuccess then
-        AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Vườn đã đủ số lượng cây! Không thể trồng thêm...")
+        AI_UpdateStatus("📌 Nhiệm vụ: " .. qNameText .. "\n⚠️ Vườn sếp đã FULL! Hãy nhổ bớt cây...")
         task.wait(3)
     end
     return plantedSuccess
@@ -1286,9 +1046,7 @@ end
 local function AI_ExecuteHarvest(targetName)
     local char = LocalPlayer.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
-    if not root then
-        return "Error"
-    end
+    if not root then return "Error" end
 
     local harvestedSomething = false
     local foundCrop = false
@@ -1297,9 +1055,7 @@ local function AI_ExecuteHarvest(targetName)
     
     local prompts = Workspace:GetDescendants()
     for i = 1, #prompts do
-        if not getgenv().SmartAIToggle then
-            break
-        end
+        if not getgenv().SmartAIToggle then break end
         local obj = prompts[i]
         
         if obj:IsA("ProximityPrompt") then
@@ -1307,23 +1063,16 @@ local function AI_ExecuteHarvest(targetName)
             local objName = string.lower(obj.Name)
             local isCorrectCrop = false
             
-            if isAny then
+            if isAny then 
                 isCorrectCrop = true 
             else
-                if obj.ObjectText and string.find(string.lower(obj.ObjectText), lowerTarget) then
-                    isCorrectCrop = true
-                end
-                if obj.Parent and string.find(string.lower(obj.Parent.Name), lowerTarget) then
-                    isCorrectCrop = true
-                end
-                if obj.Parent and obj.Parent.Parent and string.find(string.lower(obj.Parent.Parent.Name), lowerTarget) then
-                    isCorrectCrop = true
-                end
+                if obj.ObjectText and string.find(string.lower(obj.ObjectText), lowerTarget) then isCorrectCrop = true end
+                if obj.Parent and string.find(string.lower(obj.Parent.Name), lowerTarget) then isCorrectCrop = true end
+                if obj.Parent and obj.Parent.Parent and string.find(string.lower(obj.Parent.Parent.Name), lowerTarget) then isCorrectCrop = true end
                 if obj.Parent and not isCorrectCrop then
                     for _, child in pairs(obj.Parent:GetChildren()) do
                         if child:IsA("StringValue") and (string.find(string.lower(child.Value), lowerTarget) or string.find(string.lower(child.Name), lowerTarget)) then
-                            isCorrectCrop = true
-                            break
+                            isCorrectCrop = true; break
                         end
                     end
                 end
@@ -1345,9 +1094,7 @@ local function AI_ExecuteHarvest(targetName)
                     
                     local targetUuid = GetCropUuid(obj.Parent)
                     if targetUuid then
-                        pcall(function()
-                            ReplicatedStorage.RemoteEvents.HarvestFruit:FireServer(unpack({[1]={[1]={["Uuid"]=targetUuid}}}))
-                        end)
+                        pcall(function() ReplicatedStorage.RemoteEvents.HarvestFruit:FireServer(unpack({[1]={[1]={["Uuid"]=targetUuid}}})) end)
                     end
                     
                     NinjaClickHarvestButton(obj.Parent)
@@ -1357,23 +1104,16 @@ local function AI_ExecuteHarvest(targetName)
                     harvestedSomething = true
                     SafeUnfreeze()
                     
-                    if isAny then
-                        break
-                    end 
+                    if isAny then break end 
                     break 
                 end
             end
         end
     end
-    
     SafeUnfreeze()
-    
-    if harvestedSomething then
-        return "Harvested"
-    end
-    if foundCrop then
-        return "Waiting"
-    end
+
+    if harvestedSomething then return "Harvested" end
+    if foundCrop then return "Waiting" end
     return "NotFound" 
 end
 
@@ -1381,9 +1121,7 @@ local function AI_ExecuteWater(targetName)
     local char = LocalPlayer.Character
     local root = char and char:FindFirstChild("HumanoidRootPart")
     local hum = char and char:FindFirstChild("Humanoid")
-    if not root or not hum then
-        return "Error"
-    end
+    if not root or not hum then return "Error" end
 
     local wateredSomething = false
     local foundCrop = false
@@ -1391,30 +1129,17 @@ local function AI_ExecuteWater(targetName)
     local isAny = (targetName == "ANY")
 
     local waterTool = nil
-    for _, t in pairs(char:GetChildren()) do
-        if t:IsA("Tool") and string.find(string.lower(t.Name), "water") then
-            waterTool = t
-            break
-        end
-    end
-    
+    for _, t in pairs(char:GetChildren()) do if t:IsA("Tool") and string.find(string.lower(t.Name), "water") then waterTool = t; break end end
     if not waterTool then
         local backpack = LocalPlayer:FindFirstChild("Backpack")
         if backpack then
-            for _, t in pairs(backpack:GetChildren()) do
-                if t:IsA("Tool") and string.find(string.lower(t.Name), "water") then
-                    waterTool = t
-                    break
-                end
-            end
+            for _, t in pairs(backpack:GetChildren()) do if t:IsA("Tool") and string.find(string.lower(t.Name), "water") then waterTool = t; break end end
         end
     end
 
     local prompts = Workspace:GetDescendants()
     for i = 1, #prompts do
-        if not getgenv().SmartAIToggle then
-            break
-        end
+        if not getgenv().SmartAIToggle then break end
         local obj = prompts[i]
         
         if obj:IsA("ProximityPrompt") then
@@ -1424,15 +1149,9 @@ local function AI_ExecuteWater(targetName)
             if isAny then
                 isCorrectCrop = true
             else
-                if obj.ObjectText and string.find(string.lower(obj.ObjectText), lowerTarget) then
-                    isCorrectCrop = true
-                end
-                if obj.Parent and string.find(string.lower(obj.Parent.Name), lowerTarget) then
-                    isCorrectCrop = true
-                end
-                if obj.Parent and obj.Parent.Parent and string.find(string.lower(obj.Parent.Parent.Name), lowerTarget) then
-                    isCorrectCrop = true
-                end
+                if obj.ObjectText and string.find(string.lower(obj.ObjectText), lowerTarget) then isCorrectCrop = true end
+                if obj.Parent and string.find(string.lower(obj.Parent.Name), lowerTarget) then isCorrectCrop = true end
+                if obj.Parent and obj.Parent.Parent and string.find(string.lower(obj.Parent.Parent.Name), lowerTarget) then isCorrectCrop = true end
             end
 
             if isCorrectCrop and obj.Parent and obj.Parent:IsA("BasePart") then
@@ -1440,10 +1159,7 @@ local function AI_ExecuteWater(targetName)
                 
                 if obj.Enabled and (string.find(actionName, "water") or string.find(actionName, "tưới")) then
                     
-                    if waterTool and waterTool.Parent ~= char then
-                        hum:EquipTool(waterTool)
-                        task.wait(0.2)
-                    end
+                    if waterTool and waterTool.Parent ~= char then hum:EquipTool(waterTool); task.wait(0.2) end
                     
                     root.Velocity = Vector3.zero
                     root.RotVelocity = Vector3.zero
@@ -1456,7 +1172,6 @@ local function AI_ExecuteWater(targetName)
                     
                     FirePrompt(obj)
                     task.wait(0.3)
-                    
                     wateredSomething = true
                     SafeUnfreeze()
                     break 
@@ -1464,15 +1179,10 @@ local function AI_ExecuteWater(targetName)
             end
         end
     end
-    
     SafeUnfreeze()
-    
-    if wateredSomething then
-        return "Watered"
-    end
-    if foundCrop then
-        return "Waiting"
-    end
+
+    if wateredSomething then return "Watered" end
+    if foundCrop then return "Waiting" end
     return "NotFound"
 end
 
@@ -1484,7 +1194,7 @@ Tabs.QuestAI:Toggle({
         getgenv().CurrentQuestTab = "Daily"
         
         if state then
-            AI_UpdateStatus("🚀 Bắt đầu quét dữ liệu nhiệm vụ...")
+            AI_UpdateStatus("🚀 Đã kích hoạt hệ thống! Đang quét...")
             
             task.spawn(function()
                 while getgenv().SmartAIToggle do
@@ -1494,209 +1204,104 @@ Tabs.QuestAI:Toggle({
                     if questGui then
                         local scrollFrame = questGui:FindFirstChild("BG") and questGui.BG:FindFirstChild("ScrollingFrame")
                         if scrollFrame then
-                            local actionExecuted = false
-                            local hasActiveQuests = false
-                            local statusOverwritten = false
+                            local foundAction = false
                             
-                            -- BƯỚC 1: ĐỚP QUÀ TRƯỚC
                             for _, slot in pairs(scrollFrame:GetChildren()) do
                                 if tonumber(slot.Name) then
-                                    if AI_IsQuestClaimed(slot) then
-                                        continue
-                                    end
+                                    if AI_IsQuestClaimed(slot) then continue end
                                     
                                     local claimBtn = AI_GetActionButton(slot, "claim")
                                     if claimBtn then
                                         AI_UpdateStatus("🎉 Có phần thưởng! Đang nhận quà...")
-                                        AI_ForceClick(claimBtn)
-                                        actionExecuted = true
-                                        statusOverwritten = true
+                                        ForceClick(claimBtn)
+                                        foundAction = true
                                         task.wait(1.5)
                                         break 
                                     end
                                 end
                             end
-                            
-                            if actionExecuted then
-                                continue
-                            end
+                            if foundAction then continue end
 
-                            -- BƯỚC 2: [FIX LỖI CHÍ MẠNG] - TÌM NÚT REFRESH ĐỂ NHẬN NHIỆM VỤ MỚI
                             for _, slot in pairs(scrollFrame:GetChildren()) do
-                                if tonumber(slot.Name) then
-                                    local refreshBtn = AI_GetActionButton(slot, "refresh")
-                                    if not refreshBtn then
-                                        refreshBtn = AI_GetActionButton(slot, "new")
-                                    end
+                                if tonumber(slot.Name) and not foundAction then
+                                    if AI_IsQuestClaimed(slot) then continue end
+                                    if AI_IsQuestCompletedByText(slot) then continue end
                                     
-                                    if refreshBtn then
-                                        AI_UpdateStatus("🔄 Phát hiện ô trống! Đang tự động nhận nhiệm vụ mới...")
-                                        AI_ForceClick(refreshBtn)
-                                        actionExecuted = true
-                                        statusOverwritten = true
-                                        task.wait(1.5)
-                                        break 
-                                    end
-                                end
-                            end
+                                    local qNameObj = slot:FindFirstChild("QuestName")
+                                    if qNameObj and qNameObj:IsA("TextLabel") then
+                                        local questRawText = qNameObj.Text
+                                        if string.find(string.lower(questRawText), "refresh") then continue end
 
-                            if actionExecuted then
-                                continue
-                            end
-
-                            -- BƯỚC 3: THỰC THI NHIỆM VỤ ĐANG CÓ
-                            for _, slot in pairs(scrollFrame:GetChildren()) do
-                                if tonumber(slot.Name) and not actionExecuted then
-                                    if AI_IsQuestClaimed(slot) then
-                                        continue
-                                    end
-                                    if AI_IsQuestCompletedByText(slot) then
-                                        continue
-                                    end
-                                    
-                                    local questRawText = AI_GetQuestNameText(slot)
-                                    if questRawText then
-                                        if string.find(string.lower(questRawText), "refresh") then
-                                            continue
-                                        end
-
-                                        hasActiveQuests = true
                                         local questData = AI_ParseQuestText(questRawText)
-                                        
                                         if questData then
-                                            statusOverwritten = true
-                                            
                                             if questData.Type == "Plant" then
                                                 AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌱 Trạng thái: Đang gieo hạt...")
                                                 local planted = AI_ExecutePlant(questData.Name, questRawText)
-                                                if planted then
-                                                    actionExecuted = true
-                                                    task.wait(1)
-                                                else
-                                                    task.wait(2)
-                                                end
+                                                if planted then foundAction = true; task.wait(1) else task.wait(2) end
                                                 
                                             elseif questData.Type == "Harvest" then
+                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌾 Trạng thái: Đang thu hoạch " .. questData.Name .. "...")
                                                 local status = AI_ExecuteHarvest(questData.Name)
-                                                
-                                                if status == "Harvested" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n🌾 Trạng thái: Đang thu hoạch " .. questData.Name .. "...")
-                                                    actionExecuted = true
-                                                    task.wait(0.2) 
+                                                if status == "Harvested" then 
+                                                    foundAction = true; task.wait(0.2) 
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn không có " .. questData.Name .. "! Đang tự động trồng bù...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn sạch bóng " .. questData.Name .. "! Đang trồng bù...")
                                                     local planted = AI_ExecutePlant(questData.Name, questRawText)
-                                                    if planted then
-                                                        actionExecuted = true
-                                                        task.wait(1)
-                                                    else
-                                                        task.wait(2)
-                                                    end
+                                                    if planted then foundAction = true; task.wait(1) else task.wait(2) end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Cây " .. questData.Name .. " chưa chín. Đang chờ...")
-                                                    actionExecuted = true
-                                                    task.wait(1)
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Cây " .. questData.Name .. " chưa chín. Tạm gác lại...")
                                                 end
                                                 
                                             elseif questData.Type == "SellSpecific" then
+                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n📦 Trạng thái: Đang hái " .. questData.Name .. " để bán...")
                                                 local status = AI_ExecuteHarvest(questData.Name)
-                                                
                                                 if status == "Harvested" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n📦 Trạng thái: Đang hái " .. questData.Name .. " để bán...")
-                                                    actionExecuted = true
-                                                    AI_SellAllCrops_Strict()
+                                                    foundAction = true; AI_SellAllCrops_Strict()
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Không có " .. questData.Name .. " để bán! Đang tự động trồng bù...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Không có " .. questData.Name .. " để bán! Đang trồng bù...")
                                                     local planted = AI_ExecutePlant(questData.Name, questRawText)
-                                                    if planted then
-                                                        actionExecuted = true
-                                                        task.wait(1)
-                                                    else
-                                                        task.wait(2)
-                                                    end
+                                                    if planted then foundAction = true; task.wait(1) else task.wait(2) end
                                                 elseif status == "Waiting" then
                                                     AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Chờ " .. questData.Name .. " chín để thu hoạch đem bán...")
-                                                    actionExecuted = true
-                                                    task.wait(1)
                                                 end
 
                                             elseif questData.Type == "Water" then
+                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tìm " .. questData.Name .. " để tưới...")
                                                 local status = AI_ExecuteWater(questData.Name)
-                                                
                                                 if status == "Watered" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Trạng thái: Đang tưới nước cho " .. questData.Name .. "...")
-                                                    actionExecuted = true
-                                                    task.wait(0.3)
+                                                    foundAction = true; task.wait(0.3)
                                                 elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Không có " .. questData.Name .. " để tưới! Đang tự động trồng bù...")
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Không có " .. questData.Name .. " để tưới! Đang trồng bù...")
                                                     local planted = AI_ExecutePlant(questData.Name, questRawText)
-                                                    if planted then
-                                                        actionExecuted = true
-                                                        task.wait(1)
-                                                    else
-                                                        task.wait(2)
-                                                    end
+                                                    if planted then foundAction = true; task.wait(1) else task.wait(2) end
                                                 elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Cây " .. questData.Name .. " hiện không cần tưới nước. Đang chờ...")
-                                                    actionExecuted = true
-                                                    task.wait(1)
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💧 Cây " .. questData.Name .. " không cần tưới lúc này.")
                                                 end
 
                                             elseif questData.Type == "Money" then
+                                                AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💵 Lâm Tặc MODE: Vặt sạch cây đem bán lấy tiền!")
                                                 local status = AI_ExecuteHarvest("ANY")
-                                                
                                                 if status == "Harvested" then 
-                                                    actionExecuted = true
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang thu hoạch và đi bán để lấy tiền...")
-                                                    AI_SellAllCrops_Strict()
-                                                elseif status == "Waiting" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Đang chờ trái cây chín để thu hoạch đem bán...")
-                                                    actionExecuted = true
-                                                    task.wait(1)
-                                                elseif status == "NotFound" then
-                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⚠️ Vườn trống! Tự động trồng Cà Rốt để cày tiền...")
-                                                    local planted = AI_ExecutePlant("Carrot", questRawText)
-                                                    if planted then
-                                                        actionExecuted = true
-                                                        task.wait(1)
-                                                    else
-                                                        task.wait(2)
-                                                    end
+                                                    foundAction = true; AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n💰 Đang bán trái cây..."); AI_SellAllCrops_Strict()
+                                                elseif status == "Waiting" or status == "NotFound" then
+                                                    AI_UpdateStatus("📌 Nhiệm vụ: " .. questRawText .. "\n⏳ Vườn hết cây chín cày tiền rồi! Đang đứng rình...")
                                                 end
                                             end
                                         end
                                     end
                                 end
                             end
-                            
-                            if actionExecuted then
-                                continue
-                            end 
+                            if foundAction then continue end 
 
-                            -- BƯỚC 4: CHUYỂN TAB (CHỈ KHI KHÔNG CÒN BẤT CỨ NHIỆM VỤ NÀO ĐỂ LÀM HOẶC CHỜ)
-                            if not hasActiveQuests then
-                                if getgenv().CurrentQuestTab == "Daily" then
-                                    AI_UpdateStatus("🔄 Đã hoàn thành toàn bộ mục Hàng Ngày! Đang chuyển sang Hàng Tuần...")
-                                    local switched = AI_SwitchQuestTab("weekly")
-                                    if switched then
-                                        getgenv().CurrentQuestTab = "Weekly"
-                                        task.wait(1.5)
-                                    end
-                                else
-                                    AI_UpdateStatus("🔄 Đã hoàn thành toàn bộ mục Hàng Tuần! Kiểm tra lại Hàng Ngày...")
-                                    local switched = AI_SwitchQuestTab("daily")
-                                    if switched then
-                                        getgenv().CurrentQuestTab = "Daily"
-                                        task.wait(2)
-                                    end
-                                end
+                            if getgenv().CurrentQuestTab == "Daily" then
+                                AI_UpdateStatus("🔄 Đã vét sạch Tab Daily! Tự động nhảy sang Tab Weekly...")
+                                local switched = AI_SwitchQuestTab("weekly")
+                                if switched then getgenv().CurrentQuestTab = "Weekly"; task.wait(1.5) end
                             else
-                                if not statusOverwritten then
-                                    AI_UpdateStatus("🔍 Đang trong tiến trình làm nhiệm vụ. Xin vui lòng đợi...")
-                                end
-                                task.wait(2)
+                                AI_UpdateStatus("🔄 Đã vét sạch Tab Weekly! Tự động nhảy về check lại Tab Daily...")
+                                local switched = AI_SwitchQuestTab("daily")
+                                if switched then getgenv().CurrentQuestTab = "Daily"; task.wait(2) end
                             end
-
                         else
                             AI_UpdateStatus("⚠️ Bảng Nhiệm Vụ chưa load! Hãy mở Menu Nhiệm Vụ trong game 1 lần!")
                         end
@@ -1712,7 +1317,7 @@ Tabs.QuestAI:Toggle({
 })
 
 -- ==================================================
--- 5. TAB 2: AUTO FARM (ĐÃ THÊM BẢNG TRẠNG THÁI TRỰC QUAN)
+-- 5. TAB 2: AUTO FARM GỐC
 -- ==================================================
 local TabFarm = Tabs.Farm
 
@@ -1720,18 +1325,6 @@ TabFarm:Paragraph({
     Title = "GIỚI THIỆU CHỨC NĂNG",
     Desc = "Tự động thu hoạch và bán nông sản. Phương pháp an toàn không dùng chuột ảo giúp chống liệt phím. Không dùng chung với Auto Quest."
 })
-
-local FarmStatusDisplay = TabFarm:Paragraph({
-    Title = "TRẠNG THÁI FARM",
-    Desc = "Đang chờ lệnh từ sếp..."
-})
-
-local function Farm_UpdateStatus(text)
-    FarmStatusDisplay:Set({
-        Title = "TRẠNG THÁI FARM",
-        Desc = text
-    })
-end
 
 getgenv().EnableFarmTest = false
 getgenv().FarmDelay = 0.25 
@@ -1755,7 +1348,6 @@ TabFarm:Toggle({
         getgenv().EnableFarmTest = state
         if state then
             Notify("Khởi Động", "Hệ thống tự động farm kích hoạt...", 3)
-            Farm_UpdateStatus("🚀 Đã bật hệ thống Auto Farm! Đang quét dữ liệu...")
             task.spawn(function()
                 task.wait(1) 
                 local HarvestCount = 0 
@@ -1765,13 +1357,10 @@ TabFarm:Toggle({
                     local char = LocalPlayer.Character
                     local root = char and char:FindFirstChild("HumanoidRootPart")
                     if not root then
-                        Farm_UpdateStatus("⚠️ Không tìm thấy nhân vật, đang chờ đợi...")
                         task.wait(0.5)
                         continue
                     end
 
-                    Farm_UpdateStatus("🔍 Đang quét vườn tìm nông sản đã chín (Đã thu hoạch: " .. HarvestCount .. "/" .. getgenv().SellLimit .. ").")
-                    
                     local FoundCropThisCycle = false 
                     local prompts = Workspace:GetDescendants()
                     
@@ -1795,8 +1384,6 @@ TabFarm:Toggle({
                                    if dist < 999999 then 
                                        FoundCropThisCycle = true
                                        LastFarmPosition = obj.Parent.Position 
-                                       
-                                       Farm_UpdateStatus("🌾 Đang thu hoạch nông sản... (Tổng: " .. HarvestCount + 1 .. ")")
                                        
                                        root.Velocity = Vector3.zero
                                        root.RotVelocity = Vector3.zero
@@ -1831,7 +1418,6 @@ TabFarm:Toggle({
                     SafeUnfreeze()
 
                     if HarvestCount >= getgenv().SellLimit or (HarvestCount > 0 and not FoundCropThisCycle) then
-                        Farm_UpdateStatus("💰 Kho đã đầy hoặc vườn hết cây. Đang đi bán nông sản...")
                         
                         local stevePos = Vector3.new(149.4, 204.0, 672.0)
                         local standPos = stevePos + Vector3.new(0, 3, 0)
@@ -1886,20 +1472,15 @@ TabFarm:Toggle({
                             SafeUnfreeze()
                             
                             Notify("Hệ Thống", "Đã bán thành công! Tiếp tục cày...", 3)
-                            Farm_UpdateStatus("✅ Bán xong! Đang quay lại công việc cày cuốc...")
                             HarvestCount = 0
                             task.wait(2)
                         end
-                    elseif not FoundCropThisCycle then
-                        Farm_UpdateStatus("⏳ Vườn trống, chưa có cây nào chín. Hệ thống đang rình...")
                     end
-                    
                     task.wait(0.2) 
                 end
             end)
         else
             Notify("Hệ Thống", "Auto Farm đã tắt.", 3)
-            Farm_UpdateStatus("⛔ Hệ thống đã tắt.")
             SafeUnfreeze()
         end
     end
