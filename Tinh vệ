@@ -4,8 +4,10 @@
 -- Cập nhật: Server Hop quét cực kỹ, Tự lật trang nếu server đầy.
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
 -- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele
--- Cập nhật: Thêm Khu vực Âm Nhạc, Tùy chỉnh Volume, Chuyển bài siêu mượt!
--- Cập nhật MỚI NHẤT: Thêm Mục IV: Auto Farm Killer V1 (Tàng hình 3s, Săn sau lưng, Hop ngay khi clear map)
+-- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
+-- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
+-- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 & V2
+-- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt) + Chuyển sang thuần M1!
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -206,7 +208,7 @@ getgenv().AutoFarm_V1 = true
 getgenv().AutoFarm_V2 = false 
 getgenv().AutoEvade_V1 = true    
 getgenv().AutoEvade_V2 = false   
-getgenv().AutoFarm_Killer_V1 = false -- [NEW]
+getgenv().AutoFarm_Killer_V1 = false 
 getgenv().MusicEnabled = true
 getgenv().MusicVolumePercent = 60
 getgenv().CurrentSongIndex = 1
@@ -398,8 +400,7 @@ local function ToggleSettings(show)
         PlaySound(PopupSound)
         SettingsFrame.Visible = true
         local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
-        -- Tăng kích thước Y để chứa thoải mái 10 rows
-        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 680)}) 
+        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 600)}) 
         tween:Play()
     else
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
@@ -805,9 +806,6 @@ local function CreateCyberpunkCycleRow(id, titleText, descText, list, initialInd
     end)
 end
 
--- ======================================================================
--- TẠO GIAO DIỆN CÁC TÍNH NĂNG
--- ======================================================================
 local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2, SliderKillerV1
 
 CreateSectionHeader("Sec1", "I: Auto Farm")
@@ -863,14 +861,12 @@ CreateCyberpunkCycleRow("7", "Chọn Bài Hát", "Đổi bài hát yêu thích c
     if getgenv().ApplyMusicSettings then getgenv().ApplyMusicSettings() end
 end)
 
--- [NEW] MỤC IV: AUTO FARM KILLER
 CreateSectionHeader("Sec4", "IV: Auto Farm Killer")
 
 SliderKillerV1 = CreateCyberpunkSettingRow("8", "Auto Farm Killer V1", "Đợi 3s tàng hình, săn Survivor, quét sạch auto Hop.", getgenv().AutoFarm_Killer_V1, function(state)
     getgenv().AutoFarm_Killer_V1 = state
 end)
 
--- [MỤC V: SETTING]
 CreateSectionHeader("Sec5", "V: Setting")
 
 CreateCyberpunkSettingRow("9", "Lưu Cài Đặt (Save)", "Tự động lưu trạng thái bật/tắt (No Lag).", getgenv().AutoSave, function(state)
@@ -1075,7 +1071,7 @@ local LastGenerator = nil
 local IsInMatch = false
 local IsHopping = false
 local SafeDistance = 20 
-getgenv().KillerFinishedMatch = false -- [NEW] Track killer hop
+getgenv().KillerFinishedMatch = false 
 
 local RepairOffsets = {
     CFrame.new(0, 0, -6),
@@ -1203,7 +1199,6 @@ local function StartInvisibleLoop()
             local isSurv = isSurvivorModel(char)
             local isKill = isLocalPlayerKiller(char)
             
-            -- [FIX TÀNG HÌNH CHO KILLER NẾU BẬT AUTO FARM KILLER]
             if IsInMatch and (isSurv or (getgenv().AutoFarm_Killer_V1 and isKill)) then
                 pcall(function()
                     local hum = char and char:FindFirstChild("Humanoid")
@@ -1467,7 +1462,6 @@ task.spawn(function()
                 end
                 
                 if not mapLoaded then
-                    -- [KILLER V1 HOP LOGIC] Nếu về sảnh sau khi diệt sạch phòng -> Hop
                     if getgenv().AutoFarm_Killer_V1 and getgenv().KillerFinishedMatch then
                         SetStatus("Đã về sảnh sau khi win! Hop SV...")
                         Notify("Diệt sạch phòng! Auto Server Hop...")
@@ -1484,7 +1478,6 @@ task.spawn(function()
                         table.clear(HitCycle)
                     end
                 else
-                    -- ================= [LOGIC AUTO FARM KILLER V1] =================
                     if isLocalPlayerKiller(LocalPlayer.Character) then
                         if getgenv().AutoFarm_Killer_V1 then
                             if not IsInMatch then
@@ -1519,34 +1512,23 @@ task.spawn(function()
                                 local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
                                 if root then
                                     SetStatus("Đang săn: " .. targetName)
-                                    -- Tele sau lưng 4 studs
-                                    local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
-                                    root.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
+                                    local targetHum = targetPart.Parent:FindFirstChild("Humanoid")
                                     
-                                    -- Auto Slash
-                                    local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
-                                    if tool then tool:Activate() end
-                                    VirtualUser:ClickButton1(Vector2.new())
-                                    
-                                    pcall(function()
-                                        local gui = LocalPlayer:FindFirstChild("PlayerGui")
-                                        if gui then
-                                            for _, v in pairs(gui:GetDescendants()) do
-                                                if v:IsA("ImageButton") or v:IsA("TextButton") then
-                                                    local nameStr = string.lower(v.Name)
-                                                    if string.find(nameStr, "slash") or string.find(nameStr, "attack") or string.find(nameStr, "hit") or string.find(nameStr, "melee") or string.find(nameStr, "m1") then
-                                                        if v.Visible and v.Active and firesignal then
-                                                            firesignal(v.MouseButton1Down)
-                                                            firesignal(v.MouseButton1Click)
-                                                        end
-                                                    end
-                                                end
-                                            end
-                                        end
-                                    end)
+                                    while getgenv().AutoFarm_Killer_V1 and targetHum and targetHum.Health > 0 and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") do
+                                        local currentRoot = LocalPlayer.Character.HumanoidRootPart
+                                        currentRoot.Velocity = Vector3.zero
+                                        
+                                        local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
+                                        currentRoot.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
+                                        
+                                        local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                                        if tool then tool:Activate() end
+                                        VirtualUser:ClickButton1(Vector2.new())
+                                        
+                                        task.wait() 
+                                    end
                                 end
                             else
-                                -- Kiểm tra lại xem có đang trong game ko, nếu đéo còn ai thì cắm cờ để về Lobby Hop
                                 if Workspace:FindFirstChild("Map") and Workspace.Map:FindFirstChild("Ingame") then
                                     SetStatus("Đã giết sạch! Chờ về Lobby...")
                                     getgenv().KillerFinishedMatch = true
@@ -1554,7 +1536,7 @@ task.spawn(function()
                             end
                             
                             task.wait(0.1)
-                            return -- Cắt đuôi code Survivor bên dưới!
+                            return 
                         else
                             SetStatus("Bạn là killer! Tự động reset 💬")
                             Notify("BAN LA KILLER! Reset de Farm tiep...")
@@ -1564,7 +1546,6 @@ task.spawn(function()
                             task.wait(3); return 
                         end
                     end
-                    -- ================= [KẾT THÚC KILLER V1] =================
 
                     if IsInMatch and not allFinished then
                         local char = LocalPlayer.Character
