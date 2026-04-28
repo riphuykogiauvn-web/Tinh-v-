@@ -5,6 +5,7 @@
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
 -- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
 -- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
+-- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 (Tele máy xa nhất + Về máy cũ) & V2 (Tele Spawn xa nhất)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -211,7 +212,7 @@ getgenv().CurrentSongIndex = 1
 getgenv().AutoSave = true        
 getgenv().LanguageIndex = 1      
 
--- [CẬP NHẬT: THÊM FULL 7 BÀI NHẠC MỚI]
+-- [CẤU HÌNH NHẠC VIP]
 getgenv().SongList = {
     {Name = "Câu cá vạn cân", ID = "rbxassetid://124384558101360"},
     {Name = "Ai đưa em về", ID = "rbxassetid://110919391228823"},
@@ -801,6 +802,9 @@ local function CreateCyberpunkCycleRow(id, titleText, descText, list, initialInd
     end)
 end
 
+-- ======================================================================
+-- TẠO GIAO DIỆN CÁC TÍNH NĂNG
+-- ======================================================================
 local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2
 
 CreateSectionHeader("Sec1", "I: Auto Farm")
@@ -1095,6 +1099,7 @@ local function GetKiller()
 end
 
 local function GetSafeGenerator(killerPos)
+    -- V1 FIX: TÌM MÁY XA KILLER NHẤT TRONG BẢN ĐỒ
     if not Workspace:FindFirstChild("Map") then return nil end
     local ingame = Workspace.Map:FindFirstChild("Ingame")
     if not ingame then return nil end
@@ -1562,6 +1567,7 @@ task.spawn(function()
                                             SetStatus("Killer đang ở gần (V1)😱")
                                             Notify("KILLER DEN (<20m)! Chạy trốn...")
                                             
+                                            -- V1 FIX: Teleport ra cái máy xa nhất bản đồ
                                             local safeGen = GetSafeGenerator(killer.HumanoidRootPart.Position)
                                             if safeGen then
                                                 local safePos = safeGen:GetPivot().Position
@@ -1593,11 +1599,18 @@ task.spawn(function()
                                                     if distKillerToOldGen > (SafeDistance + 10) then break else task.wait(1) end
                                                 until false
                                                 
-                                                root.Anchored = false; break 
+                                                -- V1 FIX: Chờ Killer cút xong, ép Teleport dội ngược về cái máy cũ sửa tiếp!
+                                                if getgenv().AutoFarm and IsInMatch then
+                                                    root.CFrame = CFrame.lookAt(dropPos, lookAt)
+                                                    root.Anchored = true
+                                                    SetStatus("Đã quay về máy cũ (V1)...")
+                                                    task.wait(0.2)
+                                                end
                                             end
                                         end
                                         
                                     elseif getgenv().AutoEvade_V2 then
+                                        -- V2: Ép mốc 10m -> Dịch chuyển Spawn xa nhất
                                         if distToKiller <= 10 then
                                             if prompt then pcall(function() prompt:InputHoldEnd() end) end
                                             SetStatus("Killer áp sát 10m! Tốc biến (V2)😱")
@@ -1624,10 +1637,11 @@ task.spawn(function()
                                                     if distKillerToOldGen > 5 then 
                                                         break 
                                                     else 
-                                                        task.wait(0.1) -- Đổi lại thành quét nhanh 0.1s để không bị lỡ nhịp về
+                                                        task.wait(0.1) 
                                                     end
                                                 until false
                                                 
+                                                -- V2: Killer vừa đi 5m là Teleport ép về sửa tiếp!
                                                 if getgenv().AutoFarm and IsInMatch then
                                                     root.CFrame = CFrame.lookAt(dropPos, lookAt)
                                                     root.Anchored = true
@@ -1639,15 +1653,14 @@ task.spawn(function()
                                     end
                                 end
                                 
-                                -- FIX DELAY: Cả V1 và V2 đều dùng Timer check chung với quét Radar Killer
+                                -- FIX DELAY: FireServer được nhét chung vòng lặp, ko chặn radar quét Killer!
                                 if tick() - lastInteract >= 1.1 then
                                     if prompt then pcall(function() prompt:InputHoldBegin() end) end
                                     if gen:FindFirstChild("Remotes") and gen.Remotes:FindFirstChild("RE") then gen.Remotes.RE:FireServer() end
                                     lastInteract = tick()
                                 end
                                 
-                                -- Radar quét siêu tốc độ 10 lần/giây để check Killer áp sát
-                                task.wait(0.1)
+                                task.wait(0.1) -- Quét cực nhanh 0.1s
                                 
                                 if getgenv().AutoFarm_V2 and GetProgress(gen) >= checkProgress then
                                     if prompt then pcall(function() prompt:InputHoldEnd() end) end 
