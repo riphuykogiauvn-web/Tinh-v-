@@ -4,7 +4,7 @@
 -- Cập nhật: Server Hop quét cực kỹ, Tự lật trang nếu server đầy.
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
 -- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele (Tăng lên 10 studs)
--- Cập nhật MỚI NHẤT: Thêm Khu vực Âm Nhạc (Section III), Tùy chỉnh Volume, Chuyển bài siêu mượt!
+-- Cập nhật MỚI NHẤT: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -205,17 +205,71 @@ getgenv().AutoFarm_V1 = true
 getgenv().AutoFarm_V2 = false 
 getgenv().AutoEvade_V1 = true    
 getgenv().AutoEvade_V2 = false   
-
--- [CẤU HÌNH NHẠC VIP]
 getgenv().MusicEnabled = true
 getgenv().MusicVolumePercent = 60
 getgenv().CurrentSongIndex = 1
+getgenv().AutoSave = true        -- [NEW] Tự lưu bật mặc định
+getgenv().LanguageIndex = 1      -- [NEW] 1: VN, 2: EN
+
 getgenv().SongList = {
     {Name = "Câu cá vạn cân", ID = "rbxassetid://124384558101360"},
     {Name = "Ai đưa em về", ID = "rbxassetid://110919391228823"},
     {Name = "Khô gà", ID = "rbxassetid://99152674992699"},
     {Name = "Bad Ending Funk", ID = "rbxassetid://135526249310486"}
 }
+
+getgenv().LangList = {
+    {Name = "Tiếng Việt (VN)", ID = "VN"},
+    {Name = "English (EN)", ID = "EN"}
+}
+
+-- [NEW] THUẬT TOÁN TẢI CẤU HÌNH (LOAD SETTINGS)
+local SaveFileName = "AmethystHub_SavedSettings.json"
+local function LoadSettings()
+    if readfile and isfile and isfile(SaveFileName) then
+        pcall(function()
+            local data = HttpService:JSONDecode(readfile(SaveFileName))
+            if data then
+                if data.AutoFarm_V1 ~= nil then getgenv().AutoFarm_V1 = data.AutoFarm_V1 end
+                if data.AutoFarm_V2 ~= nil then getgenv().AutoFarm_V2 = data.AutoFarm_V2 end
+                if data.AutoEvade_V1 ~= nil then getgenv().AutoEvade_V1 = data.AutoEvade_V1 end
+                if data.AutoEvade_V2 ~= nil then getgenv().AutoEvade_V2 = data.AutoEvade_V2 end
+                if data.MusicEnabled ~= nil then getgenv().MusicEnabled = data.MusicEnabled end
+                if data.MusicVolumePercent ~= nil then getgenv().MusicVolumePercent = data.MusicVolumePercent end
+                if data.CurrentSongIndex ~= nil then getgenv().CurrentSongIndex = data.CurrentSongIndex end
+                if data.AutoSave ~= nil then getgenv().AutoSave = data.AutoSave end
+                if data.LanguageIndex ~= nil then getgenv().LanguageIndex = data.LanguageIndex end
+            end
+        end)
+    end
+end
+LoadSettings()
+
+-- [NEW] THUẬT TOÁN TỰ ĐỘNG LƯU NO LAG (QUÉT NGẦM)
+task.spawn(function()
+    local lastSave = ""
+    while task.wait(3) do
+        if getgenv().AutoSave then
+            pcall(function()
+                local currentData = HttpService:JSONEncode({
+                    AutoFarm_V1 = getgenv().AutoFarm_V1,
+                    AutoFarm_V2 = getgenv().AutoFarm_V2,
+                    AutoEvade_V1 = getgenv().AutoEvade_V1,
+                    AutoEvade_V2 = getgenv().AutoEvade_V2,
+                    MusicEnabled = getgenv().MusicEnabled,
+                    MusicVolumePercent = getgenv().MusicVolumePercent,
+                    CurrentSongIndex = getgenv().CurrentSongIndex,
+                    AutoSave = getgenv().AutoSave,
+                    LanguageIndex = getgenv().LanguageIndex
+                })
+                if currentData ~= lastSave then
+                    if writefile then writefile(SaveFileName, currentData) end
+                    lastSave = currentData
+                end
+            end)
+        end
+    end
+end)
 
 local SettingsFrame = Instance.new("Frame")
 local SettingsCorner = Instance.new("UICorner")
@@ -226,7 +280,6 @@ local CloseButton = Instance.new("TextButton")
 local CloseCorner = Instance.new("UICorner")
 local CloseStroke = Instance.new("UIStroke")
 
--- Layout cho các dòng Setting tự động xếp ngay ngắn
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local UIPadding = Instance.new("UIPadding")
@@ -304,7 +357,6 @@ CloseStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 CloseStroke.Transparency = 0.3
 CloseStroke.Parent = CloseButton
 
--- Animation Nút X
 CloseButton.MouseEnter:Connect(function()
     PlaySound(HoverSound)
     TweenService:Create(CloseButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 50, 50), TextColor3 = Color3.fromRGB(255,255,255)}):Play()
@@ -313,7 +365,6 @@ CloseButton.MouseLeave:Connect(function()
     TweenService:Create(CloseButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(30, 20, 25), TextColor3 = Color3.fromRGB(255, 100, 100)}):Play()
 end)
 
--- ScrollFrame chứa nội dung cho gọn
 ScrollingFrame.Name = "ContentScroll"
 ScrollingFrame.Parent = SettingsFrame
 ScrollingFrame.Active = true
@@ -339,8 +390,9 @@ local function ToggleSettings(show)
     if show then
         PlaySound(PopupSound)
         SettingsFrame.Visible = true
+        -- [TĂNG CHIỀU CAO LÊN 600 ĐỂ CHỨA MỤC SETTING]
         local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
-        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 550)}) -- [TĂNG CHIỀU CAO CHO ĐẸP]
+        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 600)}) 
         tween:Play()
     else
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
@@ -353,11 +405,11 @@ local function ToggleSettings(show)
 end
 
 -- ======================================================================
--- HÀM TẠO TIÊU ĐỀ PHÂN KHU (SECTION HEADER) 
+-- HÀM TẠO TIÊU ĐỀ PHÂN KHU (CẬP NHẬT CÓ ID ĐỂ ĐỔI NGÔN NGỮ)
 -- ======================================================================
-local function CreateSectionHeader(text)
+local function CreateSectionHeader(id, text)
     local HeaderFrame = Instance.new("Frame")
-    HeaderFrame.Name = "Header_" .. text
+    HeaderFrame.Name = "Header_" .. id
     HeaderFrame.Parent = ScrollingFrame
     HeaderFrame.BackgroundTransparency = 1
     HeaderFrame.Size = UDim2.new(0.92, 0, 0, 35)
@@ -390,10 +442,6 @@ local function CreateSectionHeader(text)
     LineGradient.Parent = Line
 end
 
--- ======================================================================
--- CÁC HÀM UI: NÚT GẠT, VOLUME, CHỌN NHẠC
--- ======================================================================
-
 local function CreateCyberpunkSettingRow(id, titleText, descText, initialState, callback)
     local RowFrame = Instance.new("Frame")
     local RowCorner = Instance.new("UICorner")
@@ -405,7 +453,6 @@ local function CreateCyberpunkSettingRow(id, titleText, descText, initialState, 
     local Desc = Instance.new("TextLabel")
     local ClickButton = Instance.new("TextButton")
     
-    -- Slider Components
     local SliderBg = Instance.new("Frame")
     local SliderCorner = Instance.new("UICorner")
     local SliderGlow = Instance.new("UIStroke")
@@ -759,7 +806,7 @@ end
 -- ======================================================================
 local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2
 
-CreateSectionHeader("I: Auto Farm")
+CreateSectionHeader("Sec1", "I: Auto Farm")
 
 SliderFarmV1 = CreateCyberpunkSettingRow("1", "Auto Farm Gen V1", "Ôm máy tới 100%. An toàn, truyền thống.", getgenv().AutoFarm_V1, function(state)
     getgenv().AutoFarm_V1 = state
@@ -777,7 +824,7 @@ SliderFarmV2 = CreateCyberpunkSettingRow("2", "Auto Farm Gen V2", "Hit & Run: S�
     end
 end)
 
-CreateSectionHeader("II: Auto Né Killer")
+CreateSectionHeader("Sec2", "II: Auto Né Killer")
 
 SliderEvadeV1 = CreateCyberpunkSettingRow("3", "Auto Né V1 (Cẩn Thận)", "Killer vào 20m -> Lết trốn 6s an toàn.", getgenv().AutoEvade_V1, function(state)
     getgenv().AutoEvade_V1 = state
@@ -795,7 +842,7 @@ SliderEvadeV2 = CreateCyberpunkSettingRow("4", "Auto Né V2 (Ghim Máy)", "Áp s
     end
 end)
 
-CreateSectionHeader("III: Music")
+CreateSectionHeader("Sec3", "III: Music")
 
 CreateCyberpunkSettingRow("5", "Bật/Tắt Nhạc Nền", "Nghe nhạc cực chill.", getgenv().MusicEnabled, function(state)
     getgenv().MusicEnabled = state
@@ -810,6 +857,110 @@ end)
 CreateCyberpunkCycleRow("7", "Chọn Bài Hát", "Đổi bài hát yêu thích của bạn.", getgenv().SongList, getgenv().CurrentSongIndex, function(index)
     getgenv().CurrentSongIndex = index
     if getgenv().ApplyMusicSettings then getgenv().ApplyMusicSettings() end
+end)
+
+-- [NEW] MỤC IV: SETTING
+CreateSectionHeader("Sec4", "IV: Setting")
+
+CreateCyberpunkSettingRow("8", "Lưu Cài Đặt (Save)", "Tự động lưu trạng thái bật/tắt (No Lag).", getgenv().AutoSave, function(state)
+    getgenv().AutoSave = state
+end)
+
+CreateCyberpunkCycleRow("9", "Ngôn Ngữ (Language)", "Chuyển đổi ngôn ngữ hiển thị UI.", getgenv().LangList, getgenv().LanguageIndex, function(index)
+    getgenv().LanguageIndex = index
+    if getgenv().ApplyLanguageUI then getgenv().ApplyLanguageUI(index) end
+end)
+
+local NoteLabel = Instance.new("TextLabel")
+NoteLabel.Name = "NoteLabel"
+NoteLabel.Parent = SettingsFrame
+NoteLabel.AnchorPoint = Vector2.new(0.5, 1)
+NoteLabel.Position = UDim2.new(0.5, 0, 0.98, 0)
+NoteLabel.Size = UDim2.new(0.8, 0, 0, 30)
+NoteLabel.Font = Enum.Font.SourceSansItalic
+NoteLabel.Text = "Bật V2 sẽ tự động tắt V1 để chống xung đột hệ thống."
+NoteLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
+NoteLabel.TextSize = 16
+NoteLabel.ZIndex = 6
+
+-- ================= [HỆ THỐNG TỪ ĐIỂN ĐA NGÔN NGỮ VN/EN] =================
+local Translations = {
+    [1] = { -- VN
+        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Né Killer", Sec3 = "III: Music", Sec4 = "IV: Setting",
+        T1 = "Auto Farm Gen V1", D1 = "Ôm máy tới 100%. An toàn, truyền thống.",
+        T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Sửa đồng loạt các máy, nhích từng vạch.",
+        T3 = "Auto Né V1 (Cẩn Thận)", D3 = "Killer vào 20m -> Lết trốn 6s an toàn.",
+        T4 = "Auto Né V2 (Ghim Máy)", D4 = "Áp sát 10m -> Tele Spawn xa nhất -> Đợi ra 5m về sửa.",
+        T5 = "Bật/Tắt Nhạc Nền", D5 = "Nghe nhạc cực chill.",
+        T6 = "Âm Lượng Nhạc", D6 = "Điều chỉnh to nhỏ cho phù hợp.",
+        T7 = "Chọn Bài Hát", D7 = "Đổi bài hát yêu thích của bạn.",
+        T8 = "Lưu Cài Đặt (Save)", D8 = "Tự động lưu trạng thái bật/tắt (No Lag).",
+        T9 = "Ngôn Ngữ (Language)", D9 = "Chuyển đổi Tiếng Việt / English.",
+        Title = "✧ AMETHYST QUẢN LÝ TỐI THƯỢNG ✧",
+        Note = "Bật V2 sẽ tự động tắt V1 để chống xung đột hệ thống."
+    },
+    [2] = { -- EN
+        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Evade Killer", Sec3 = "III: Music", Sec4 = "IV: Settings",
+        T1 = "Auto Farm Gen V1", D1 = "Repair to 100%. Safe and traditional.",
+        T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Repair all gens bar by bar.",
+        T3 = "Auto Evade V1 (Safe)", D3 = "Killer within 20m -> Hide for 6s.",
+        T4 = "Auto Evade V2 (Pin)", D4 = "Killer 10m -> Teleport away -> Wait 5m to return.",
+        T5 = "Toggle BGM", D5 = "Listen to chill music.",
+        T6 = "Music Volume", D6 = "Adjust the volume level.",
+        T7 = "Select Song", D7 = "Change your background music.",
+        T8 = "Save Settings", D8 = "Auto save configurations (No Lag).",
+        T9 = "UI Language", D9 = "Switch UI language (VN / EN).",
+        Title = "✧ AMETHYST SUPREME MANAGER ✧",
+        Note = "Enabling V2 automatically disables V1 to prevent conflicts."
+    }
+}
+
+getgenv().ApplyLanguageUI = function(idx)
+    local t = Translations[idx] or Translations[1]
+    pcall(function()
+        SettingsTitle.Text = t.Title
+        if NoteLabel then NoteLabel.Text = t.Note end
+        
+        local function UpdateRowText(id, newTitle, newDesc)
+            local r = ScrollingFrame:FindFirstChild("Row_" .. id)
+            if r then
+                for _, child in ipairs(r:GetChildren()) do
+                    if child:IsA("TextLabel") and child.TextSize == 20 then child.Text = newTitle end
+                    if child:IsA("TextLabel") and child.TextSize == 13 then child.Text = newDesc end
+                end
+            end
+        end
+
+        local function UpdateHeader(name, newText)
+            local h = ScrollingFrame:FindFirstChild("Header_" .. name)
+            if h then
+                for _, child in ipairs(h:GetChildren()) do
+                    if child:IsA("TextLabel") and child.TextSize == 16 then child.Text = newText end
+                end
+            end
+        end
+
+        UpdateHeader("Sec1", t.Sec1)
+        UpdateHeader("Sec2", t.Sec2)
+        UpdateHeader("Sec3", t.Sec3)
+        UpdateHeader("Sec4", t.Sec4)
+
+        UpdateRowText("1", t.T1, t.D1)
+        UpdateRowText("2", t.T2, t.D2)
+        UpdateRowText("3", t.T3, t.D3)
+        UpdateRowText("4", t.T4, t.D4)
+        UpdateRowText("5", t.T5, t.D5)
+        UpdateRowText("6", t.T6, t.D6)
+        UpdateRowText("7", t.T7, t.D7)
+        UpdateRowText("8", t.T8, t.D8)
+        UpdateRowText("9", t.T9, t.D9)
+    end)
+end
+
+-- Tải ngôn ngữ ngay khi vào
+task.spawn(function()
+    task.wait(1)
+    if getgenv().ApplyLanguageUI then getgenv().ApplyLanguageUI(getgenv().LanguageIndex) end
 end)
 
 -- ======================================================================
@@ -895,7 +1046,7 @@ end)
 
 local function Notify(msg)
     pcall(function()
-        game.StarterGui:SetCore("SendNotification", { Title = "Amethyst Fix Glitch", Text = msg, Duration = 3 })
+        game.StarterGui:SetCore("SendNotification", { Title = "Amethyst Hub", Text = msg, Duration = 3 })
     end)
 end
 
