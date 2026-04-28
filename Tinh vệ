@@ -1708,7 +1708,3 @@ task.spawn(function()
     task.wait(1)
     getgenv().ApplyMusicSettings()
 end)
-Bây giờ mày cho tao thêm là cái auto fix kẹt máy 
-Và thêm mục V trong setting: Thông báo người trong sv
-Mày làm cái mục Thông báo người trong sv giống bản nhạc nha( VD như lúc bật nút của cái V là nó cho một cái bảng nhỏ có thể kéo được còn không thì lúc nào bật cũng được ko đc thì thôi !! Trong cái bảng V thì có một cái bảng mini trong đó có thể bt  người chơi có ở trong map ko và tên của họ!!!)
-Các chức năng khác giữ nguyên 100% Cấm mày rút gọn hoặc thay đổi dù chỉ 1 dòng!
