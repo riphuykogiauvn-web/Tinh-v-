@@ -3,9 +3,9 @@
 -- Bản Quyền: HUYKOGIAUVN
 -- Cập nhật: Server Hop quét cực kỹ, Tự lật trang nếu server đầy.
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
--- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
--- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
--- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 (Tele máy xa nhất + Về máy cũ) & V2 (Tele Spawn xa nhất)
+-- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele
+-- Cập nhật: Thêm Khu vực Âm Nhạc, Tùy chỉnh Volume, Chuyển bài siêu mượt!
+-- Cập nhật MỚI NHẤT: Thêm Mục IV: Auto Farm Killer V1 (Tàng hình 3s, Săn sau lưng, Hop ngay khi clear map)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -206,13 +206,13 @@ getgenv().AutoFarm_V1 = true
 getgenv().AutoFarm_V2 = false 
 getgenv().AutoEvade_V1 = true    
 getgenv().AutoEvade_V2 = false   
+getgenv().AutoFarm_Killer_V1 = false -- [NEW]
 getgenv().MusicEnabled = true
 getgenv().MusicVolumePercent = 60
 getgenv().CurrentSongIndex = 1
 getgenv().AutoSave = true        
 getgenv().LanguageIndex = 1      
 
--- [CẤU HÌNH NHẠC VIP]
 getgenv().SongList = {
     {Name = "Câu cá vạn cân", ID = "rbxassetid://124384558101360"},
     {Name = "Ai đưa em về", ID = "rbxassetid://110919391228823"},
@@ -242,6 +242,7 @@ local function LoadSettings()
                 if data.AutoFarm_V2 ~= nil then getgenv().AutoFarm_V2 = data.AutoFarm_V2 end
                 if data.AutoEvade_V1 ~= nil then getgenv().AutoEvade_V1 = data.AutoEvade_V1 end
                 if data.AutoEvade_V2 ~= nil then getgenv().AutoEvade_V2 = data.AutoEvade_V2 end
+                if data.AutoFarm_Killer_V1 ~= nil then getgenv().AutoFarm_Killer_V1 = data.AutoFarm_Killer_V1 end
                 if data.MusicEnabled ~= nil then getgenv().MusicEnabled = data.MusicEnabled end
                 if data.MusicVolumePercent ~= nil then getgenv().MusicVolumePercent = data.MusicVolumePercent end
                 if data.CurrentSongIndex ~= nil then getgenv().CurrentSongIndex = data.CurrentSongIndex end
@@ -263,6 +264,7 @@ task.spawn(function()
                     AutoFarm_V2 = getgenv().AutoFarm_V2,
                     AutoEvade_V1 = getgenv().AutoEvade_V1,
                     AutoEvade_V2 = getgenv().AutoEvade_V2,
+                    AutoFarm_Killer_V1 = getgenv().AutoFarm_Killer_V1,
                     MusicEnabled = getgenv().MusicEnabled,
                     MusicVolumePercent = getgenv().MusicVolumePercent,
                     CurrentSongIndex = getgenv().CurrentSongIndex,
@@ -396,7 +398,8 @@ local function ToggleSettings(show)
         PlaySound(PopupSound)
         SettingsFrame.Visible = true
         local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
-        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 600)}) 
+        -- Tăng kích thước Y để chứa thoải mái 10 rows
+        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 680)}) 
         tween:Play()
     else
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
@@ -805,7 +808,7 @@ end
 -- ======================================================================
 -- TẠO GIAO DIỆN CÁC TÍNH NĂNG
 -- ======================================================================
-local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2
+local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2, SliderKillerV1
 
 CreateSectionHeader("Sec1", "I: Auto Farm")
 
@@ -860,13 +863,21 @@ CreateCyberpunkCycleRow("7", "Chọn Bài Hát", "Đổi bài hát yêu thích c
     if getgenv().ApplyMusicSettings then getgenv().ApplyMusicSettings() end
 end)
 
-CreateSectionHeader("Sec4", "IV: Setting")
+-- [NEW] MỤC IV: AUTO FARM KILLER
+CreateSectionHeader("Sec4", "IV: Auto Farm Killer")
 
-CreateCyberpunkSettingRow("8", "Lưu Cài Đặt (Save)", "Tự động lưu trạng thái bật/tắt (No Lag).", getgenv().AutoSave, function(state)
+SliderKillerV1 = CreateCyberpunkSettingRow("8", "Auto Farm Killer V1", "Đợi 3s tàng hình, săn Survivor, quét sạch auto Hop.", getgenv().AutoFarm_Killer_V1, function(state)
+    getgenv().AutoFarm_Killer_V1 = state
+end)
+
+-- [MỤC V: SETTING]
+CreateSectionHeader("Sec5", "V: Setting")
+
+CreateCyberpunkSettingRow("9", "Lưu Cài Đặt (Save)", "Tự động lưu trạng thái bật/tắt (No Lag).", getgenv().AutoSave, function(state)
     getgenv().AutoSave = state
 end)
 
-CreateCyberpunkCycleRow("9", "Ngôn Ngữ (Language)", "Chuyển đổi ngôn ngữ hiển thị UI.", getgenv().LangList, getgenv().LanguageIndex, function(index)
+CreateCyberpunkCycleRow("10", "Ngôn Ngữ (Language)", "Chuyển đổi ngôn ngữ hiển thị UI.", getgenv().LangList, getgenv().LanguageIndex, function(index)
     getgenv().LanguageIndex = index
     if getgenv().ApplyLanguageUI then getgenv().ApplyLanguageUI(index) end
 end)
@@ -886,7 +897,7 @@ NoteLabel.ZIndex = 6
 -- ================= [HỆ THỐNG TỪ ĐIỂN ĐA NGÔN NGỮ VN/EN] =================
 local Translations = {
     [1] = { 
-        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Né Killer", Sec3 = "III: Music", Sec4 = "IV: Setting",
+        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Né Killer", Sec3 = "III: Music", Sec4 = "IV: Auto Farm Killer", Sec5 = "V: Setting",
         T1 = "Auto Farm Gen V1", D1 = "Ôm máy tới 100%. An toàn, truyền thống.",
         T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Sửa đồng loạt các máy, nhích từng vạch.",
         T3 = "Auto Né V1 (Cẩn Thận)", D3 = "Killer vào 20m -> Lết trốn 6s an toàn.",
@@ -894,13 +905,14 @@ local Translations = {
         T5 = "Bật/Tắt Nhạc Nền", D5 = "Nghe nhạc cực chill.",
         T6 = "Âm Lượng Nhạc", D6 = "Điều chỉnh to nhỏ cho phù hợp.",
         T7 = "Chọn Bài Hát", D7 = "Đổi bài hát yêu thích của bạn.",
-        T8 = "Lưu Cài Đặt (Save)", D8 = "Tự động lưu trạng thái bật/tắt (No Lag).",
-        T9 = "Ngôn Ngữ (Language)", D9 = "Chuyển đổi Tiếng Việt / English.",
+        T8 = "Auto Farm Killer V1", D8 = "Chờ 3s tàng hình, săn Survivor, diệt sạch tự Hop.",
+        T9 = "Lưu Cài Đặt (Save)", D9 = "Tự động lưu trạng thái bật/tắt (No Lag).",
+        T10 = "Ngôn Ngữ (Language)", D10 = "Chuyển đổi Tiếng Việt / English.",
         Title = "✧ AMETHYST QUẢN LÝ TỐI THƯỢNG ✧",
         Note = "Bật V2 sẽ tự động tắt V1 để chống xung đột hệ thống."
     },
     [2] = { 
-        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Evade Killer", Sec3 = "III: Music", Sec4 = "IV: Settings",
+        Sec1 = "I: Auto Farm", Sec2 = "II: Auto Evade Killer", Sec3 = "III: Music", Sec4 = "IV: Auto Farm Killer", Sec5 = "V: Settings",
         T1 = "Auto Farm Gen V1", D1 = "Repair to 100%. Safe and traditional.",
         T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Repair all gens bar by bar.",
         T3 = "Auto Evade V1 (Safe)", D3 = "Killer within 20m -> Hide for 6s.",
@@ -908,8 +920,9 @@ local Translations = {
         T5 = "Toggle BGM", D5 = "Listen to chill music.",
         T6 = "Music Volume", D6 = "Adjust the volume level.",
         T7 = "Select Song", D7 = "Change your background music.",
-        T8 = "Save Settings", D8 = "Auto save configurations (No Lag).",
-        T9 = "UI Language", D9 = "Switch UI language (VN / EN).",
+        T8 = "Auto Farm Killer V1", D8 = "Wait 3s invis, hunt Survivors, hop when cleared.",
+        T9 = "Save Settings", D9 = "Auto save configurations (No Lag).",
+        T10 = "UI Language", D10 = "Switch UI language (VN / EN).",
         Title = "✧ AMETHYST SUPREME MANAGER ✧",
         Note = "Enabling V2 automatically disables V1 to prevent conflicts."
     }
@@ -944,6 +957,7 @@ getgenv().ApplyLanguageUI = function(idx)
         UpdateHeader("Sec2", t.Sec2)
         UpdateHeader("Sec3", t.Sec3)
         UpdateHeader("Sec4", t.Sec4)
+        UpdateHeader("Sec5", t.Sec5)
 
         UpdateRowText("1", t.T1, t.D1)
         UpdateRowText("2", t.T2, t.D2)
@@ -954,6 +968,7 @@ getgenv().ApplyLanguageUI = function(idx)
         UpdateRowText("7", t.T7, t.D7)
         UpdateRowText("8", t.T8, t.D8)
         UpdateRowText("9", t.T9, t.D9)
+        UpdateRowText("10", t.T10, t.D10)
     end)
 end
 
@@ -1060,6 +1075,7 @@ local LastGenerator = nil
 local IsInMatch = false
 local IsHopping = false
 local SafeDistance = 20 
+getgenv().KillerFinishedMatch = false -- [NEW] Track killer hop
 
 local RepairOffsets = {
     CFrame.new(0, 0, -6),
@@ -1099,7 +1115,6 @@ local function GetKiller()
 end
 
 local function GetSafeGenerator(killerPos)
-    -- V1 FIX: TÌM MÁY XA KILLER NHẤT TRONG BẢN ĐỒ
     if not Workspace:FindFirstChild("Map") then return nil end
     local ingame = Workspace.Map:FindFirstChild("Ingame")
     if not ingame then return nil end
@@ -1185,7 +1200,11 @@ local function StartInvisibleLoop()
             end
             
             local char = LocalPlayer.Character
-            if IsInMatch and isSurvivorModel(char) then
+            local isSurv = isSurvivorModel(char)
+            local isKill = isLocalPlayerKiller(char)
+            
+            -- [FIX TÀNG HÌNH CHO KILLER NẾU BẬT AUTO FARM KILLER]
+            if IsInMatch and (isSurv or (getgenv().AutoFarm_Killer_V1 and isKill)) then
                 pcall(function()
                     local hum = char and char:FindFirstChild("Humanoid")
                     local root = char and char:FindFirstChild("HumanoidRootPart")
@@ -1438,7 +1457,7 @@ end
 -- ================= 3. VÒNG LẶP CHÍNH (AUTO FARM + RESET LOBBY) =================
 task.spawn(function()
     while true do
-        if getgenv().AutoFarm and (getgenv().AutoFarm_V1 or getgenv().AutoFarm_V2) then
+        if getgenv().AutoFarm and (getgenv().AutoFarm_V1 or getgenv().AutoFarm_V2 or getgenv().AutoFarm_Killer_V1) then
             pcall(function()
                 local gen, mapLoaded, allFinished, targetPos
                 if getgenv().AutoFarm_V2 then
@@ -1448,6 +1467,15 @@ task.spawn(function()
                 end
                 
                 if not mapLoaded then
+                    -- [KILLER V1 HOP LOGIC] Nếu về sảnh sau khi diệt sạch phòng -> Hop
+                    if getgenv().AutoFarm_Killer_V1 and getgenv().KillerFinishedMatch then
+                        SetStatus("Đã về sảnh sau khi win! Hop SV...")
+                        Notify("Diệt sạch phòng! Auto Server Hop...")
+                        getgenv().KillerFinishedMatch = false
+                        SmartServerHop()
+                        return
+                    end
+                
                     if IsInMatch then 
                         IsInMatch = false 
                         SetStatus("Đã về lobby vui lòng chờ⏳")
@@ -1456,14 +1484,87 @@ task.spawn(function()
                         table.clear(HitCycle)
                     end
                 else
+                    -- ================= [LOGIC AUTO FARM KILLER V1] =================
                     if isLocalPlayerKiller(LocalPlayer.Character) then
-                        SetStatus("Bạn là killer! Tự động reset 💬")
-                        Notify("BAN LA KILLER! Reset de Farm tiep...")
-                        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-                            LocalPlayer.Character.Humanoid.Health = 0
+                        if getgenv().AutoFarm_Killer_V1 then
+                            if not IsInMatch then
+                                SetStatus("Đang chờ 3s (Killer)...")
+                                task.wait(3)
+                                IsInMatch = true
+                                Notify("Bắt đầu tàng hình & Săn Survivor!")
+                            end
+                            
+                            local survivorsFolder = Workspace:FindFirstChild("Players") and Workspace.Players:FindFirstChild("Survivors")
+                            local targetPart = nil
+                            local targetName = ""
+                            local aliveCount = 0
+                            
+                            if survivorsFolder then
+                                for _, surv in ipairs(survivorsFolder:GetChildren()) do
+                                    if surv:IsA("Model") then
+                                        local hrp = surv:FindFirstChild("HumanoidRootPart")
+                                        local hum = surv:FindFirstChild("Humanoid")
+                                        if hrp and hum and hum.Health > 0 then
+                                            aliveCount = aliveCount + 1
+                                            if not targetPart then
+                                                targetPart = hrp
+                                                targetName = surv.Name
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                            
+                            if aliveCount > 0 and targetPart then
+                                local root = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                if root then
+                                    SetStatus("Đang săn: " .. targetName)
+                                    -- Tele sau lưng 4 studs
+                                    local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
+                                    root.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
+                                    
+                                    -- Auto Slash
+                                    local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                                    if tool then tool:Activate() end
+                                    VirtualUser:ClickButton1(Vector2.new())
+                                    
+                                    pcall(function()
+                                        local gui = LocalPlayer:FindFirstChild("PlayerGui")
+                                        if gui then
+                                            for _, v in pairs(gui:GetDescendants()) do
+                                                if v:IsA("ImageButton") or v:IsA("TextButton") then
+                                                    local nameStr = string.lower(v.Name)
+                                                    if string.find(nameStr, "slash") or string.find(nameStr, "attack") or string.find(nameStr, "hit") or string.find(nameStr, "melee") or string.find(nameStr, "m1") then
+                                                        if v.Visible and v.Active and firesignal then
+                                                            firesignal(v.MouseButton1Down)
+                                                            firesignal(v.MouseButton1Click)
+                                                        end
+                                                    end
+                                                end
+                                            end
+                                        end
+                                    end)
+                                end
+                            else
+                                -- Kiểm tra lại xem có đang trong game ko, nếu đéo còn ai thì cắm cờ để về Lobby Hop
+                                if Workspace:FindFirstChild("Map") and Workspace.Map:FindFirstChild("Ingame") then
+                                    SetStatus("Đã giết sạch! Chờ về Lobby...")
+                                    getgenv().KillerFinishedMatch = true
+                                end
+                            end
+                            
+                            task.wait(0.1)
+                            return -- Cắt đuôi code Survivor bên dưới!
+                        else
+                            SetStatus("Bạn là killer! Tự động reset 💬")
+                            Notify("BAN LA KILLER! Reset de Farm tiep...")
+                            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                                LocalPlayer.Character.Humanoid.Health = 0
+                            end
+                            task.wait(3); return 
                         end
-                        task.wait(3); return 
                     end
+                    -- ================= [KẾT THÚC KILLER V1] =================
 
                     if IsInMatch and not allFinished then
                         local char = LocalPlayer.Character
@@ -1560,14 +1661,12 @@ task.spawn(function()
                                 if killer and killer:FindFirstChild("HumanoidRootPart") then
                                     local distToKiller = (root.Position - killer.HumanoidRootPart.Position).Magnitude
                                     
-                                    -- ================= [LOGIC AUTO NÉ KILLER TÍCH HỢP VIP V1 & V2] =================
                                     if getgenv().AutoEvade_V1 then
                                         if distToKiller < SafeDistance then
                                             if prompt then pcall(function() prompt:InputHoldEnd() end) end
                                             SetStatus("Killer đang ở gần (V1)😱")
                                             Notify("KILLER DEN (<20m)! Chạy trốn...")
                                             
-                                            -- V1 FIX: Teleport ra cái máy xa nhất bản đồ
                                             local safeGen = GetSafeGenerator(killer.HumanoidRootPart.Position)
                                             if safeGen then
                                                 local safePos = safeGen:GetPivot().Position
@@ -1599,7 +1698,6 @@ task.spawn(function()
                                                     if distKillerToOldGen > (SafeDistance + 10) then break else task.wait(1) end
                                                 until false
                                                 
-                                                -- V1 FIX: Chờ Killer cút xong, ép Teleport dội ngược về cái máy cũ sửa tiếp!
                                                 if getgenv().AutoFarm and IsInMatch then
                                                     root.CFrame = CFrame.lookAt(dropPos, lookAt)
                                                     root.Anchored = true
@@ -1610,7 +1708,6 @@ task.spawn(function()
                                         end
                                         
                                     elseif getgenv().AutoEvade_V2 then
-                                        -- V2: Ép mốc 10m -> Dịch chuyển Spawn xa nhất
                                         if distToKiller <= 10 then
                                             if prompt then pcall(function() prompt:InputHoldEnd() end) end
                                             SetStatus("Killer áp sát 10m! Tốc biến (V2)😱")
@@ -1641,7 +1738,6 @@ task.spawn(function()
                                                     end
                                                 until false
                                                 
-                                                -- V2: Killer vừa đi 5m là Teleport ép về sửa tiếp!
                                                 if getgenv().AutoFarm and IsInMatch then
                                                     root.CFrame = CFrame.lookAt(dropPos, lookAt)
                                                     root.Anchored = true
@@ -1653,14 +1749,13 @@ task.spawn(function()
                                     end
                                 end
                                 
-                                -- FIX DELAY: FireServer được nhét chung vòng lặp, ko chặn radar quét Killer!
                                 if tick() - lastInteract >= 1.1 then
                                     if prompt then pcall(function() prompt:InputHoldBegin() end) end
                                     if gen:FindFirstChild("Remotes") and gen.Remotes:FindFirstChild("RE") then gen.Remotes.RE:FireServer() end
                                     lastInteract = tick()
                                 end
                                 
-                                task.wait(0.1) -- Quét cực nhanh 0.1s
+                                task.wait(0.1) 
                                 
                                 if getgenv().AutoFarm_V2 and GetProgress(gen) >= checkProgress then
                                     if prompt then pcall(function() prompt:InputHoldEnd() end) end 
