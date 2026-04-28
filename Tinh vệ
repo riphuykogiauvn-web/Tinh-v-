@@ -3,8 +3,8 @@
 -- Bản Quyền: HUYKOGIAUVN
 -- Cập nhật: Server Hop quét cực kỹ, Tự lật trang nếu server đầy.
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
--- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele (Tăng lên 10 studs)
--- Cập nhật MỚI NHẤT: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
+-- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
+-- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -208,14 +208,22 @@ getgenv().AutoEvade_V2 = false
 getgenv().MusicEnabled = true
 getgenv().MusicVolumePercent = 60
 getgenv().CurrentSongIndex = 1
-getgenv().AutoSave = true        -- [NEW] Tự lưu bật mặc định
-getgenv().LanguageIndex = 1      -- [NEW] 1: VN, 2: EN
+getgenv().AutoSave = true        
+getgenv().LanguageIndex = 1      
 
+-- [CẬP NHẬT: THÊM FULL 7 BÀI NHẠC MỚI]
 getgenv().SongList = {
     {Name = "Câu cá vạn cân", ID = "rbxassetid://124384558101360"},
     {Name = "Ai đưa em về", ID = "rbxassetid://110919391228823"},
     {Name = "Khô gà", ID = "rbxassetid://99152674992699"},
-    {Name = "Bad Ending Funk", ID = "rbxassetid://135526249310486"}
+    {Name = "Bad Ending Funk", ID = "rbxassetid://135526249310486"},
+    {Name = "KMI O KOTO M2", ID = "rbxassetid://131532883177579"},
+    {Name = "MTGUAG DAN5", ID = "rbxassetid://80197259053353"},
+    {Name = "Một bài hát rất hay", ID = "rbxassetid://80442979651569"},
+    {Name = "EMAPLAY NES5", ID = "rbxassetid://137973644565139"},
+    {Name = "Rose love Siluo", ID = "rbxassetid://134140709844049"},
+    {Name = "Rock that body", ID = "rbxassetid://75918642768991"},
+    {Name = "BDOWYOU", ID = "rbxassetid://117061993775129"}
 }
 
 getgenv().LangList = {
@@ -223,7 +231,6 @@ getgenv().LangList = {
     {Name = "English (EN)", ID = "EN"}
 }
 
--- [NEW] THUẬT TOÁN TẢI CẤU HÌNH (LOAD SETTINGS)
 local SaveFileName = "AmethystHub_SavedSettings.json"
 local function LoadSettings()
     if readfile and isfile and isfile(SaveFileName) then
@@ -245,7 +252,6 @@ local function LoadSettings()
 end
 LoadSettings()
 
--- [NEW] THUẬT TOÁN TỰ ĐỘNG LƯU NO LAG (QUÉT NGẦM)
 task.spawn(function()
     local lastSave = ""
     while task.wait(3) do
@@ -305,7 +311,6 @@ SettingsStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 SettingsStroke.Transparency = 0.2
 SettingsStroke.Parent = SettingsFrame
 
--- Hiệu ứng Viền LED RGB
 task.spawn(function()
     local hue = 0
     while task.wait(0.02) do
@@ -385,12 +390,10 @@ UIPadding.Parent = ScrollingFrame
 UIPadding.PaddingTop = UDim.new(0, 10)
 UIPadding.PaddingBottom = UDim.new(0, 20)
 
--- HÀM BẬT TẮT BẢNG SETTINGS (BOUNCY EFFECT MỞ RỘNG KHUNG)
 local function ToggleSettings(show)
     if show then
         PlaySound(PopupSound)
         SettingsFrame.Visible = true
-        -- [TĂNG CHIỀU CAO LÊN 600 ĐỂ CHỨA MỤC SETTING]
         local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
         local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 600)}) 
         tween:Play()
@@ -404,9 +407,6 @@ local function ToggleSettings(show)
     end
 end
 
--- ======================================================================
--- HÀM TẠO TIÊU ĐỀ PHÂN KHU (CẬP NHẬT CÓ ID ĐỂ ĐỔI NGÔN NGỮ)
--- ======================================================================
 local function CreateSectionHeader(id, text)
     local HeaderFrame = Instance.new("Frame")
     HeaderFrame.Name = "Header_" .. id
@@ -801,9 +801,6 @@ local function CreateCyberpunkCycleRow(id, titleText, descText, list, initialInd
     end)
 end
 
--- ======================================================================
--- TẠO GIAO DIỆN CÁC TÍNH NĂNG
--- ======================================================================
 local SliderFarmV1, SliderFarmV2, SliderEvadeV1, SliderEvadeV2
 
 CreateSectionHeader("Sec1", "I: Auto Farm")
@@ -859,7 +856,6 @@ CreateCyberpunkCycleRow("7", "Chọn Bài Hát", "Đổi bài hát yêu thích c
     if getgenv().ApplyMusicSettings then getgenv().ApplyMusicSettings() end
 end)
 
--- [NEW] MỤC IV: SETTING
 CreateSectionHeader("Sec4", "IV: Setting")
 
 CreateCyberpunkSettingRow("8", "Lưu Cài Đặt (Save)", "Tự động lưu trạng thái bật/tắt (No Lag).", getgenv().AutoSave, function(state)
@@ -885,7 +881,7 @@ NoteLabel.ZIndex = 6
 
 -- ================= [HỆ THỐNG TỪ ĐIỂN ĐA NGÔN NGỮ VN/EN] =================
 local Translations = {
-    [1] = { -- VN
+    [1] = { 
         Sec1 = "I: Auto Farm", Sec2 = "II: Auto Né Killer", Sec3 = "III: Music", Sec4 = "IV: Setting",
         T1 = "Auto Farm Gen V1", D1 = "Ôm máy tới 100%. An toàn, truyền thống.",
         T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Sửa đồng loạt các máy, nhích từng vạch.",
@@ -899,7 +895,7 @@ local Translations = {
         Title = "✧ AMETHYST QUẢN LÝ TỐI THƯỢNG ✧",
         Note = "Bật V2 sẽ tự động tắt V1 để chống xung đột hệ thống."
     },
-    [2] = { -- EN
+    [2] = { 
         Sec1 = "I: Auto Farm", Sec2 = "II: Auto Evade Killer", Sec3 = "III: Music", Sec4 = "IV: Settings",
         T1 = "Auto Farm Gen V1", D1 = "Repair to 100%. Safe and traditional.",
         T2 = "Auto Farm Gen V2", D2 = "Hit & Run: Repair all gens bar by bar.",
@@ -957,7 +953,6 @@ getgenv().ApplyLanguageUI = function(idx)
     end)
 end
 
--- Tải ngôn ngữ ngay khi vào
 task.spawn(function()
     task.wait(1)
     if getgenv().ApplyLanguageUI then getgenv().ApplyLanguageUI(getgenv().LanguageIndex) end
@@ -986,7 +981,6 @@ CloseButton.MouseButton1Click:Connect(function()
     ToggleSettings(false)
 end)
 
--- Hàm cập nhật UI
 local StartTime = os.time()
 local CurrentStatus = "Dang khoi dong..."
 
@@ -1561,6 +1555,7 @@ task.spawn(function()
                                 if killer and killer:FindFirstChild("HumanoidRootPart") then
                                     local distToKiller = (root.Position - killer.HumanoidRootPart.Position).Magnitude
                                     
+                                    -- ================= [LOGIC AUTO NÉ KILLER TÍCH HỢP VIP V1 & V2] =================
                                     if getgenv().AutoEvade_V1 then
                                         if distToKiller < SafeDistance then
                                             if prompt then pcall(function() prompt:InputHoldEnd() end) end
@@ -1629,7 +1624,7 @@ task.spawn(function()
                                                     if distKillerToOldGen > 5 then 
                                                         break 
                                                     else 
-                                                        task.wait(0.5) 
+                                                        task.wait(0.1) -- Đổi lại thành quét nhanh 0.1s để không bị lỡ nhịp về
                                                     end
                                                 until false
                                                 
@@ -1644,18 +1639,14 @@ task.spawn(function()
                                     end
                                 end
                                 
-                                if getgenv().AutoFarm_V2 then
-                                    if tick() - lastInteract >= 1.1 then
-                                        if prompt then pcall(function() prompt:InputHoldBegin() end) end
-                                        if gen:FindFirstChild("Remotes") and gen.Remotes:FindFirstChild("RE") then gen.Remotes.RE:FireServer() end
-                                        lastInteract = tick()
-                                    end
-                                else
+                                -- FIX DELAY: Cả V1 và V2 đều dùng Timer check chung với quét Radar Killer
+                                if tick() - lastInteract >= 1.1 then
                                     if prompt then pcall(function() prompt:InputHoldBegin() end) end
                                     if gen:FindFirstChild("Remotes") and gen.Remotes:FindFirstChild("RE") then gen.Remotes.RE:FireServer() end
-                                    task.wait(1.5)
+                                    lastInteract = tick()
                                 end
                                 
+                                -- Radar quét siêu tốc độ 10 lần/giây để check Killer áp sát
                                 task.wait(0.1)
                                 
                                 if getgenv().AutoFarm_V2 and GetProgress(gen) >= checkProgress then
@@ -1717,3 +1708,7 @@ task.spawn(function()
     task.wait(1)
     getgenv().ApplyMusicSettings()
 end)
+Bây giờ mày cho tao thêm là cái auto fix kẹt máy 
+Và thêm mục V trong setting: Thông báo người trong sv
+Mày làm cái mục Thông báo người trong sv giống bản nhạc nha( VD như lúc bật nút của cái V là nó cho một cái bảng nhỏ có thể kéo được còn không thì lúc nào bật cũng được ko đc thì thôi !! Trong cái bảng V thì có một cái bảng mini trong đó có thể bt  người chơi có ở trong map ko và tên của họ!!!)
+Các chức năng khác giữ nguyên 100% Cấm mày rút gọn hoặc thay đổi dù chỉ 1 dòng!
