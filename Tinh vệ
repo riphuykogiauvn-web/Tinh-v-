@@ -5,11 +5,12 @@
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
 -- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele
 -- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
--- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
--- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 & V2
--- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
--- Cập nhật MỚI: Tích hợp Bộ Từ Điển UI Skill Sát Nhân (Slash, Punch, Stab, Lacerate...)
--- Cập nhật HOT: Auto Farm Killer V1 có thêm Aimbot Khóa Góc Nhìn (LookAt)
+-- Cập nhật: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
+-- Cập nhật: Xây lại lõi Auto Né V1 & V2
+-- Cập nhật: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
+-- Cập nhật: Tích hợp Bộ Từ Điển UI Skill Sát Nhân (Slash, Punch, Stab, Lacerate...)
+-- Cập nhật: Auto Farm Killer V1 có thêm Aimbot Khóa Góc Nhìn (LookAt)
+-- Cập nhật MỚI NHẤT: Chỉnh khoảng cách ghim Killer V1 xuống 2 mét (Cận chiến cực gắt)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -222,13 +223,16 @@ getgenv().SongList = {
     {Name = "Ai đưa em về", ID = "rbxassetid://110919391228823"},
     {Name = "Khô gà", ID = "rbxassetid://99152674992699"},
     {Name = "Bad Ending Funk", ID = "rbxassetid://135526249310486"},
-    {Name = "KMI O KOTO M2", ID = "rbxassetid://131532883177579"},
-    {Name = "MTGUAG DAN5", ID = "rbxassetid://80197259053353"},
-    {Name = "Một bài hát rất hay", ID = "rbxassetid://80442979651569"},
-    {Name = "EMAPLAY NES5", ID = "rbxassetid://137973644565139"},
-    {Name = "Rose love Siluo", ID = "rbxassetid://134140709844049"},
-    {Name = "Rock that body", ID = "rbxassetid://75918642768991"},
-    {Name = "BDOWYOU", ID = "rbxassetid://117061993775129"}
+    {Name = "It's Just a Burning Memory", ID = "rbxassetid://7085732158"},
+    {Name = "Baka Mitai", ID = "rbxassetid://5576774640"},
+    {Name = "Astronomia", ID = "rbxassetid://5621437142"},
+    {Name = "Oof Remix", ID = "rbxassetid://154181673"},
+    {Name = "Bruh", ID = "rbxassetid://4138096238"},
+    {Name = "You Died", ID = "rbxassetid://4945415254"},
+    {Name = "Fart Sound", ID = "rbxassetid://150066005"},
+    {Name = "Crickets", ID = "rbxassetid://130836521"},
+    {Name = "SpongeBob Trap", ID = "rbxassetid://5519808381"},
+    {Name = "Megalovania", ID = "rbxassetid://5066929427"}
 }
 
 getgenv().LangList = {
@@ -1520,7 +1524,7 @@ task.spawn(function()
                                         local currentRoot = LocalPlayer.Character.HumanoidRootPart
                                         currentRoot.Velocity = Vector3.zero
                                         
-                                        local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
+                                        local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 2)).Position
                                         currentRoot.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
                                         
                                         pcall(function()
