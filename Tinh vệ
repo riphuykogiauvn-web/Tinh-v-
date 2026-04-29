@@ -1812,6 +1812,3 @@ task.spawn(function()
     task.wait(1)
     getgenv().ApplyMusicSettings()
 end)
-Thêm nút ở chổ thông báo để bật tắt thông báo 
-Thêm tự động lụm cái cục gì đỏ đỏ ở chế độ kẻ sát nhân (auto farm killer v1 á )
-Các chức năng khác giữ nguyên 100% Cấm Mày Thay đổi dù chỉ 1 dòng!!!!
