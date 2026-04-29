@@ -9,6 +9,7 @@
 -- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 & V2
 -- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
 -- Cập nhật MỚI: Tích hợp Bộ Từ Điển UI Skill Sát Nhân (Slash, Punch, Stab, Lacerate...)
+-- Cập nhật HOT: Auto Farm Killer V1 có thêm Aimbot Khóa Góc Nhìn (LookAt)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -1522,7 +1523,6 @@ task.spawn(function()
                                         local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
                                         currentRoot.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
                                         
-                                        -- [BỘ TỪ ĐIỂN QUÉT SKILL GIAO DIỆN JANE DOE]
                                         pcall(function()
                                             local gui = LocalPlayer:FindFirstChild("PlayerGui")
                                             if gui then
