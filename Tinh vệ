@@ -7,7 +7,8 @@
 -- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
 -- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
 -- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 & V2
--- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt) + Chuyển sang thuần M1!
+-- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
+-- Cập nhật MỚI: Tích hợp Bộ Từ Điển UI Skill Sát Nhân (Slash, Punch, Stab, Lacerate...)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -400,7 +401,7 @@ local function ToggleSettings(show)
         PlaySound(PopupSound)
         SettingsFrame.Visible = true
         local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out)
-        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 600)}) 
+        local tween = TweenService:Create(SettingsFrame, tweenInfo, {Size = UDim2.new(0, 650, 0, 680)}) 
         tween:Play()
     else
         local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
@@ -1521,9 +1522,23 @@ task.spawn(function()
                                         local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
                                         currentRoot.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
                                         
-                                        local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
-                                        if tool then tool:Activate() end
-                                        VirtualUser:ClickButton1(Vector2.new())
+                                        -- [BỘ TỪ ĐIỂN QUÉT SKILL GIAO DIỆN JANE DOE]
+                                        pcall(function()
+                                            local gui = LocalPlayer:FindFirstChild("PlayerGui")
+                                            if gui then
+                                                for _, v in pairs(gui:GetDescendants()) do
+                                                    if v:IsA("ImageButton") or v:IsA("TextButton") then
+                                                        local n = string.lower(v.Name)
+                                                        if string.find(n, "slash") or string.find(n, "punch") or string.find(n, "carving") or string.find(n, "stab") or string.find(n, "lacerate") then
+                                                            if v.Visible and v.Active and firesignal then
+                                                                firesignal(v.MouseButton1Down)
+                                                                firesignal(v.MouseButton1Click)
+                                                            end
+                                                        end
+                                                    end
+                                                end
+                                            end
+                                        end)
                                         
                                         task.wait() 
                                     end
@@ -1797,3 +1812,6 @@ task.spawn(function()
     task.wait(1)
     getgenv().ApplyMusicSettings()
 end)
+Thêm nút ở chổ thông báo để bật tắt thông báo 
+Thêm tự động lụm cái cục gì đỏ đỏ ở chế độ kẻ sát nhân (auto farm killer v1 á )
+Các chức năng khác giữ nguyên 100% Cấm Mày Thay đổi dù chỉ 1 dòng!!!!
