@@ -5,10 +5,10 @@
 -- Cập nhật: Bảng Settings Siêu VIP (Glassmorphism, Âm thanh, Tween Hover)
 -- Cập nhật: FIX LAG Auto Né V2 (Bộ nhớ đệm Cache Spawns) + Fix Lỗi Không Tele
 -- Cập nhật: Thêm Mục IV: Setting (Tự động LƯU CẤU HÌNH NO LAG + Chuyển Ngôn Ngữ VN/EN)
--- Cập nhật MỚI NHẤT: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
--- Cập nhật SIÊU FIX: Xây lại lõi Auto Né V1 & V2
--- Cập nhật ĐỈNH CAO: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
--- Cập nhật MỚI: Tích hợp Bộ Từ Điển UI Skill Sát Nhân (Slash, Punch, Stab, Lacerate...)
+-- Cập nhật: FIX LỖI DELAY TELEPORT CỦA AUTO NÉ V2 + THÊM 7 BÀI NHẠC MỚI
+-- Cập nhật: Xây lại lõi Auto Né V1 & V2
+-- Cập nhật: GHIM MƯỢT KILLER V1 (Bám dính lưng đéo cà giựt)
+-- Cập nhật MỚI NHẤT: AIMBOT BODY LOCK (Khóa hướng nhìn cơ thể Sát Nhân bám theo Survivor)
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -1520,25 +1520,12 @@ task.spawn(function()
                                         currentRoot.Velocity = Vector3.zero
                                         
                                         local behindPos = (targetPart.CFrame * CFrame.new(0, 0, 4)).Position
+                                        -- [ĐỈNH CAO: AIMBOT BODY LOCK] Ép thân Sát Nhân nhìn thẳng vô tim Survivor 
                                         currentRoot.CFrame = CFrame.lookAt(behindPos, targetPart.Position)
                                         
-                                        -- [BỘ TỪ ĐIỂN QUÉT SKILL GIAO DIỆN JANE DOE]
-                                        pcall(function()
-                                            local gui = LocalPlayer:FindFirstChild("PlayerGui")
-                                            if gui then
-                                                for _, v in pairs(gui:GetDescendants()) do
-                                                    if v:IsA("ImageButton") or v:IsA("TextButton") then
-                                                        local n = string.lower(v.Name)
-                                                        if string.find(n, "slash") or string.find(n, "punch") or string.find(n, "carving") or string.find(n, "stab") or string.find(n, "lacerate") then
-                                                            if v.Visible and v.Active and firesignal then
-                                                                firesignal(v.MouseButton1Down)
-                                                                firesignal(v.MouseButton1Click)
-                                                            end
-                                                        end
-                                                    end
-                                                end
-                                            end
-                                        end)
+                                        local tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                                        if tool then tool:Activate() end
+                                        VirtualUser:ClickButton1(Vector2.new())
                                         
                                         task.wait() 
                                     end
