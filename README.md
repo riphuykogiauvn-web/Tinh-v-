@@ -168,7 +168,7 @@ TabInformation:Paragraph({
 TabInformation:Section({ Title = "Nhật Ký Cập Nhật (Update Log)" })
 TabInformation:Paragraph({
     Title = "[Phiên bản 1.0] - Cập nhật mới",
-    Desc = "- Khởi tạo thành công khung giao diện AMETHYST HUB.\n- Thêm ESP Player, Items, PizzaDeliveryRig.\n- FIX LAG TRIỆT ĐỂ: Dùng Event thay thế vòng lặp cho phần quét.\n- FIX HIỂN THỊ HP: Máu cập nhật chuẩn xác theo thời gian thực.\n- Thêm mục AZURE (GroundBulbModel, VineModel).\n- FIX NHẬN NHẦM: 007N7 ESP bỏ qua người thật, tự xóa khi Clone chết.\n- CẬP NHẬT MỚI (VII TAPH): Thêm ESP cho SubspaceTripmine và TaphTripwire.\n- CẬP NHẬT GIAO DIỆN (HOT): Đã fix lỗi giấu UI của executor, ép load ảnh nền thành công bằng phương thức rbxthumb Bypass.\n- FIX ÁNH SÁNG UI (CHUẨN): Đã chọc thẳng vào nhân (Background) của WindUI để tẩy trong suốt lớp nền đen của Theme Dark. Giờ Waifu đã nổi bật 100%!\n- FIX VĨNH VIỄN LỖI ẢNH TỐI: Gắn thêm Event siêu mượt để chống lại việc thư viện WindUI tự động reset lớp màu nền đen mỗi khi đóng/mở menu.\n- AUTO SAVE TỐI THƯỢNG: Hệ thống quét lõi siêu ngầm, tự động lưu lại toàn bộ các nút ESP và Theme vào máy, 0% lag, vào lại game vẫn y nguyên.\n- CẬP NHẬT MỚI (III PizzaDeliveryRig): Gộp thêm 4 Bot MAFIA (MAFIA1, MAFIA2, MAFIA3, MAFIA4) vào tính năng ESP, tự động nhận diện và hiển thị chính xác tên gốc của từng Bot trên định vị.\n- CẬP NHẬT MỚI (STAMINA): Đã trích xuất và lắp ráp thành công tính năng Bất tử thể lực (Infinity Stamina) vào Tab Stamina và hỗ trợ tùy chỉnh tối đa 10.000.\n- CẬP NHẬT MỚI (SURVIVE): Thêm chức năng CHANCE nhận diện súng Flintlock trên tay để Auto Aimbot Pizza Guy. BẢN CẬP NHẬT EVENT KÉP CHỐNG LAG TỐI THƯỢNG: ÁP DỤNG BỘ NHỚ ĐỆM CHO CẢ PIZZA GUY VÀ FLINTLOCK.\n- CẬP NHẬT MỚI (SURVIVE): Thêm chức năng SHEDLETSKY nhận diện kiếm Sword trên tay để Auto Aimbot Pizza Guy (40 Studs).\n- CẬP NHẬT MỚI (SURVIVE - JANE DOE): Đã xóa bỏ hệ thống rút vũ khí của tao, và COPY FULL BẢN GỐC CHUẨN XÁC TỪ FILE V27 TÍCH HỢP VIP SHIFTLOCK THEO ĐÚNG LỆNH SẾP.\n- CẬP NHẬT MỚI (SURVIVE - JANE DOE): Thay đổi cơ chế Aimbot Ném Lọ (Crystal Pitch). Máy quét sẽ tự động đọc giao diện Thanh Xanh Lá (Charge) để kích hoạt ngắm bắn, chống lỗi kẹt nút 100%!\n- FIX ESP (SURVIVE & KILLER): Cập nhật công nghệ HealthChanged Event, cho phép máu của Killer và Survivor tuột ngay lập tức trên màn hình định vị mà không gây lag vòng lặp.\n- FIX ESP (SUBSPACE TRIPMINE): Đã tháo bỏ giới hạn nhận diện Part lẻ, bây giờ Aura sẽ bao phủ và làm sáng rực toàn bộ 100% thân của quả mìn.\n- FIX ẢNH NỀN (HOT): Đã dập tắt lỗi dán 2 ảnh Waifu đè nhau trên điện thoại. Ảnh giờ đây cam kết chỉ mọc lên 1 lần duy nhất trên khung giao diện chuẩn.\n- CẬP NHẬT MỚI (GENERATOR): Bê thành công lõi Auto Farm V3 (Sửa luân phiên từng vạch) từ bản cũ đắp sang. Thêm tính năng sửa nhanh không cần giải đố (No QTE)."
+    Desc = "- Khởi tạo thành công khung giao diện AMETHYST HUB.\n- Thêm ESP Player, Items, PizzaDeliveryRig.\n- FIX LAG TRIỆT ĐỂ: Dùng Event thay thế vòng lặp cho phần quét.\n- FIX HIỂN THỊ HP: Máu cập nhật chuẩn xác theo thời gian thực.\n- Thêm mục AZURE (GroundBulbModel, VineModel).\n- FIX NHẬN NHẦM: 007N7 ESP bỏ qua người thật, tự xóa khi Clone chết.\n- CẬP NHẬT MỚI (VII TAPH): Thêm ESP cho SubspaceTripmine và TaphTripwire.\n- CẬP NHẬT GIAO DIỆN (HOT): Đã fix lỗi giấu UI của executor, ép load ảnh nền thành công bằng phương thức rbxthumb Bypass.\n- FIX ÁNH SÁNG UI (CHUẨN): Đã chọc thẳng vào nhân (Background) của WindUI để tẩy trong suốt lớp nền đen của Theme Dark. Giờ Waifu đã nổi bật 100%!\n- FIX VĨNH VIỄN LỖI ẢNH TỐI: Gắn thêm Event siêu mượt để chống lại việc thư viện WindUI tự động reset lớp màu nền đen mỗi khi đóng/mở menu.\n- AUTO SAVE TỐI THƯỢNG: Hệ thống quét lõi siêu ngầm, tự động lưu lại toàn bộ các nút ESP và Theme vào máy, 0% lag, vào lại game vẫn y nguyên.\n- CẬP NHẬT MỚI (III PizzaDeliveryRig): Gộp thêm 4 Bot MAFIA (MAFIA1, MAFIA2, MAFIA3, MAFIA4) vào tính năng ESP, tự động nhận diện và hiển thị chính xác tên gốc của từng Bot trên định vị.\n- CẬP NHẬT MỚI (STAMINA): Đã trích xuất và lắp ráp thành công tính năng Bất tử thể lực (Infinity Stamina) vào Tab Stamina và hỗ trợ tùy chỉnh tối đa 10.000.\n- CẬP NHẬT MỚI (SURVIVE): Thêm chức năng CHANCE nhận diện súng Flintlock trên tay để Auto Aimbot Pizza Guy. BẢN CẬP EVENT KÉP CHỐNG LAG TỐI THƯỢNG.\n- CẬP NHẬT MỚI (SURVIVE): Thêm chức năng SHEDLETSKY nhận diện kiếm Sword trên tay để Auto Aimbot Pizza Guy (40 Studs).\n- CẬP NHẬT MỚI (SURVIVE - JANE DOE): Đã COPY FULL BẢN GỐC CHUẨN XÁC TỪ FILE V27 TÍCH HỢP VIP SHIFTLOCK THEO ĐÚNG LỆNH SẾP.\n- CẬP NHẬT MỚI (SURVIVE - JANE DOE): Thay đổi cơ chế Aimbot Ném Lọ (Crystal Pitch) tự động đọc giao diện Thanh Xanh Lá (Charge).\n- FIX ESP (SURVIVE & KILLER): Cập nhật công nghệ HealthChanged Event, cho phép máu của Killer và Survivor tuột ngay lập tức trên màn hình định vị.\n- FIX ESP (SUBSPACE TRIPMINE): Đã tháo bỏ giới hạn nhận diện Part lẻ, bây giờ Aura sẽ bao phủ và làm sáng rực toàn bộ 100% thân của quả mìn.\n- FIX ẢNH NỀN (HOT): Đã dập tắt lỗi dán 2 ảnh Waifu đè nhau trên điện thoại.\n- CẬP NHẬT MỚI (GENERATOR): Bê thành công lõi Auto Farm V3 (Sửa luân phiên từng vạch) từ bản cũ đắp sang. Thêm tính năng sửa nhanh 1.2s/vạch không tự giữ nút E."
 })
 
 -- 3. MẠNG XÃ HỘI & DISCORD (Có đếm member)
@@ -1162,9 +1162,7 @@ TabGenerator:Toggle({
                             table.clear(HitCycle)
                         else
                             if allFinished then
-                                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-                                    LocalPlayer.Character.Humanoid.Health = 0 
-                                end
+                                -- Đã xóa code tự sát (reset nhân vật) theo lệnh
                                 task.wait(3)
                             end
                             
@@ -1249,7 +1247,7 @@ TabGenerator:Section({ Title = "II GEN NO PUZZLE" })
 
 TabGenerator:Toggle({
     Title = "Sửa Máy Nhanh (No QTE)",
-    Desc = "Lệnh sửa máy không cần giải đố khi đứng gần.",
+    Desc = "Người chơi tự giữ E, tool tự động hack 1.2s/vạch",
     Default = false,
     Callback = function(State)
         getgenv().Amethyst_NoQTE = State
@@ -1270,8 +1268,7 @@ TabGenerator:Toggle({
                                         if main and (root.Position - main.Position).Magnitude <= 15 then
                                             local p = obj:FindFirstChild("Progress")
                                             if p and p:IsA("NumberValue") and p.Value < 100 then
-                                                local prompt = main:FindFirstChild("Prompt")
-                                                if prompt then pcall(function() prompt:InputHoldBegin() end) end
+                                                -- Bỏ auto giữ E, người chơi phải tự giữ tay
                                                 if obj:FindFirstChild("Remotes") and obj.Remotes:FindFirstChild("RE") then
                                                     obj.Remotes.RE:FireServer()
                                                 end
@@ -1282,7 +1279,7 @@ TabGenerator:Toggle({
                             end
                         end
                     end)
-                    task.wait(0.3)
+                    task.wait(1.2) -- Đã thay đổi thành 1.2s một vạch
                 end
             end)
         end
@@ -1960,6 +1957,13 @@ TabVisual:Toggle({
             end
         end
     end
+})
+
+-- 7. AIMBOT (Icon: Ống nhắm)
+local TabAimbot = Window:Tab({ Title = "Aimbot", Icon = "crosshair" })
+TabAimbot:Paragraph({
+    Title = "Thông Báo",
+    Desc = "Chức năng đang được Update..."
 })
 
 -- 8. SETTING (Icon: Bánh răng khác)
